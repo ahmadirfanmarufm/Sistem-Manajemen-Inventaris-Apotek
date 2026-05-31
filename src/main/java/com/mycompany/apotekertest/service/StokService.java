@@ -10,15 +10,16 @@ import com.mycompany.apotekertest.stok.StokObatOTC;
 import com.mycompany.apotekertest.stok.StokBahanRacikan;
 import com.mycompany.apotekertest.stok.StokNonObat;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 /**
  *
  * @author himorii
  */
 public class StokService {
-    private StokObatOTC stokObatOTC = new StokObatOTC(5);
-    private StokBahanRacikan stokBahan = new StokBahanRacikan(5);
-    private StokNonObat stokNonObat = new StokNonObat(5);
+    private ArrayList<ObatOTC> stokObatOTC = new ArrayList<>(); 
+    private ArrayList<BahanRacikan> stokBahan = new ArrayList<>();
+    private ArrayList<NonObat> stokNonObat = new ArrayList<>(); 
 
     // ================= OBAT =================
     public void tambahObat(
@@ -40,19 +41,19 @@ public class StokService {
                 deskripsi
         );
 
-        stokObatOTC.tambah(obat);
+        stokObatOTC.add(obat);
     }
 
     public void hapusObat(String id) {
-        stokObatOTC.hapus(id);
+        stokObatOTC.removeIf(obat -> obat.getIdItem().equals(id));
     }
 
-    public ObatOTC[] getSemuaObat() {
-        return stokObatOTC.getList();
+    public ArrayList<ObatOTC> getSemuaObat() {
+        return stokObatOTC;
     }
 
     public int getJumlahObat() {
-        return stokObatOTC.getSize();
+        return stokObatOTC.size();
     }
 
 
@@ -74,19 +75,19 @@ public class StokService {
                 deskripsi
         );
 
-        stokBahan.tambah(bahan);
+        stokBahan.add(bahan);
     }
 
     public void hapusBahanRacikan(String id) {
-        stokBahan.hapus(id);
+        stokBahan.removeIf(bahan -> bahan.getIdItem().equals(id));
     }
 
-    public BahanRacikan[] getSemuaBahan() {
-        return stokBahan.getList();
+    public ArrayList<BahanRacikan> getSemuaBahan() {
+        return stokBahan;
     }
 
     public int getJumlahBahan() {
-        return stokBahan.getSize();
+        return stokBahan.size();
     }
 
 
@@ -110,18 +111,18 @@ public class StokService {
                 deskripsi
         );
 
-        stokNonObat.tambah(item);
+        stokNonObat.add(item);
     }
 
     public void hapusNonObat(String id) {
-        stokNonObat.hapus(id);
+        stokNonObat.removeIf(NonObat -> NonObat.getIdItem().equals(id));
     }
 
-    public NonObat[] getSemuaNonObat() {
-        return stokNonObat.getList();
+    public ArrayList<NonObat> getSemuaNonObat() {
+        return stokNonObat;
     }
 
     public int getJumlahNonObat() {
-        return stokNonObat.getSize();
+        return stokNonObat.size();
     }
 }
