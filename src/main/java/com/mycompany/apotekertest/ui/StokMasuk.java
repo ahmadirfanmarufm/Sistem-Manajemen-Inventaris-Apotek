@@ -19,6 +19,7 @@ public class StokMasuk extends javax.swing.JFrame {
      */
     public StokMasuk() {
         initComponents();
+        
     }
 
     /**
@@ -209,7 +210,7 @@ public class StokMasuk extends javax.swing.JFrame {
 
     private void jButton46ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton46ActionPerformed
         JDialog dialog = new JDialog(this, "Tambah Obat", true);
-        dialog.add(new TambahObat());
+        dialog.add(new TambahItem());
         dialog.pack();
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);

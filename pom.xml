@@ -10,4 +10,17 @@
         <maven.compiler.release>24</maven.compiler.release>
         <exec.mainClass>com.mycompany.apotekertest.ApotekerTest</exec.mainClass>
     </properties>
+    <dependencies>
+        <dependency>
+            <groupId>com.toedter</groupId>
+            <artifactId>jcalendar</artifactId>
+            <version>1.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.netbeans.external</groupId>
+            <artifactId>AbsoluteLayout</artifactId>
+            <version>RELEASE290</version>
+        </dependency>
+    </dependencies>
+
 </project>
