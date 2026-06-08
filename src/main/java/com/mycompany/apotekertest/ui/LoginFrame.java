@@ -68,6 +68,7 @@ public class LoginFrame extends javax.swing.JFrame {
         username.addActionListener(this::usernameActionPerformed);
 
         password.setPreferredSize(new java.awt.Dimension(300, 40));
+        password.addActionListener(this::passwordActionPerformed);
 
         jPanel2.setBackground(new java.awt.Color(0, 155, 54));
 
@@ -113,15 +114,15 @@ public class LoginFrame extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 110, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 85, Short.MAX_VALUE)
                 .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(username, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(26, 26, 26)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(47, 47, 47)
                 .addComponent(btnSubmit, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(98, 98, 98))
         );
@@ -168,13 +169,22 @@ public class LoginFrame extends javax.swing.JFrame {
 
             JOptionPane.showMessageDialog(this, user.getName() + " kamu berhasil Login sebagai " + role);
 
-            new DashboardPJApoteker().setVisible(true);
+            if(role.equalsIgnoreCase("PJApoteker")) {
+                new DashboardPJApoteker().setVisible(true);
+            } else if(role.equalsIgnoreCase("Apoteker")) {
+                new DashboardApoteker().setVisible(true);
+            }
+
             this.dispose();
 
         } else {
             JOptionPane.showMessageDialog(this, "Login gagal! ID / Password salah");
         }
     }//GEN-LAST:event_btnSubmitActionPerformed
+
+    private void passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_passwordActionPerformed
 
     /**
      * @param args the command line arguments
