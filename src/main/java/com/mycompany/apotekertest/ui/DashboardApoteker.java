@@ -4,6 +4,8 @@
  */
 package com.mycompany.apotekertest.ui;
 
+import javax.swing.JDialog;
+
 /**
  *
  * @author himorii
@@ -45,7 +47,6 @@ public class DashboardApoteker extends javax.swing.JFrame {
         jMenu1.setText("jMenu1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1280, 720));
         setSize(new java.awt.Dimension(1280, 720));
 
         jPanel1.setBackground(new java.awt.Color(0, 155, 54));
@@ -67,6 +68,7 @@ public class DashboardApoteker extends javax.swing.JFrame {
         jButton2.setBorderPainted(false);
         jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jButton2.addActionListener(this::jButton2ActionPerformed);
 
         jButton3.setBackground(new java.awt.Color(0, 155, 54));
         jButton3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -202,6 +204,11 @@ public class DashboardApoteker extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        this.dispose();
+        new StokMasuk().setVisible(true);
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments

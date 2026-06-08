@@ -6,8 +6,10 @@ com\mycompany\apotekertest\ui\MainApp.class
 com\mycompany\apotekertest\exception\ApotekException.class
 com\mycompany\apotekertest\ui\DashboardPJApoteker.class
 com\mycompany\apotekertest\model\ObatOTC.class
+com\mycompany\apotekertest\ui\StokMasuk$1.class
 com\mycompany\apotekertest\exception\StockNotEnoughException.class
 com\mycompany\apotekertest\model\Apoteker.class
+com\mycompany\apotekertest\ui\StokMasuk.class
 com\mycompany\apotekertest\exception\DuplicateItemException.class
 com\mycompany\apotekertest\laporan\Laporan.class
 com\mycompany\apotekertest\model\User.class
@@ -22,6 +24,7 @@ com\mycompany\apotekertest\stok\StokNonObat.class
 com\mycompany\apotekertest\stok\Stok.class
 com\mycompany\apotekertest\model\NotifikasiStok.class
 com\mycompany\apotekertest\ui\DashboardApoteker.class
+com\mycompany\apotekertest\ui\TambahObat.class
 com\mycompany\apotekertest\laporan\LaporanPenjualan.class
 com\mycompany\apotekertest\model\Item.class
 com\mycompany\apotekertest\model\Transaksi.class
