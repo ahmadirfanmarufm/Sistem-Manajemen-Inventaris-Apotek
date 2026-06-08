@@ -4,14 +4,17 @@
  */
 package com.mycompany.apotekertest.stok;
 
+import com.mycompany.apotekertest.exception.DuplicateItemException;
+import com.mycompany.apotekertest.exception.ItemNotFoundException;
 import com.mycompany.apotekertest.model.Item;
+
 
 /**
  *
- * @author himorii
+ * @author Kelompok Kipli
  */
 public interface Manageable {
-    public void tambah(Item item);
-    public void hapus(String id);
-    public void update(Item item);
+    public void tambah(Item item) throws DuplicateItemException;
+    public void hapus(String id) throws ItemNotFoundException;
+    public void update(Item item) throws ItemNotFoundException;
 }

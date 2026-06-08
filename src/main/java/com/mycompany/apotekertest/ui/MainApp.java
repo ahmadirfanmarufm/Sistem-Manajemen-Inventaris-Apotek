@@ -3,21 +3,32 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package com.mycompany.apotekertest.ui;
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
+
+import com.mycompany.apotekertest.model.Apoteker;
+import com.mycompany.apotekertest.model.PJApoteker;
+import com.mycompany.apotekertest.repository.UserRepository;
+import com.mycompany.apotekertest.stok.StokBahanRacikan;
+import com.mycompany.apotekertest.stok.StokNonObat;
+import com.mycompany.apotekertest.stok.StokObatOTC;
+import javax.swing.SwingUtilities;
 
 /**
  *
  * @author himorii
  */
-public class MainFrame extends javax.swing.JFrame {
+public class MainApp extends javax.swing.JFrame {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(MainFrame.class.getName());
+    public static UserRepository userRepository = new UserRepository();
+
+    // Stok global
+    public static StokObatOTC      stokObatOTC      = new StokObatOTC(5);
+    public static StokBahanRacikan stokBahanRacikan = new StokBahanRacikan(10);
+    public static StokNonObat      stokNonObat      = new StokNonObat(5);
 
     /**
-     * Creates new form MainFrame
+     * Creates new form MainApp
      */
-    public MainFrame() {
+    public MainApp() {
         initComponents();
     }
 
@@ -36,11 +47,11 @@ public class MainFrame extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 628, Short.MAX_VALUE)
+            .addGap(0, 400, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 430, Short.MAX_VALUE)
+            .addGap(0, 300, Short.MAX_VALUE)
         );
 
         pack();
@@ -50,25 +61,12 @@ public class MainFrame extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+        // Daftarkan user ke repository
+        userRepository.tambahUser(new Apoteker("APT001", "Budi Santoso", "budi123", "Pagi"));
+        userRepository.tambahUser(new Apoteker("APT002", "Sari Dewi",   "sari123", "Sore"));
+        userRepository.tambahUser(new PJApoteker("PJA001", "Dr. Ahmad", "pja123"));
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new MainFrame().setVisible(true));
+        SwingUtilities.invokeLater(() -> new LoginFrame().setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -6,7 +6,7 @@ package com.mycompany.apotekertest.model;
 
 /**
  *
- * @author himorii
+ * @author Kelompok Kipli
  */
 public class User {
     protected String userId;

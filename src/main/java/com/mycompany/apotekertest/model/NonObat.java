@@ -8,7 +8,7 @@ import java.time.LocalDate;
 
 /**
  *
- * @author himorii
+ * @author Kelompok Kipli
  */
 public class NonObat extends Item {
     private String kategori;

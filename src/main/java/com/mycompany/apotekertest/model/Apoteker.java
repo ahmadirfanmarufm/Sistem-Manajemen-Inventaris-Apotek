@@ -6,7 +6,7 @@ package com.mycompany.apotekertest.model;
 
 /**
  *
- * @author himorii
+ * @author Kelompok Kipli
  */
 public class Apoteker extends User {
     private String shift;

@@ -3,76 +3,83 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.mycompany.apotekertest.stok;
+
+import com.mycompany.apotekertest.exception.DuplicateItemException;
+import com.mycompany.apotekertest.exception.ItemNotFoundException;
 import com.mycompany.apotekertest.model.Item;
 import com.mycompany.apotekertest.model.NonObat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 /**
  *
- * @author himorii
+ * @author Kelompok Kipli
  */
 public class StokNonObat extends Stok {
-    private NonObat[] list = new NonObat[100];
-    private int size = 0;
+    private final HashMap<String, NonObat> mapNonObat;
+    private final ArrayList<NonObat> listNonObat;
     
     public StokNonObat(int minimumStok) {
         super(minimumStok);
+        this.mapNonObat = new LinkedHashMap<>();
+        this.listNonObat = new ArrayList<>();
     }
     
     @Override
-    public void tambah(Item item) {
-        if (size < list.length) {
-            list[size++] = (NonObat) item;
-        }
+    public void tambah(Item item) throws DuplicateItemException {
+        validasiDuplikat(item.getIdItem());
+        NonObat nonObat = (NonObat) item;
+        mapNonObat.put(nonObat.getIdItem(), nonObat);
+        listNonObat.add(nonObat);
+        simpan(nonObat);
+        cekDanBuatNotifikasi(nonObat);
     }
     
     @Override
-    public void hapus(String id) {
-        for(int i = 0; i < size; i++) {
-            if(list[i].getIdItem().equals(id)) {
-                for(int j = i; j < size - 1; j++) {
-                    list[j] = list[j + 1];
-                }
-                
-                list[size - 1] = null;
-                size--;
-                break;
-            }
-        }
+    public void hapus(String id) throws ItemNotFoundException {
+        validasiAda(id);
+        mapNonObat.remove(id);
+        listNonObat.removeIf(n -> n.getIdItem().equals(id));
+        hapusDariStruktur(id);
     }
     
     @Override
-    public void update(Item item) {
+    public void update(Item item) throws ItemNotFoundException {
+        validasiAda(item.getIdItem());
         NonObat data = (NonObat) item;
-
-        for (int i = 0; i < size; i++) {
-            if (list[i].getIdItem().equals(data.getIdItem())) {
-                list[i] = data;
+        mapNonObat.put(data.getIdItem(), data);
+        for(int x = 0 ; x < listNonObat.size(); x++) {
+            if(listNonObat.get(x).getIdItem().equals(data.getIdItem())) {
+                listNonObat.set(x, data);
                 break;
             }
         }
+        updateDiStruktur(data);
+        cekDanBuatNotifikasi(data);
     }
     
     @Override
     public void displayStok() {
-        for (int i = 0; i < size; i++) {
-            System.out.println(list[i].displayDetail());
+       if(listNonObat.isEmpty()) {
+            System.out.println("Stok non-obat kosong.");
+        }
+        for(NonObat n : listNonObat) {
+            System.out.println(n.displayDetail());
         }
     }
 
-    public NonObat[] getList() {
-        return list;
+    public NonObat getById(String id) throws ItemNotFoundException {
+        NonObat n = mapNonObat.get(id);
+        if(n == null) throw new ItemNotFoundException(id);
+        return n;
     }
 
-    public int getSize() {
-        return size;
+    public ArrayList<NonObat> getListNonObat() {
+        return listNonObat;
     }
 
-    public NonObat getById(String id) {
-        for (int i = 0; i < size; i++) {
-            if (list[i].getIdItem().equals(id)) {
-                return list[i];
-            }
-        }
-        return null;
+    public HashMap<String, NonObat> getMapNonObat() {
+        return mapNonObat;
     }
 }

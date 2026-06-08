@@ -7,12 +7,12 @@ import java.time.LocalDate;
 
 /**
  *
- * @author himorii
+ * @author Kelompok Kipli
  */
 public class BahanRacikan extends Item {
     private String satuan;
 
-    public BahanRacikan(String Satuan, String idItem, String namaItem, int quantity, int stokMinimum, LocalDate expiredDate, String deskripsi) {
+    public BahanRacikan(String satuan, String idItem, String namaItem, int quantity, int stokMinimum, LocalDate expiredDate, String deskripsi) {
         super(idItem, namaItem, quantity, stokMinimum, expiredDate, deskripsi);
         this.satuan = satuan;
     }

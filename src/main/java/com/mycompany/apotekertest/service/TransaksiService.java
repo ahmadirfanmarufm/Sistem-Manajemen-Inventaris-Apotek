@@ -3,59 +3,72 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.mycompany.apotekertest.service;
+
+import com.mycompany.apotekertest.exception.ItemNotFoundException;
+import com.mycompany.apotekertest.exception.InvalidInputException;
 import com.mycompany.apotekertest.model.Transaksi;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 /**
  *
- * @author himorii
+ * @author Kelompok Kipli
  */
 public class TransaksiService {
-    private Transaksi[] list = new Transaksi[100];
-    private int size = 0;
+    private final ArrayList<Transaksi> listTransaksi  = new ArrayList<>();
+    private final HashMap<String,Transaksi> mapTransaksi   = new LinkedHashMap<>();
 
-    // TAMBAH TRANSAKSI
+    public void tambahTransaksi(String id, int nominal, String catatan) throws InvalidInputException, DuplicateTransaksiException {
+        if (id == null || id.isBlank())  {
+            throw new InvalidInputException("ID Transaksi", "tidak boleh kosong");
+        }
+        if (mapTransaksi.containsKey(id)) {
+            throw new DuplicateTransaksiException(id);
+        }
+        Transaksi t = new Transaksi(id, nominal, catatan);
+        listTransaksi.add(t); mapTransaksi.put(id, t);
+    }
+
     public void tambahTransaksi(Transaksi t) {
-        list[size++] = t;
-    }
-
-    // HAPUS TRANSAKSI
-    public void hapusTransaksi(String id) {
-        for (int i = 0; i < size; i++) {
-            if (list[i].getIdTransaksi().equals(id)) {
-                for (int j = i; j < size - 1; j++) {
-                    list[j] = list[j + 1];
-                }
-                size--;
-                break;
-            }
+        if (!mapTransaksi.containsKey(t.getIdTransaksi())) {
+            listTransaksi.add(t); mapTransaksi.put(t.getIdTransaksi(), t);
         }
     }
-
-    // CARI TRANSAKSI
-    public Transaksi cariTransaksi(String id) {
-        for (int i = 0; i < size; i++) {
-            if (list[i].getIdTransaksi().equals(id)) {
-                return list[i];
-            }
+    
+    public void hapusTransaksi(String id) throws ItemNotFoundException {
+        if (!mapTransaksi.containsKey(id)) {
+            throw new ItemNotFoundException(id);
         }
-        return null;
+        listTransaksi.removeIf(t -> t.getIdTransaksi().equals(id));
+        mapTransaksi.remove(id);
     }
-
-    // TOTAL NOMINAL
+    
+    public Transaksi cariTransaksi(String id) throws ItemNotFoundException {
+        Transaksi t = mapTransaksi.get(id);
+        if (t == null) {
+            throw new ItemNotFoundException(id);
+        }
+        return t;
+    }
+    
     public int hitungTotal() {
         int total = 0;
-        for (int i = 0; i < size; i++) {
-            total += list[i].getNominalTransaksi();
-        }
+        for (Transaksi t : listTransaksi) total += t.getNominalTransaksi();
         return total;
     }
-
-    // GET ALL DATA
-    public Transaksi[] getData() {
-        return list;
+    
+    public ArrayList<Transaksi> getData() { 
+        return listTransaksi; 
+    }
+    public int getSize() { 
+        return listTransaksi.size(); 
     }
 
-    public int getSize() {
-        return size;
+    public static class DuplicateTransaksiException extends Exception {
+        public DuplicateTransaksiException(String id) {
+            super("ID Transaksi '" + id + "' sudah ada.");
+        }
     }
 }

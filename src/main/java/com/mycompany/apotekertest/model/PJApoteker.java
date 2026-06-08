@@ -6,7 +6,7 @@ package com.mycompany.apotekertest.model;
 
 /**
  *
- * @author himorii
+ * @author Kelompok Kipli
  */
 public class PJApoteker extends User {
     public PJApoteker(String userId, String name, String password) {

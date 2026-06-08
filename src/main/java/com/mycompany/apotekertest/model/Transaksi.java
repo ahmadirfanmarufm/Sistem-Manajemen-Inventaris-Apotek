@@ -6,7 +6,7 @@ package com.mycompany.apotekertest.model;
 
 /**
  *
- * @author himorii
+ * @author Kelompok Kipli
  */
 public class Transaksi {
     private String idTransaksi;

@@ -4,63 +4,82 @@
  */
 package com.mycompany.apotekertest.stok;
 
+import com.mycompany.apotekertest.exception.DuplicateItemException;
+import com.mycompany.apotekertest.exception.ItemNotFoundException;
 import com.mycompany.apotekertest.model.BahanRacikan;
 import com.mycompany.apotekertest.model.Item;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 /**
  *
- * @author himorii
+ * @author Kelompok Kipli
  */
 public class StokBahanRacikan extends Stok {
-    private BahanRacikan[] list = new BahanRacikan[100];
-    private int size = 0;
-
+    private final HashMap<String, BahanRacikan> mapBahan;
+    private final ArrayList<BahanRacikan> listBahanRacikan;
+ 
     public StokBahanRacikan(int minimumStok) {
         super(minimumStok);
+        this.mapBahan = new LinkedHashMap<>();
+        this.listBahanRacikan = new ArrayList<>();
     }
 
     @Override
-    public void tambah(Item item) {
-        list[size++] = (BahanRacikan) item;
+    public void tambah(Item item) throws DuplicateItemException {
+        validasiDuplikat(item.getIdItem());
+        BahanRacikan bahan = (BahanRacikan) item;
+        mapBahan.put(bahan.getIdItem(), bahan);
+        listBahanRacikan.add(bahan);
+        simpan(bahan);
+        cekDanBuatNotifikasi(bahan);
     }
 
     @Override
-    public void hapus(String id) {
-        for (int i = 0; i < size; i++) {
-            if (list[i].getIdItem().equals(id)) {
-                for (int j = i; j < size - 1; j++) {
-                    list[j] = list[j + 1];
-                }
-                size--;
-                break;
-            }
-        }
+    public void hapus(String id) throws ItemNotFoundException {
+        validasiAda(id);
+        mapBahan.remove(id);
+        listBahanRacikan.removeIf(b -> b.getIdItem().equals(id));
+        hapusDariStruktur(id);
     }
 
     @Override
-    public void update(Item item) {
+    public void update(Item item) throws ItemNotFoundException {
+        validasiAda(item.getIdItem());
         BahanRacikan data = (BahanRacikan) item;
-
-        for (int i = 0; i < size; i++) {
-            if (list[i].getIdItem().equals(data.getIdItem())) {
-                list[i] = data;
+        mapBahan.put(data.getIdItem(), data);
+        for(int x = 0 ; x < listBahanRacikan.size(); x++) {
+            if(listBahanRacikan.get(x).getIdItem().equals(data.getIdItem())) {
+                listBahanRacikan.set(x, data);
                 break;
             }
         }
+        updateDiStruktur(data);
+        cekDanBuatNotifikasi(data);
     }
 
     @Override
     public void displayStok() {
-        for (int i = 0; i < size; i++) {
-            System.out.println(list[i].displayDetail());
+        if(listBahanRacikan.isEmpty()) {
+            System.out.println("Stok bahan racikan kosong.");
+        }
+        for(BahanRacikan b : listBahanRacikan) {
+            System.out.println(b.displayDetail());
         }
     }
 
-    public BahanRacikan[] getList() {
-        return list;
+    public BahanRacikan getById(String id) throws ItemNotFoundException {
+        BahanRacikan b = mapBahan.get(id);
+        if(b == null) throw new ItemNotFoundException(id);
+        return b;
     }
 
-    public int getSize() {
-        return size;
+    public ArrayList<BahanRacikan> getListBahanRacikan() {
+        return listBahanRacikan;
+    }
+
+    public HashMap<String, BahanRacikan> getMapBahanRacikan() {
+        return mapBahan;
     }
 }

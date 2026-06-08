@@ -7,7 +7,7 @@ import java.time.LocalDate;
 
 /**
  *
- * @author himorii
+ * @author Kelompok Kipli
  */
 public class ObatOTC extends Item {
     private String kategoriObat;

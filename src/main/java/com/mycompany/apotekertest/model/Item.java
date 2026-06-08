@@ -7,7 +7,7 @@ import java.time.LocalDate;
 
 /**
  *
- * @author himorii
+ * @author Kelompok Kipli
  */
 public abstract class Item {
     protected String idItem;
