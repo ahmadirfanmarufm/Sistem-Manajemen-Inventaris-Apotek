@@ -15,7 +15,6 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 
 public class StokService {
-    
     private final StokObatOTC stokObatOTC;
     private final StokBahanRacikan stokBahanRacikan;
     private final StokNonObat stokNonObat;
@@ -27,7 +26,7 @@ public class StokService {
         this.stokNonObat = stokNonObat;
     }
 
-    // ================== OBAT =======================
+    // ================= OBAT OTC =====================
     public void tambahObat(String kategori, double hargaBeli, double hargaJual,
                            String id, String nama, int qty, int stokMin,
                            String expStr, String deskripsi)
