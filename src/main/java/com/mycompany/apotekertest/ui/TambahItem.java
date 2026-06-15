@@ -15,18 +15,16 @@ public class TambahItem extends javax.swing.JPanel {
      */
     public TambahItem() {
         initComponents();
-    KategoriObat.setVisible(false);
-    lblKategoriObat.setVisible(false);
-    HargaBeli.setVisible(false);
-    lblHargaBeli.setVisible(false);
-    HargaJual.setVisible(false);
-    lblHargaJual.setVisible(false);
-    Satuan.setVisible(false);
-    Satuan.setVisible(false);
-    Kategori.setVisible(false);
-    lblKategori.setVisible(false);
-        
-        
+        KategoriObat.setVisible(false);
+        lblKategoriObat.setVisible(false);
+        HargaBeli.setVisible(false);
+        lblHargaBeli.setVisible(false);
+        HargaJual.setVisible(false);
+        lblHargaJual.setVisible(false);
+        Satuan.setVisible(false);
+        Satuan.setVisible(false);
+        Kategori.setVisible(false);
+        lblKategori.setVisible(false);        
     }
     
     
@@ -60,7 +58,6 @@ public class TambahItem extends javax.swing.JPanel {
         StokMinimum = new javax.swing.JTextField();
         jPanel8 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
         jPanel9 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -189,7 +186,6 @@ public class TambahItem extends javax.swing.JPanel {
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel7.setText("Tanggal Kadaluarsa");
         jPanel8.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 0, -1, -1));
-        jPanel8.add(jDateChooser1, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 26, 466, -1));
 
         jPanel9.setBackground(new java.awt.Color(255, 255, 255));
         jPanel9.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -263,9 +259,7 @@ public class TambahItem extends javax.swing.JPanel {
                                         .addGap(167, 167, 167))
                                     .addComponent(HargaJual, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(0, 0, 0)
-                                        .addComponent(lblHargaBeli))
+                                    .addComponent(lblHargaBeli)
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(18, 18, 18)
                                         .addComponent(HargaBeli))))
@@ -328,7 +322,7 @@ public class TambahItem extends javax.swing.JPanel {
                         .addComponent(lblKategori)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(Kategori, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(67, Short.MAX_VALUE))
+                .addContainerGap(91, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -425,7 +419,6 @@ public class TambahItem extends javax.swing.JPanel {
     private javax.swing.JTextField Quantity;
     private javax.swing.JComboBox<String> Satuan;
     private javax.swing.JTextField StokMinimum;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

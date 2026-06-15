@@ -45,19 +45,24 @@ public abstract class Stok implements Manageable {
     }
     
     protected void cekDanBuatNotifikasi(Item item) {
-        if(item.getQuantity() <= minimumStok) {
-            StockNotEnoughException ex = new StockNotEnoughException(item.getNamaItem(), item.getQuantity(), minimumStok);
-            
-            String idNotif = "NOTIF-" + item.getIdItem();
-            NotifikasiStok notif;
-            
-            if(mapNotifikasi.containsKey(idNotif)) {
-                notif = mapNotifikasi.get(idNotif);
-                notif.buatNotifikasi(ex.getMessage());
+        int batasMinimum = item.getStokMinimum();
+        String idNotif = "NOTIF-" + item.getIdItem();
+
+        if (item.getQuantity() <= batasMinimum) {
+            StockNotEnoughException ex = new StockNotEnoughException(
+                    item.getNamaItem(), item.getQuantity(), batasMinimum);
+
+            if (mapNotifikasi.containsKey(idNotif)) {
+                mapNotifikasi.get(idNotif).buatNotifikasi(ex.getMessage());
             } else {
-                notif = new NotifikasiStok(idNotif, ex.getMessage());
+                NotifikasiStok notif = new NotifikasiStok(idNotif, ex.getMessage());
                 mapNotifikasi.put(idNotif, notif);
                 listNotifikasi.add(notif);
+            }
+        } else {
+            NotifikasiStok lama = mapNotifikasi.remove(idNotif);
+            if (lama != null) {
+                listNotifikasi.remove(lama);
             }
         }
     }

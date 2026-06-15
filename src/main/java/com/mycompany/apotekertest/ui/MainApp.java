@@ -14,16 +14,16 @@ import javax.swing.SwingUtilities;
 
 /**
  *
- * @author himorii
+ * @author Kelompok Kipli
  */
 public class MainApp extends javax.swing.JFrame {
     
     public static UserRepository userRepository = new UserRepository();
 
     // Stok global
-    public static StokObatOTC      stokObatOTC      = new StokObatOTC(5);
+    public static StokObatOTC stokObatOTC = new StokObatOTC(5);
     public static StokBahanRacikan stokBahanRacikan = new StokBahanRacikan(10);
-    public static StokNonObat      stokNonObat      = new StokNonObat(5);
+    public static StokNonObat stokNonObat = new StokNonObat(5);
 
     /**
      * Creates new form MainApp
