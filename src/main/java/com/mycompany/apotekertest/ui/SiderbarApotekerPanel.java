@@ -31,7 +31,7 @@ public class SiderbarApotekerPanel extends javax.swing.JPanel {
     private ProdukContentPanel produkPanel;
     
     private void loadUserInfo() {
-        User user = LoginSession.currentUser;
+        User user = LoginSession.getCurrentUser();
         if (user == null) {
 
             username.setText("Guest");
@@ -375,7 +375,7 @@ public class SiderbarApotekerPanel extends javax.swing.JPanel {
         int confirm = showConfirmDialog(parent, "Apakah kamu yakin ingin keluar?", "Konfirmasi Logout", YES_NO_OPTION, QUESTION_MESSAGE);
         
         if(confirm == YES_OPTION) {
-            LoginSession.currentUser = null;
+            LoginSession.setCurrentUser(null);
             
             SwingUtilities.invokeLater(() -> {
                 new LoginFrame().setVisible(true);

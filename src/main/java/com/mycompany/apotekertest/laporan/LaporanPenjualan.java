@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author himorii
+ * @author Kelompok Kipli
  */
 public class LaporanPenjualan extends Laporan {
     private ArrayList<RekapanTransaksi> rekapanTransaksi;

@@ -62,7 +62,7 @@ public class LaporanPanel extends JPanel {
     public LaporanPanel() {
         initComponents();
         headerContainer.setLayout(new BorderLayout());
-        headerContainer.add(new HeaderPanel(), BorderLayout.CENTER);
+        headerContainer.add(new HeaderPanel(MainApp.stokService), BorderLayout.CENTER);
 
         ringkasanPanel = new RingkasanPanel();
         penjualanPanel = new PenjualanPanel();

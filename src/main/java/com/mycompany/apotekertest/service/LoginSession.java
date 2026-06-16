@@ -11,7 +11,7 @@ import com.mycompany.apotekertest.model.User;
  * @author KelompokKipli
  */
 public class LoginSession {
-    public static User currentUser;
+    private static User currentUser;
     
     public static void login(User user) {
         currentUser = user;
@@ -23,6 +23,10 @@ public class LoginSession {
     
     public static User getCurrentUser() {
         return currentUser;
+    }
+    
+    public static User setCurrentUser(User user) {
+        return currentUser = user;
     }
     
     public static boolean isLoggedIn() {

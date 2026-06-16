@@ -115,7 +115,7 @@ public class DashboardContentPanel extends JPanel {
     public DashboardContentPanel() {
         initComponents();
         headerContainer.setLayout(new BorderLayout());
-        headerContainer.add(new HeaderPanel(), BorderLayout.CENTER);
+        headerContainer.add(new HeaderPanel(MainApp.stokService), BorderLayout.CENTER);
         initCharts();
     }
     

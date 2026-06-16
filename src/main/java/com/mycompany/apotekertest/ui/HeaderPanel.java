@@ -4,17 +4,70 @@
  */
 package com.mycompany.apotekertest.ui;
 
+import com.mycompany.apotekertest.model.Apoteker;
+import com.mycompany.apotekertest.model.User;
+import com.mycompany.apotekertest.service.LoginSession;
+import com.mycompany.apotekertest.service.StokService;
+import com.mycompany.apotekertest.service.UserService;
+import javax.swing.Timer;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
+
 /**
  *
- * @author himorii
+ * @author Kelompok Kipli
  */
 public class HeaderPanel extends javax.swing.JPanel {
+    
+    private StokService stokService;
+    private UserService userService;
+    private Timer refreshTimer;
+    
+    private void loadTanggal() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, dd MMMM yyyy", new Locale("id", "ID"));
+        lblDate.setText(LocalDate.now().format(formatter));
+    }
+    
+    private void loadShift() {
+        User currentUser = LoginSession.getCurrentUser();
+        
+        if(currentUser == null) {
+            lblShift.setText("Belum Login");
+            return;
+        }
+        
+        if(currentUser instanceof Apoteker apoteker) {
+            lblShift.setText("Shift " + apoteker.getShift());
+        } else {
+            lblShift.setText("-");
+        }
+    }
+    
+    private void startRealtimeUpdate() {
+        refreshTimer = new Timer(1000, e -> {
+            int jumlahAktif = stokService.getJumlahNotifikasiBelumDibaca();
+            int stokMenipis = stokService.getJumlahStokMenipis();
+            
+            lblNotification.setText(jumlahAktif + " Notifikasi");
+            lblStock.setText(stokMenipis + " Stok Menipis");
+        });
+        refreshTimer.start();
+    }
+        
 
     /**
      * Creates new form HeaderPanel
      */
-    public HeaderPanel() {
+    public HeaderPanel(StokService stokService) {
         initComponents();
+        
+        this.stokService = stokService;
+        
+        loadTanggal();
+        loadShift();
+        
+        startRealtimeUpdate();
     }
 
     /**
@@ -83,7 +136,7 @@ public class HeaderPanel extends javax.swing.JPanel {
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblDate)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 204, Short.MAX_VALUE)
                         .addComponent(lblNotification)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel4)

@@ -165,7 +165,8 @@ public class LoginFrame extends javax.swing.JFrame {
                 role = "Apoteker";
             }
 
-            LoginSession.currentUser = user;
+            LoginSession.setCurrentUser(user);
+            LoginSession.login(user);
 
             JOptionPane.showMessageDialog(this, user.getName() + " kamu berhasil Login sebagai " + role);
 

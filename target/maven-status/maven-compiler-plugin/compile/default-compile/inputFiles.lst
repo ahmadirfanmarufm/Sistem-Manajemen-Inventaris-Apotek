@@ -17,6 +17,7 @@ C:\Users\Pongo\Documents\NetBeansProjects\ApotekerTest\src\main\java\com\mycompa
 C:\Users\Pongo\Documents\NetBeansProjects\ApotekerTest\src\main\java\com\mycompany\apotekertest\model\RekapanTransaksi.java
 C:\Users\Pongo\Documents\NetBeansProjects\ApotekerTest\src\main\java\com\mycompany\apotekertest\model\Transaksi.java
 C:\Users\Pongo\Documents\NetBeansProjects\ApotekerTest\src\main\java\com\mycompany\apotekertest\model\User.java
+C:\Users\Pongo\Documents\NetBeansProjects\ApotekerTest\src\main\java\com\mycompany\apotekertest\repository\TransaksiRepository.java
 C:\Users\Pongo\Documents\NetBeansProjects\ApotekerTest\src\main\java\com\mycompany\apotekertest\repository\UserRepository.java
 C:\Users\Pongo\Documents\NetBeansProjects\ApotekerTest\src\main\java\com\mycompany\apotekertest\service\LoginSession.java
 C:\Users\Pongo\Documents\NetBeansProjects\ApotekerTest\src\main\java\com\mycompany\apotekertest\service\StokService.java
@@ -29,6 +30,7 @@ C:\Users\Pongo\Documents\NetBeansProjects\ApotekerTest\src\main\java\com\mycompa
 C:\Users\Pongo\Documents\NetBeansProjects\ApotekerTest\src\main\java\com\mycompany\apotekertest\stok\StokObatOTC.java
 C:\Users\Pongo\Documents\NetBeansProjects\ApotekerTest\src\main\java\com\mycompany\apotekertest\ui\AuditStokPanel.java
 C:\Users\Pongo\Documents\NetBeansProjects\ApotekerTest\src\main\java\com\mycompany\apotekertest\ui\DashboardApoteker.java
+C:\Users\Pongo\Documents\NetBeansProjects\ApotekerTest\src\main\java\com\mycompany\apotekertest\ui\DashboardApotekerFrame.java
 C:\Users\Pongo\Documents\NetBeansProjects\ApotekerTest\src\main\java\com\mycompany\apotekertest\ui\DashboardApotekerPanel.java
 C:\Users\Pongo\Documents\NetBeansProjects\ApotekerTest\src\main\java\com\mycompany\apotekertest\ui\DashboardContentPanel.java
 C:\Users\Pongo\Documents\NetBeansProjects\ApotekerTest\src\main\java\com\mycompany\apotekertest\ui\DashboardPJApoteker.java
@@ -43,8 +45,11 @@ C:\Users\Pongo\Documents\NetBeansProjects\ApotekerTest\src\main\java\com\mycompa
 C:\Users\Pongo\Documents\NetBeansProjects\ApotekerTest\src\main\java\com\mycompany\apotekertest\ui\PenjualanPanel.java
 C:\Users\Pongo\Documents\NetBeansProjects\ApotekerTest\src\main\java\com\mycompany\apotekertest\ui\ProdukContentPanel.java
 C:\Users\Pongo\Documents\NetBeansProjects\ApotekerTest\src\main\java\com\mycompany\apotekertest\ui\RingkasanPanel.java
-C:\Users\Pongo\Documents\NetBeansProjects\ApotekerTest\src\main\java\com\mycompany\apotekertest\ui\SiderbarPanel.java
+C:\Users\Pongo\Documents\NetBeansProjects\ApotekerTest\src\main\java\com\mycompany\apotekertest\ui\SiderbarApotekerPanel.java
+C:\Users\Pongo\Documents\NetBeansProjects\ApotekerTest\src\main\java\com\mycompany\apotekertest\ui\SiderbarPJApotekerPanel.java
 C:\Users\Pongo\Documents\NetBeansProjects\ApotekerTest\src\main\java\com\mycompany\apotekertest\ui\StokKeluarPanel.java
 C:\Users\Pongo\Documents\NetBeansProjects\ApotekerTest\src\main\java\com\mycompany\apotekertest\ui\StokMasuk.java
 C:\Users\Pongo\Documents\NetBeansProjects\ApotekerTest\src\main\java\com\mycompany\apotekertest\ui\StokMasukPanel.java
 C:\Users\Pongo\Documents\NetBeansProjects\ApotekerTest\src\main\java\com\mycompany\apotekertest\ui\TambahItem.java
+C:\Users\Pongo\Documents\NetBeansProjects\ApotekerTest\src\main\java\com\mycompany\apotekertest\ui\TambahStokKeluar.java
+C:\Users\Pongo\Documents\NetBeansProjects\ApotekerTest\src\main\java\com\mycompany\apotekertest\ui\TambahStokMasuk.java

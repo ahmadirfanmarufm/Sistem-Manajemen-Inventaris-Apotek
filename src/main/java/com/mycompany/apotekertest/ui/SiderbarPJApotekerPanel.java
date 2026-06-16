@@ -31,7 +31,7 @@ public class SiderbarPJApotekerPanel extends javax.swing.JPanel {
     private ProdukContentPanel produkPanel;
     
     private void loadUserInfo() {
-        User user = LoginSession.currentUser;
+        User user = LoginSession.getCurrentUser();
         if (user == null) {
 
             username.setText("Guest");
@@ -335,7 +335,7 @@ public class SiderbarPJApotekerPanel extends javax.swing.JPanel {
                 .addComponent(btnNotifikasiPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(28, Short.MAX_VALUE))
+                .addContainerGap(13, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -375,7 +375,7 @@ public class SiderbarPJApotekerPanel extends javax.swing.JPanel {
         int confirm = showConfirmDialog(parent, "Apakah kamu yakin ingin keluar?", "Konfirmasi Logout", YES_NO_OPTION, QUESTION_MESSAGE);
         
         if(confirm == YES_OPTION) {
-            LoginSession.currentUser = null;
+            LoginSession.setCurrentUser(null);
             
             SwingUtilities.invokeLater(() -> {
                 new LoginFrame().setVisible(true);

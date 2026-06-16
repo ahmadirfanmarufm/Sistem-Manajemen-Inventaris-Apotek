@@ -25,16 +25,9 @@ public class UserService {
     }
     
     private void loadDummyData() {
-        userRepository.tambahUser(
-            new Apoteker("A01", "Rafly", "123", "Pagi")
-        );
-        userRepository.tambahUser(
-                new Apoteker("A02", "Dimas", "123", "Malam")
-        );
-
-        userRepository.tambahUser(
-                new PJApoteker("P01", "Nelsen", "123")
-        );
+        userRepository.tambahUser(new Apoteker("A01", "Rafly", "123", "Pagi"));
+        userRepository.tambahUser(new Apoteker("A02", "Dimas", "123", "Malam"));
+        userRepository.tambahUser(new PJApoteker("P01", "Nelsen", "123"));
     }
 
     public User login(String userId, String password) {

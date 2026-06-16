@@ -5,7 +5,7 @@
 package com.mycompany.apotekertest.exception;
 
 /**
- *
+ *  
  * @author Kelompok Kipli
  */
 public class DuplicateItemException extends ApotekException {

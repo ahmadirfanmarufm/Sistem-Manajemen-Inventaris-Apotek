@@ -7,6 +7,7 @@ package com.mycompany.apotekertest.ui;
 import com.mycompany.apotekertest.model.Apoteker;
 import com.mycompany.apotekertest.model.PJApoteker;
 import com.mycompany.apotekertest.repository.UserRepository;
+import com.mycompany.apotekertest.service.StokService;
 import com.mycompany.apotekertest.stok.StokBahanRacikan;
 import com.mycompany.apotekertest.stok.StokNonObat;
 import com.mycompany.apotekertest.stok.StokObatOTC;
@@ -24,6 +25,7 @@ public class MainApp extends javax.swing.JFrame {
     public static StokObatOTC stokObatOTC = new StokObatOTC(5);
     public static StokBahanRacikan stokBahanRacikan = new StokBahanRacikan(10);
     public static StokNonObat stokNonObat = new StokNonObat(5);
+    public static StokService stokService = new StokService(stokObatOTC, stokBahanRacikan, stokNonObat);
 
     /**
      * Creates new form MainApp
@@ -65,6 +67,35 @@ public class MainApp extends javax.swing.JFrame {
         userRepository.tambahUser(new Apoteker("APT001", "Budi Santoso", "budi123", "Pagi"));
         userRepository.tambahUser(new Apoteker("APT002", "Sari Dewi",   "sari123", "Sore"));
         userRepository.tambahUser(new PJApoteker("PJA001", "Dr. Ahmad", "pja123"));
+        
+            
+        try {
+            stokService.tambahObat(
+                "Analgesik",
+                500,
+                1000,
+                "OBT001",
+                "Paracetamol",
+                3,
+                5,
+                "2027-12-31",
+                "Obat demam"
+            );
+
+            stokService.tambahObat(
+                "Vitamin",
+                1000,
+                2000,
+                "OBT002",
+                "Vitamin C",
+                2,
+                5,
+                "2027-12-31",
+                "Vitamin"
+            );
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
 
         SwingUtilities.invokeLater(() -> new LoginFrame().setVisible(true));
     }

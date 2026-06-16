@@ -143,6 +143,20 @@ public class StokService {
         all.addAll(stokNonObat.getListNotifikasi());
         return all;
     }
+    
+    public int getJumlahNotifikasiBelumDibaca() {
+        int total = 0;
+        for(NotifikasiStok notif : getAllNotifikasi()) {
+            if(!notif.isStatusBaca()) {
+                total++;
+            }
+        }
+        return total;
+    }
+    
+    public int getJumlahStokMenipis() {
+        return getAllNotifikasi().size();
+    }
 
     // ================= VALIDATOR =================
     private void validateId(String id) throws InvalidInputException {

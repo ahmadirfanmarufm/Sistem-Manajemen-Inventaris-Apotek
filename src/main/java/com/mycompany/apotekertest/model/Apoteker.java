@@ -15,6 +15,10 @@ public class Apoteker extends User {
         super(userId, name, password);
         this.shift = shift;
     }
+    
+    public String getShift() {
+        return shift;
+    }
 
     public void melihatStok() {
         System.out.println("Melihat stok...");

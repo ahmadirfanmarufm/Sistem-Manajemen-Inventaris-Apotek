@@ -18,7 +18,7 @@ public class StokMasukPanel extends javax.swing.JPanel {
     public StokMasukPanel() {
         initComponents();
         headerContainer.setLayout(new BorderLayout());
-        headerContainer.add(new HeaderPanel(), BorderLayout.CENTER);
+        headerContainer.add(new HeaderPanel(MainApp.stokService), BorderLayout.CENTER);
         contentScrollPane.getVerticalScrollBar().setUnitIncrement(16);
     }
 
