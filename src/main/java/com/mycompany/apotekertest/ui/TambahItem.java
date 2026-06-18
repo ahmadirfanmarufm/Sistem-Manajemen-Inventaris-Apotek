@@ -16,6 +16,7 @@ public class TambahItem extends javax.swing.JPanel {
     
     public TambahItem() {
         initComponents();
+        //Menyembunyikan semua field khusus di awal
         kategoriObatInput.setVisible(false);
         lblKategoriObat.setVisible(false);
         hargaBeliInput.setVisible(false);
@@ -25,8 +26,51 @@ public class TambahItem extends javax.swing.JPanel {
         satuanInput.setVisible(false);
         kategoriInput.setVisible(false);
         lblKategori.setVisible(false);
+        
         //Agar posisi field tidak bergeser saat component dihide 
-        ((javax.swing.GroupLayout) this.getLayout()).setHonorsVisibility(false);        
+        ((javax.swing.GroupLayout) this.getLayout()).setHonorsVisibility(false);
+    }
+    
+    //Exception apabila text field tidak diisi
+    private String getRequiredText(JTextField field, String namaField) throws InvalidInputException {
+        String text = field.getText().trim();
+        if (text.isEmpty()) {
+            //Menampilkan pesan error apabila field tidak diisi / kosong
+            throw new InvalidInputException(namaField, "tidak boleh kosong");
+        }
+        return text;
+    }
+    
+    //Parse JTextField ke Integer sekaligus exception apabila field kosong / tidak valid
+    private int parseIntField(JTextField field, String namaField) throws InvalidInputException {
+        String text = field.getText().trim();
+        if (text.isEmpty()) {
+            //Menampilkan pesan error apabila field tidak diisi / kosong
+            throw new InvalidInputException(namaField, "tidak boleh kosong");
+        }
+        try {
+            //Parse String ke Integer
+            return Integer.parseInt(text);
+        } catch (NumberFormatException e) {
+            //Menampilkan pesan error apabila field tidak sesuai dengan kriteria number
+            throw new InvalidInputException(namaField, "harus berupa angka bulat");
+        }
+    }
+    
+    //Parse JTextField ke double sekaligus exception apabila field kosong / tidak valid
+    private double parseDoubleField(JTextField field, String namaField) throws InvalidInputException {
+        String text = field.getText().trim();
+        if (text.isEmpty()) {
+            //Menampilkan pesan error apabila field tidak diisi / kosong
+            throw new InvalidInputException(namaField, "tidak boleh kosong");
+        }
+        try {
+            //Parse String ke double
+            return Double.parseDouble(text);
+        } catch (NumberFormatException e) {
+            //Menampilkan pesan error apabila field tidak sesuai dengan kriteria number
+            throw new InvalidInputException(namaField, "harus berupa angka");
+        }
     }
     
     /**
@@ -363,21 +407,11 @@ public class TambahItem extends javax.swing.JPanel {
     private void JenisItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JenisItem1ActionPerformed
         String jenis = JenisItem1.getSelectedItem().toString().trim();
 
-        // Sembunyikan semua field khusus dulu
-        kategoriObatInput.setVisible(false);
-        lblKategoriObat.setVisible(false);
-        hargaBeliInput.setVisible(false);
-        lblHargaBeli.setVisible(false);
-        hargaJualInput.setVisible(false);
-        lblHargaJual.setVisible(false);
-        satuanInput.setVisible(false);
-        satuanInput.setVisible(false);
-        lblKategori.setVisible(false);
-        kategoriInput.setVisible(false);
-
         // Tampilkan sesuai pilihan
         switch (jenis) {
+ 
             case "Obat OTC":
+                //Memerlukan field untuk input kategori obat, harga beli, dan harga jual
                 kategoriObatInput.setVisible(true);
                 lblKategoriObat.setVisible(true);
                 hargaBeliInput.setVisible(true);
@@ -385,11 +419,14 @@ public class TambahItem extends javax.swing.JPanel {
                 hargaJualInput.setVisible(true);
                 lblHargaJual.setVisible(true);
                 break;
+                
             case "Bahan Racikan":
-                satuanInput.setVisible(true);
+                //Memerlukan field untuk input satuan
                 satuanInput.setVisible(true);
                 break;
+                
             case "Non Obat":
+                //Memerlukan field untuk input kategori, harga beli, dan harga jual
                 kategoriInput.setVisible(true);
                 lblKategori.setVisible(true);
                 hargaBeliInput.setVisible(true);
@@ -413,74 +450,69 @@ public class TambahItem extends javax.swing.JPanel {
     }//GEN-LAST:event_itemIdInputActionPerformed
 
     private void simpanButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_simpanButtonActionPerformed
-        
         String jenis = JenisItem1.getSelectedItem().toString().trim();
         
-        String idItem, namaItem, deskripsi, expiredDate;
-        int quantity, stokMinimum;
-        double hargaBeli, hargaJual;
-   
-        
-        switch(jenis) {
-            case "Obat OTC":
-                idItem = itemIdInput.getText();
-                namaItem = namaItemInput.getText();
-                quantity = Integer.parseInt(quantityInput.getText());
-                stokMinimum = Integer.parseInt(stokMinimumInput.getText());
-                expiredDate = expiredDateInput.getText();
-                deskripsi = deskripsiInput.getText();
-                String kategoriObat = kategoriObatInput.getText();
-                hargaBeli = Double.parseDouble(hargaBeliInput.getText());
-                hargaJual = Double.parseDouble(hargaJualInput.getText());
-                
-                try{
-                    MainApp.stokService.tambahObat(kategoriObat, hargaBeli, hargaJual, idItem, namaItem, quantity, stokMinimum, expiredDate, deskripsi);
-                } catch(DuplicateItemException e) {
-                    
-                } catch (InvalidInputException ex) {
-                    System.getLogger(TambahItem.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
-                }
-                break;
-
-            case "Bahan Racikan":
-                idItem = itemIdInput.getText();
-                namaItem = namaItemInput.getText();
-                quantity = Integer.parseInt(quantityInput.getText());
-                stokMinimum = Integer.parseInt(stokMinimumInput.getText());
-                expiredDate = expiredDateInput.getText();
-                deskripsi = deskripsiInput.getText();
-                String satuan = satuanInput.getSelectedItem().toString().trim();
-                try{
-                    MainApp.stokService.tambahBahanRacikan(satuan, idItem, namaItem, quantity, stokMinimum, expiredDate, deskripsi);
-                } catch(DuplicateItemException e) {
-                    
-                } catch (InvalidInputException ex) {
-                    System.getLogger(TambahItem.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
-                }
-                
-                break;
-                
-            case "Non Obat":
-                idItem = itemIdInput.getText();
-                namaItem = namaItemInput.getText();
-                quantity = Integer.parseInt(quantityInput.getText());
-                stokMinimum = Integer.parseInt(stokMinimumInput.getText());
-                expiredDate = expiredDateInput.getText();
-                deskripsi = deskripsiInput.getText();
-                String kategori = kategoriInput.getText();
-                hargaBeli = Double.parseDouble(hargaBeliInput.getText());
-                hargaJual = Double.parseDouble(hargaJualInput.getText());
-                try{
-                    MainApp.stokService.tambahNonObat(kategori, hargaBeli, hargaJual, idItem, namaItem, quantity, stokMinimum, expiredDate, deskripsi);
-                } catch(DuplicateItemException e) {
-                    
-                } catch (InvalidInputException ex) {
-                    System.getLogger(TambahItem.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
-                }
-                
-                break;
+        //Menyesuaikan dengan jenis item
+        if (jenis.equals("Jenis Item")) {
+            //Warning untuk mengisi field jenis item
+            JOptionPane.showMessageDialog(this, "Pilih Jenis Item terlebih dahulu.", "Input Tidak Lengkap", JOptionPane.WARNING_MESSAGE);
+            return;
         }
-        
+
+        try {
+            //Deklarasi variabel
+            String idItem = getRequiredText(itemIdInput, "Item ID");
+            String namaItem = getRequiredText(namaItemInput, "Nama Item");
+            int quantity = parseIntField(quantityInput, "Kuantitas");
+            int stokMinimum = parseIntField(stokMinimumInput, "Stok Minimum");
+            String expiredDate = getRequiredText(expiredDateInput, "Tanggal Kadaluarsa");
+            String deskripsi = deskripsiInput.getText().trim();
+            
+            //Sesuai dengan jenis item yang dipilih
+            switch (jenis) {
+                case "Obat OTC": {
+                    String kategoriObat = getRequiredText(kategoriObatInput, "Kategori Obat");
+                    double hargaBeli = parseDoubleField(hargaBeliInput, "Harga Beli");
+                    double hargaJual = parseDoubleField(hargaJualInput, "Harga Jual");
+                    //Penyimpanan item ke dalam sistem
+                    MainApp.stokService.tambahObat(kategoriObat, hargaBeli, hargaJual, idItem, namaItem, quantity, stokMinimum, expiredDate, deskripsi);
+                    break;
+                }
+                
+                case "Bahan Racikan": {
+                    String satuan = satuanInput.getSelectedItem().toString().trim();
+                    if (satuan.equals("Satuan")) {
+                        //Exception apabila tidak ada satuan yang dipilih
+                        throw new InvalidInputException("Satuan", "harus dipilih");
+                    }
+                    //Penyimpanan item ke dalam sistem
+                    MainApp.stokService.tambahBahanRacikan(satuan, idItem, namaItem, quantity, stokMinimum, expiredDate, deskripsi);
+                    break;
+                }
+                
+                case "Non Obat": {
+                    String kategori = getRequiredText(kategoriInput, "Kategori");
+                    double hargaBeli = parseDoubleField(hargaBeliInput, "Harga Beli");
+                    double hargaJual = parseDoubleField(hargaJualInput, "Harga Jual");
+                    //Penyimpanan item ke dalam sistem
+                    MainApp.stokService.tambahNonObat(kategori, hargaBeli, hargaJual, idItem, namaItem, quantity, stokMinimum, expiredDate, deskripsi);
+                    break;
+                }
+            }
+            
+            //Notifikasi keberhasilan
+            JOptionPane.showMessageDialog(this, "Item berhasil ditambahkan.");
+            resetForm();
+            tutupPanel();
+            
+        //Menampilkan notifikasi apabila item duplikat atau terdapat input yang invalid
+        } catch (DuplicateItemException | InvalidInputException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Gagal Menambah Item", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_simpanButtonActionPerformed
+
+    private void resetForm() {
+        //Mengembalikan panel TambahItem ke awal
         JenisItem1.setSelectedIndex(0);
         itemIdInput.setText("");
         namaItemInput.setText("");
@@ -493,7 +525,15 @@ public class TambahItem extends javax.swing.JPanel {
         kategoriInput.setText("");
         satuanInput.setSelectedIndex(0);
         stokMinimumInput.setText("");
-    }//GEN-LAST:event_simpanButtonActionPerformed
+    }
+
+    private void tutupPanel() {
+        //Menutup panel apabila tombol simpan dipencet
+        java.awt.Window window = javax.swing.SwingUtilities.getWindowAncestor(this);
+        if (window != null) {
+            window.dispose();
+        }
+    }
 
     private void expiredDateInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_expiredDateInputActionPerformed
         // TODO add your handling code here:
