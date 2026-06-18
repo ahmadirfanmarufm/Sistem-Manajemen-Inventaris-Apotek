@@ -1,4 +1,5 @@
 com\mycompany\apotekertest\ui\InventarisPanel.class
+com\mycompany\apotekertest\ui\ProdukContentPanel$1.class
 com\mycompany\apotekertest\model\RekapanTransaksi.class
 com\mycompany\apotekertest\service\TransaksiService$DuplicateTransaksiException.class
 com\mycompany\apotekertest\laporan\LaporanStok.class
@@ -16,6 +17,7 @@ com\mycompany\apotekertest\ui\AuditStokPanel.class
 com\mycompany\apotekertest\exception\DuplicateItemException.class
 com\mycompany\apotekertest\ui\PenjualanPanel.class
 com\mycompany\apotekertest\stok\StokBahanRacikan.class
+com\mycompany\apotekertest\ui\ProdukContentPanel$2.class
 com\mycompany\apotekertest\ui\ProdukContentPanel.class
 com\mycompany\apotekertest\ui\SiderbarPJApotekerPanel.class
 com\mycompany\apotekertest\ui\DashboardApoteker$1.class
@@ -59,5 +61,6 @@ com\mycompany\apotekertest\service\TransaksiService.class
 com\mycompany\apotekertest\exception\InvalidInputException.class
 com\mycompany\apotekertest\ui\DashboardApotekerFrame.class
 com\mycompany\apotekertest\ui\DashboardContentPanel$1.class
+com\mycompany\apotekertest\ui\ProdukContentPanel$3.class
 com\mycompany\apotekertest\stok\StokObatOTC.class
 com\mycompany\apotekertest\ui\LoginFrame.class

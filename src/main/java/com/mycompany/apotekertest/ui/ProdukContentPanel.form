@@ -28,12 +28,16 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="contentScrollPane" alignment="0" pref="1063" max="32767" attributes="0"/>
+          <Group type="102" alignment="1" attributes="0">
+              <EmptySpace max="32767" attributes="0"/>
+              <Component id="contentScrollPane" min="-2" pref="931" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+          </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="contentScrollPane" alignment="0" pref="1037" max="32767" attributes="0"/>
+          <Component id="contentScrollPane" alignment="0" pref="982" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>
@@ -411,6 +415,9 @@
                       <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
                     </Property>
                   </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="tabelObatOTC.getTableHeader().setReorderingAllowed(false);"/>
+                  </AuxValues>
                 </Component>
               </SubComponents>
             </Container>
@@ -436,6 +443,9 @@
                   <Dimension value="[148, 25]"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnTambahBahanRacikanActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="lblHalamanBahanRacikan">
               <Properties>
@@ -528,6 +538,9 @@
                   <Dimension value="[148, 25]"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnTambahNonObatActionPerformed"/>
+              </Events>
             </Component>
             <Container class="javax.swing.JScrollPane" name="jScrollPane4">
               <AuxValues>

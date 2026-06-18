@@ -1,25 +1,101 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package com.mycompany.apotekertest.ui;
 
 import java.awt.BorderLayout;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.*;
+import java.util.ArrayList;
+import com.mycompany.apotekertest.model.ObatOTC;
+import com.mycompany.apotekertest.model.BahanRacikan;
+import com.mycompany.apotekertest.model.NonObat;
+import java.awt.Frame;
 
-/**
- *
- * @author himorii
- */
 public class ProdukContentPanel extends javax.swing.JPanel {
 
-    /**
-     * Creates new form ProdukPanel
-     */
     public ProdukContentPanel() {
         initComponents();
         headerContainer.setLayout(new BorderLayout());
         headerContainer.add(new HeaderPanel(MainApp.stokService), BorderLayout.CENTER);
         contentScrollPane.getVerticalScrollBar().setUnitIncrement(16);
+        
+        loadObatOTCTable();
+        loadBahanRacikanTable();
+        loadNonObatTable();
+    }
+    
+    private void loadObatOTCTable() {
+        ArrayList<ObatOTC> listObat = MainApp.stokService.getSemuaObat();
+        String[] kolom = {"ID", "Nama Obat", "Kategori", "Stok", "Harga Beli", "Harga Jual", "Minimum Stok", "Expired Date", "Deskripsi"};
+        Object[][] data = new Object[listObat.size()][kolom.length];
+
+        for (int i = 0; i < listObat.size(); i++) {
+            ObatOTC obat = listObat.get(i);
+            data[i][0] = obat.getIdItem();
+            data[i][1] = obat.getNamaItem();
+            data[i][2] = obat.getKategori();
+            data[i][3] = obat.getQuantity();
+            data[i][4] = obat.getHargaBeli();
+            data[i][5] = obat.getHargaJual();
+            data[i][6] = obat.getStokMinimum();
+            data[i][7] = obat.getExpiredDate();
+            data[i][8] = obat.getDeskripsi();
+        }
+
+        DefaultTableModel model = new DefaultTableModel(data, kolom) {
+            @Override
+            public boolean isCellEditable(int row, int column) { return false; }
+        };
+        tabelObatOTC.setModel(model);
+        lblShowDataObatOTC.setText("Menampilkan " + listObat.size() + " dari " + listObat.size() + " data");
+    }
+
+    private void loadBahanRacikanTable() {
+        ArrayList<BahanRacikan> listBahan = MainApp.stokService.getSemuaBahanRacikan();
+        String[] kolom = {"ID", "Nama Bahan", "Satuan", "Stok", "Minimum Stok", "Expired Date", "Deskripsi"};
+        Object[][] data = new Object[listBahan.size()][kolom.length];
+
+        for (int i = 0; i < listBahan.size(); i++) {
+            BahanRacikan bahan = listBahan.get(i);
+            data[i][0] = bahan.getIdItem();
+            data[i][1] = bahan.getNamaItem();
+            data[i][2] = bahan.getSatuan();
+            data[i][3] = bahan.getQuantity();
+            data[i][4] = bahan.getStokMinimum();
+            data[i][5] = bahan.getExpiredDate();
+            data[i][6] = bahan.getDeskripsi();
+        }
+
+        DefaultTableModel model = new DefaultTableModel(data, kolom) {
+            @Override
+            public boolean isCellEditable(int row, int column) { return false; }
+        };
+        tabelBahanRacikan.setModel(model);
+        lblShowDataBahanRacikan.setText("Menampilkan " + listBahan.size() + " dari " + listBahan.size() + " data");
+    }
+
+    private void loadNonObatTable() {
+        ArrayList<NonObat> listNonObat = MainApp.stokService.getSemuaNonObat();
+        String[] kolom = {"ID", "Nama Produk", "Kategori", "Stok", "Harga Beli", "Harga Jual", "Minimum Stok", "Expired Date", "Deskripsi"};
+        Object[][] data = new Object[listNonObat.size()][kolom.length];
+
+        for (int i = 0; i < listNonObat.size(); i++) {
+            NonObat non = listNonObat.get(i);
+            data[i][0] = non.getIdItem();
+            data[i][1] = non.getNamaItem();
+            data[i][2] = non.getKategori();
+            data[i][3] = non.getQuantity();
+            data[i][4] = non.getHargaBeli();
+            data[i][5] = non.getHargaJual();
+            data[i][6] = non.getStokMinimum();
+            data[i][7] = non.getExpiredDate();
+            data[i][8] = non.getDeskripsi();
+        }
+
+        DefaultTableModel model = new DefaultTableModel(data, kolom) {
+            @Override
+            public boolean isCellEditable(int row, int column) { return false; }
+        };
+        tableNonObat.setModel(model);
+        lblShowDataBahanRacikan1.setText("Menampilkan " + listNonObat.size() + " dari " + listNonObat.size() + " data");
     }
 
     /**
@@ -48,6 +124,7 @@ public class ProdukContentPanel extends javax.swing.JPanel {
         lblDescriptionBahanRacikan = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         tabelObatOTC = new javax.swing.JTable();
+        tabelObatOTC.getTableHeader().setReorderingAllowed(false);
         btnTambahBahanRacikan = new javax.swing.JButton();
         lblHalamanBahanRacikan = new javax.swing.JLabel();
         btnNextBahanRacikan = new javax.swing.JButton();
@@ -178,6 +255,7 @@ public class ProdukContentPanel extends javax.swing.JPanel {
         btnTambahBahanRacikan.setMaximumSize(new java.awt.Dimension(148, 25));
         btnTambahBahanRacikan.setMinimumSize(new java.awt.Dimension(148, 25));
         btnTambahBahanRacikan.setPreferredSize(new java.awt.Dimension(148, 25));
+        btnTambahBahanRacikan.addActionListener(this::btnTambahBahanRacikanActionPerformed);
 
         lblHalamanBahanRacikan.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblHalamanBahanRacikan.setText("Halaman 0 dari 0");
@@ -211,6 +289,7 @@ public class ProdukContentPanel extends javax.swing.JPanel {
         btnTambahNonObat.setMaximumSize(new java.awt.Dimension(148, 25));
         btnTambahNonObat.setMinimumSize(new java.awt.Dimension(148, 25));
         btnTambahNonObat.setPreferredSize(new java.awt.Dimension(148, 25));
+        btnTambahNonObat.addActionListener(this::btnTambahNonObatActionPerformed);
 
         tableNonObat.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -369,17 +448,58 @@ public class ProdukContentPanel extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(contentScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 1063, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(contentScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 931, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(contentScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 1037, Short.MAX_VALUE)
+            .addComponent(contentScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 982, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnTambahObatOTCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahObatOTCActionPerformed
-        // TODO add your handling code here:
+        JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), "Input Data Obat", true);
+        TambahItem panel = new TambahItem();
+        dialog.setContentPane(panel);
+        dialog.pack();
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+
+        // refresh semua tabel karena gak tahu pasti jenis item mana yang baru ditambahkan
+        loadObatOTCTable();
+        loadBahanRacikanTable();
+        loadNonObatTable();
     }//GEN-LAST:event_btnTambahObatOTCActionPerformed
+
+    private void btnTambahBahanRacikanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahBahanRacikanActionPerformed
+        JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), "Input Data Obat", true);
+        TambahItem panel = new TambahItem();
+        dialog.setContentPane(panel);
+        dialog.pack();
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+
+        //Refresh semua tabel karena gak tahu pasti jenis item mana yang baru ditambahkan
+        loadObatOTCTable();
+        loadBahanRacikanTable();
+        loadNonObatTable();
+    }//GEN-LAST:event_btnTambahBahanRacikanActionPerformed
+
+    private void btnTambahNonObatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahNonObatActionPerformed
+        JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), "Input Data Obat", true);
+        TambahItem panel = new TambahItem();
+        dialog.setContentPane(panel);
+        dialog.pack();
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+
+        // refresh semua tabel karena gak tahu pasti jenis item mana yang baru ditambahkan
+        loadObatOTCTable();
+        loadBahanRacikanTable();
+        loadNonObatTable();
+    }//GEN-LAST:event_btnTambahNonObatActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

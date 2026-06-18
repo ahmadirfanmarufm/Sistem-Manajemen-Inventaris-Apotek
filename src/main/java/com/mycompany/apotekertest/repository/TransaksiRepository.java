@@ -2,21 +2,10 @@ package com.mycompany.apotekertest.repository;
 
 import com.mycompany.apotekertest.exception.ItemNotFoundException;
 import com.mycompany.apotekertest.model.Transaksi;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
-
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
-/**
- *
- * @author Kelompok Kipli
- */
 public class TransaksiRepository {
     private final HashMap<String, Transaksi> dataTransaksi;
     

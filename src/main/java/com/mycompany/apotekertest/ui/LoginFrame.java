@@ -39,6 +39,7 @@ public class LoginFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        mainApp1 = new com.mycompany.apotekertest.ui.MainApp();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -47,6 +48,17 @@ public class LoginFrame extends javax.swing.JFrame {
         password = new javax.swing.JPasswordField();
         jPanel2 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
+
+        javax.swing.GroupLayout mainApp1Layout = new javax.swing.GroupLayout(mainApp1.getContentPane());
+        mainApp1.getContentPane().setLayout(mainApp1Layout);
+        mainApp1Layout.setHorizontalGroup(
+            mainApp1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1, Short.MAX_VALUE)
+        );
+        mainApp1Layout.setVerticalGroup(
+            mainApp1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1, Short.MAX_VALUE)
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -219,6 +231,7 @@ public class LoginFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private com.mycompany.apotekertest.ui.MainApp mainApp1;
     private javax.swing.JPasswordField password;
     private javax.swing.JTextField username;
     // End of variables declaration//GEN-END:variables

@@ -3,13 +3,8 @@ package com.mycompany.apotekertest.service;
 import com.mycompany.apotekertest.exception.DuplicateItemException;
 import com.mycompany.apotekertest.exception.InvalidInputException;
 import com.mycompany.apotekertest.exception.ItemNotFoundException;
-import com.mycompany.apotekertest.model.BahanRacikan;
-import com.mycompany.apotekertest.model.NonObat;
-import com.mycompany.apotekertest.model.NotifikasiStok;
-import com.mycompany.apotekertest.model.ObatOTC;
-import com.mycompany.apotekertest.stok.StokBahanRacikan;
-import com.mycompany.apotekertest.stok.StokNonObat;
-import com.mycompany.apotekertest.stok.StokObatOTC;
+import com.mycompany.apotekertest.model.*;
+import com.mycompany.apotekertest.stok.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
@@ -58,14 +53,14 @@ public class StokService {
     public ArrayList<ObatOTC> getSemuaObat() {
         return stokObatOTC.getListObat();
     }
- 
+    
     public StokObatOTC getStokObatOTC() {
         return stokObatOTC;
     }
 
     // ================= BAHAN RACIKAN =================
     public void tambahBahanRacikan(String id, String nama, String satuan,
-                            int qty, int stokMin, String expStr, String deskripsi)
+            int qty, int stokMin, String expStr, String deskripsi)
             throws DuplicateItemException, InvalidInputException {
         validateId(id); 
         validateExp(expStr);

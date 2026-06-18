@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.apotekertest.stok;
 
 import com.mycompany.apotekertest.exception.DuplicateItemException;
@@ -13,10 +9,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
-/**
- *
- * @author KelompokKipli
- */
 public abstract class Stok implements Manageable {
     protected int minimumStok;
     protected ArrayList<Item> listItem;
@@ -25,6 +17,14 @@ public abstract class Stok implements Manageable {
     protected HashMap<String, NotifikasiStok> mapNotifikasi;
 
     public Stok(int minimumStok) {
+        this.minimumStok = minimumStok;
+        this.listItem = new ArrayList<>();
+        this.mapItem = new LinkedHashMap<>();
+        this.listNotifikasi = new ArrayList<>();
+        this.mapNotifikasi = new HashMap<>();
+    }
+    
+    public Stok() {
         this.minimumStok = minimumStok;
         this.listItem = new ArrayList<>();
         this.mapItem = new LinkedHashMap<>();

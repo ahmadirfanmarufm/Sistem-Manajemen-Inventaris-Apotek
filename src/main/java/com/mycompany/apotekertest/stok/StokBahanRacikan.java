@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.apotekertest.stok;
 
 import com.mycompany.apotekertest.exception.DuplicateItemException;
@@ -12,16 +8,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
-/**
- *
- * @author Kelompok Kipli
- */
 public class StokBahanRacikan extends Stok {
     private final HashMap<String, BahanRacikan> mapBahan;
     private final ArrayList<BahanRacikan> listBahanRacikan;
  
     public StokBahanRacikan(int minimumStok) {
         super(minimumStok);
+        this.mapBahan = new LinkedHashMap<>();
+        this.listBahanRacikan = new ArrayList<>();
+    }
+    
+    public StokBahanRacikan(){
         this.mapBahan = new LinkedHashMap<>();
         this.listBahanRacikan = new ArrayList<>();
     }
