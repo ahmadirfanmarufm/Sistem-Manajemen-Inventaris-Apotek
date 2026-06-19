@@ -196,7 +196,7 @@ public class LoginFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSubmitActionPerformed
 
     private void passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordActionPerformed
-        // TODO add your handling code here:
+        btnSubmitActionPerformed(evt);
     }//GEN-LAST:event_passwordActionPerformed
 
     /**
