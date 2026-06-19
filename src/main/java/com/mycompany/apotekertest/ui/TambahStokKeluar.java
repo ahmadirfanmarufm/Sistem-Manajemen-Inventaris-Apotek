@@ -4,18 +4,24 @@
  */
 package com.mycompany.apotekertest.ui;
 
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Dean Akmal
  */
 public class TambahStokKeluar extends javax.swing.JPanel {
 
+    private  javax.swing.JTable targetTable;
+
     /**
      * Creates new form TambahObat
      */
-    public TambahStokKeluar() {
+    public TambahStokKeluar(javax.swing.JTable targetTable) {
         initComponents();
-                
+        this.targetTable = targetTable;
     }
     
     
@@ -96,7 +102,7 @@ public class TambahStokKeluar extends javax.swing.JPanel {
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(0, 145, 55));
-        jLabel3.setText("Jumlah Masuk");
+        jLabel3.setText("Jumlah Keluar");
 
         jTextField2.setText("0");
 
@@ -127,6 +133,7 @@ public class TambahStokKeluar extends javax.swing.JPanel {
         jButton3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jButton3.setForeground(new java.awt.Color(255, 255, 255));
         jButton3.setText("Simpan");
+        jButton3.addActionListener(this::jButton3ActionPerformed);
 
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pilih...", "Produk Rusak", "Produk Kadaluarsa", "Pemakaian Internal", "Retur ke Pemasok" }));
 
@@ -246,6 +253,55 @@ public class TambahStokKeluar extends javax.swing.JPanel {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        String tanggal = "";
+        if (jDatePicker1.getModel().getValue() != null) {
+            java.util.Calendar cal = (java.util.Calendar) jDatePicker1.getModel().getValue();
+            java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd/MM/yyyy");
+            tanggal = sdf.format(cal.getTime());
+        }
+        String idBarang = jTextField3.getText().trim();
+        String namaBarang = jTextField1.getText().trim();
+        String kategori = (String) jComboBox1.getSelectedItem();
+        String jumlahKeluar = jTextField2.getText().trim();
+        String alasan = (String) jComboBox2.getSelectedItem();
+
+        if (namaBarang.isEmpty() || idBarang.isEmpty() || jumlahKeluar.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Mohon lengkapi data wajib (ID Barang, Nama Barang, Jumlah Masuk)!");
+            return;
+        }
+
+        if (targetTable != null) {
+            DefaultTableModel model = (DefaultTableModel) targetTable.getModel();
+
+    Object[] data = {
+        namaBarang,
+        idBarang,
+        kategori,
+        jumlahKeluar,
+        tanggal,
+        alasan
+    };
+
+    boolean ditemukanKosong = false;
+
+    for (int i = 0; i < model.getRowCount(); i++) {
+        if (model.getValueAt(i, 0) == null) {
+            for (int j = 0; j < data.length; j++) {
+                model.setValueAt(data[j], i, j);
+            }
+            ditemukanKosong = true;
+            break;
+        }
+    }
+
+    if (!ditemukanKosong) {
+        model.addRow(data);
+    }
+    javax.swing.SwingUtilities.getWindowAncestor(this).dispose();
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -239,11 +239,11 @@ public class StokMasukPanel extends javax.swing.JPanel {
         (JFrame) javax.swing.SwingUtilities.getWindowAncestor(this),
         "Tambah Stok Masuk",
         true // true = modal
-    );
-    dialog.getContentPane().add(new TambahStokMasuk(tabelStokMasuk));
-    dialog.pack();
-    dialog.setLocationRelativeTo(this);
-    dialog.setVisible(true);
+        );
+        dialog.getContentPane().add(new TambahStokMasuk(tabelStokMasuk));
+        dialog.pack();
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
     }//GEN-LAST:event_buttonTambahStokActionPerformed
 
 

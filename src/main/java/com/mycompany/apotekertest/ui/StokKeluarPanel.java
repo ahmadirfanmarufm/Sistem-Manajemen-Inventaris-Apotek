@@ -5,6 +5,7 @@
 package com.mycompany.apotekertest.ui;
 
 import java.awt.BorderLayout;
+import javax.swing.JDialog;
 
 /**
  *
@@ -88,6 +89,7 @@ public class StokKeluarPanel extends javax.swing.JPanel {
         jButton1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Tambah Stok Keluar");
+        jButton1.addActionListener(this::jButton1ActionPerformed);
 
         txtSearch.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtSearch.setForeground(new java.awt.Color(42, 137, 79));
@@ -103,13 +105,13 @@ public class StokKeluarPanel extends javax.swing.JPanel {
 
         tabelStokKeluar.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Nama Barang", "ID Barang", "Jumlah Keliar", "Kategori", "Tanggal", "Alasan"
             }
         ));
         jScrollPane1.setViewportView(tabelStokKeluar);
@@ -213,7 +215,7 @@ public class StokKeluarPanel extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(contentScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 937, Short.MAX_VALUE)
+            .addComponent(contentScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 856, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -232,6 +234,14 @@ public class StokKeluarPanel extends javax.swing.JPanel {
             txtSearch.setText("Cari transaksi, produk...");
         }
     }//GEN-LAST:event_txtSearchFocusLost
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        JDialog dialog = new JDialog();
+        dialog.getContentPane().add(new TambahStokKeluar(tabelStokKeluar));
+        dialog.pack();
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
