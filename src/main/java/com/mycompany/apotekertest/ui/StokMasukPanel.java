@@ -5,6 +5,8 @@
 package com.mycompany.apotekertest.ui;
 
 import java.awt.BorderLayout;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
 
 /**
  *
@@ -37,7 +39,7 @@ public class StokMasukPanel extends javax.swing.JPanel {
         headerContainer = new javax.swing.JPanel();
         lblTitleObatOTC = new javax.swing.JLabel();
         lblDescriptionObatOTC = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        buttonTambahStok = new javax.swing.JButton();
         txtSearch = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabelStokMasuk = new javax.swing.JTable();
@@ -84,10 +86,11 @@ public class StokMasukPanel extends javax.swing.JPanel {
         lblDescriptionObatOTC.setForeground(new java.awt.Color(42, 137, 79));
         lblDescriptionObatOTC.setText("Pencatatan penerimaan stok dari pemasok");
 
-        jButton1.setBackground(new java.awt.Color(20, 145, 66));
-        jButton1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Tambah Stok Masuk");
+        buttonTambahStok.setBackground(new java.awt.Color(20, 145, 66));
+        buttonTambahStok.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        buttonTambahStok.setForeground(new java.awt.Color(255, 255, 255));
+        buttonTambahStok.setText("Tambah Stok Masuk");
+        buttonTambahStok.addActionListener(this::buttonTambahStokActionPerformed);
 
         txtSearch.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtSearch.setForeground(new java.awt.Color(42, 137, 79));
@@ -103,13 +106,13 @@ public class StokMasukPanel extends javax.swing.JPanel {
 
         tabelStokMasuk.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Nama Barang", "ID Barang", "Kategori", "Jumlah Masuk", "Tanggal", "Pemasok"
             }
         ));
         jScrollPane1.setViewportView(tabelStokMasuk);
@@ -169,7 +172,7 @@ public class StokMasukPanel extends javax.swing.JPanel {
                                     .addComponent(lblDescriptionObatOTC, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(lblTitleObatOTC, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton1)))
+                                .addComponent(buttonTambahStok)))
                         .addGap(41, 41, 41))))
         );
         contentPanelLayout.setVerticalGroup(
@@ -182,7 +185,7 @@ public class StokMasukPanel extends javax.swing.JPanel {
                         .addComponent(lblTitleObatOTC, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblDescriptionObatOTC))
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(buttonTambahStok, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -210,7 +213,7 @@ public class StokMasukPanel extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(contentScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 938, Short.MAX_VALUE)
+            .addComponent(contentScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 951, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -230,16 +233,29 @@ public class StokMasukPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_txtSearchFocusLost
 
+    private void buttonTambahStokActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonTambahStokActionPerformed
+        // TODO add your handling code here;
+        JDialog dialog = new JDialog(
+        (JFrame) javax.swing.SwingUtilities.getWindowAncestor(this),
+        "Tambah Stok Masuk",
+        true // true = modal
+    );
+    dialog.getContentPane().add(new TambahStokMasuk(tabelStokMasuk));
+    dialog.pack();
+    dialog.setLocationRelativeTo(this);
+    dialog.setVisible(true);
+    }//GEN-LAST:event_buttonTambahStokActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnNext1;
     private javax.swing.JButton btnPrevious;
+    private javax.swing.JButton buttonTambahStok;
     private javax.swing.JPanel contentPanel;
     private javax.swing.JScrollPane contentScrollPane;
     private org.jdatepicker.JDatePicker dateFrom;
     private org.jdatepicker.JDatePicker dateTo;
     private javax.swing.JPanel headerContainer;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JRadioButton jRadioButton1;

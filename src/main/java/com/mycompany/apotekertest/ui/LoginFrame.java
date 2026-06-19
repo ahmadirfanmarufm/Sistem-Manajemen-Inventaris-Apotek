@@ -161,7 +161,7 @@ public class LoginFrame extends javax.swing.JFrame {
         String id = username.getText();
         String pass = new String(password.getPassword());
 
-        if(id.isEmpty() || pass.isEmpty()) {
+        if(id.isBlank()|| pass.isBlank()) {
             JOptionPane.showMessageDialog(this, "Isi semua bidang!");
             return;
         }

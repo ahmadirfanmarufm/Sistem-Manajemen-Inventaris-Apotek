@@ -4,12 +4,16 @@
  */
 package com.mycompany.apotekertest.ui;
 
+import javax.swing.JTable;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author Dean Akmal
  */
 public class TambahStokMasuk extends javax.swing.JPanel {
 
+    private JTable targetTable;
     /**
      * Creates new form TambahObat
      */
@@ -18,8 +22,15 @@ public class TambahStokMasuk extends javax.swing.JPanel {
             
     }
     
-    
+    public TambahStokMasuk(JTable targetTable) {
+        initComponents();
+        this.targetTable = targetTable;
+        
+    }
 
+
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -46,8 +57,8 @@ public class TambahStokMasuk extends javax.swing.JPanel {
         jLabel7 = new javax.swing.JLabel();
         jTextField5 = new javax.swing.JTextField();
         jComboBox1 = new javax.swing.JComboBox<>();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        buttonBatal = new javax.swing.JButton();
+        buttonSimpan = new javax.swing.JButton();
 
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -92,7 +103,6 @@ public class TambahStokMasuk extends javax.swing.JPanel {
         jLabel2.setText("Nama Barang");
 
         jTextField1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jTextField1.setText("Nama Produk");
         jTextField1.addActionListener(this::jTextField1ActionPerformed);
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -100,7 +110,6 @@ public class TambahStokMasuk extends javax.swing.JPanel {
         jLabel3.setText("Jumlah Masuk");
 
         jTextField2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jTextField2.setText("0");
 
         jTextField3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jTextField3.setText("cth. OTC-001");
@@ -126,14 +135,15 @@ public class TambahStokMasuk extends javax.swing.JPanel {
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pilih...", "Obat OTC", "Bahan Racikan", "Non Obat" }));
         jComboBox1.addActionListener(this::jComboBox1ActionPerformed);
 
-        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jButton2.setText("Batal");
-        jButton2.addActionListener(this::jButton2ActionPerformed);
+        buttonBatal.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        buttonBatal.setText("Batal");
+        buttonBatal.addActionListener(this::buttonBatalActionPerformed);
 
-        jButton3.setBackground(new java.awt.Color(0, 145, 55));
-        jButton3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jButton3.setText("Simpan");
+        buttonSimpan.setBackground(new java.awt.Color(0, 145, 55));
+        buttonSimpan.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        buttonSimpan.setForeground(new java.awt.Color(255, 255, 255));
+        buttonSimpan.setText("Simpan");
+        buttonSimpan.addActionListener(this::buttonSimpanActionPerformed);
 
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
@@ -163,12 +173,12 @@ public class TambahStokMasuk extends javax.swing.JPanel {
                 .addGap(59, 59, 59))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(buttonSimpan, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(14, 14, 14))
             .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
                     .addContainerGap(789, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(buttonBatal, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(145, 145, 145)))
         );
         jPanel10Layout.setVerticalGroup(
@@ -207,12 +217,12 @@ public class TambahStokMasuk extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 211, Short.MAX_VALUE)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(buttonSimpan, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(23, 23, 23))
             .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
                     .addContainerGap(529, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(buttonBatal, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(23, 23, 23)))
         );
 
@@ -252,15 +262,66 @@ public class TambahStokMasuk extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void buttonBatalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonBatalActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+            javax.swing.SwingUtilities.getWindowAncestor(this).dispose();
+    }//GEN-LAST:event_buttonBatalActionPerformed
+
+    private void buttonSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSimpanActionPerformed
+        // TODO add your handling code here:
+        String tanggal = "";
+        if (jDatePicker1.getModel().getValue() != null) {
+            java.util.Calendar cal = (java.util.Calendar) jDatePicker1.getModel().getValue();
+            java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd/MM/yyyy");
+            tanggal = sdf.format(cal.getTime());
+        }
+        String idBarang = jTextField3.getText().trim();
+        String namaBarang = jTextField1.getText().trim();
+        String kategori = (String) jComboBox1.getSelectedItem();
+        String jumlahMasuk = jTextField2.getText().trim();
+        String pemasok = jTextField5.getText().trim();
+
+        if (namaBarang.isEmpty() || idBarang.isEmpty() || jumlahMasuk.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Mohon lengkapi data wajib (ID Barang, Nama Barang, Jumlah Masuk)!");
+            return;
+        }
+
+        if (targetTable != null) {
+            DefaultTableModel model = (DefaultTableModel) targetTable.getModel();
+
+    Object[] data = {
+        namaBarang,
+        idBarang,
+        kategori,
+        jumlahMasuk,
+        tanggal,
+        pemasok
+    };
+
+    boolean ditemukanKosong = false;
+
+    for (int i = 0; i < model.getRowCount(); i++) {
+        if (model.getValueAt(i, 0) == null) {
+            for (int j = 0; j < data.length; j++) {
+                model.setValueAt(data[j], i, j);
+            }
+            ditemukanKosong = true;
+            break;
+        }
+    }
+
+    if (!ditemukanKosong) {
+        model.addRow(data);
+    }
+    javax.swing.SwingUtilities.getWindowAncestor(this).dispose();
+        }
+    }//GEN-LAST:event_buttonSimpanActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField ItemID2;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton buttonBatal;
+    private javax.swing.JButton buttonSimpan;
     private javax.swing.JComboBox<String> jComboBox1;
     private org.jdatepicker.JDatePicker jDatePicker1;
     private javax.swing.JLabel jLabel1;
