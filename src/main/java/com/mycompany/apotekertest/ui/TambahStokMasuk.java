@@ -7,6 +7,9 @@ package com.mycompany.apotekertest.ui;
 import javax.swing.JTable;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import com.mycompany.apotekertest.model.Item;
+import javax.swing.DefaultComboBoxModel;
+import java.util.ArrayList;
 /**
  *
  * @author Dean Akmal
@@ -14,18 +17,37 @@ import javax.swing.table.DefaultTableModel;
 public class TambahStokMasuk extends javax.swing.JPanel {
 
     private JTable targetTable;
+    private ArrayList<Item> daftarItem = new ArrayList<>();
     /**
      * Creates new form TambahObat
      */
     public TambahStokMasuk() {
         initComponents();
+        loadNamaItem();
             
     }
     
     public TambahStokMasuk(JTable targetTable) {
         initComponents();
         this.targetTable = targetTable;
+        loadNamaItem();
+    }
+    
+    public void loadNamaItem(){
+    
+        daftarItem.clear();
+        daftarItem.addAll(MainApp.stokService.getSemuaObat());
+        daftarItem.addAll(MainApp.stokService.getSemuaBahanRacikan());
+        daftarItem.addAll(MainApp.stokService.getSemuaNonObat());
         
+        DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
+        model.addElement("Pilih Item...");
+        
+        for (Item item : daftarItem){
+            model.addElement(item.getNamaItem());
+        }
+        
+        NamaItem.setModel(model);
     }
 
 
@@ -59,6 +81,7 @@ public class TambahStokMasuk extends javax.swing.JPanel {
         jComboBox1 = new javax.swing.JComboBox<>();
         buttonBatal = new javax.swing.JButton();
         buttonSimpan = new javax.swing.JButton();
+        NamaItem = new javax.swing.JComboBox<>();
 
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -145,6 +168,9 @@ public class TambahStokMasuk extends javax.swing.JPanel {
         buttonSimpan.setText("Simpan");
         buttonSimpan.addActionListener(this::buttonSimpanActionPerformed);
 
+        NamaItem.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        NamaItem.addActionListener(this::NamaItemActionPerformed);
+
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
         jPanel10Layout.setHorizontalGroup(
@@ -162,7 +188,9 @@ public class TambahStokMasuk extends javax.swing.JPanel {
                     .addComponent(jLabel2)
                     .addComponent(jTextField1)
                     .addComponent(jTextField2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 321, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
+                .addComponent(NamaItem, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel5)
                     .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
@@ -186,36 +214,41 @@ public class TambahStokMasuk extends javax.swing.JPanel {
             .addGroup(jPanel10Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
                 .addComponent(jLabel9)
-                .addGap(41, 41, 41)
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
+                        .addGap(41, 41, 41)
+                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel10Layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jDatePicker1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel10Layout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jDatePicker1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel10Layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel10Layout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jComboBox1)))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel10Layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel10Layout.createSequentialGroup()
+                                .addComponent(jLabel7)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addComponent(jLabel6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox1)))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addComponent(jLabel7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(24, 24, 24)
+                        .addComponent(NamaItem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 211, Short.MAX_VALUE)
                 .addComponent(buttonSimpan, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(23, 23, 23))
@@ -317,9 +350,38 @@ public class TambahStokMasuk extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_buttonSimpanActionPerformed
 
+    private void NamaItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NamaItemActionPerformed
+        String selected = (String) NamaItem.getSelectedItem();
+        
+        if(selected == null | selected.equals("Pilih Item...")){
+            jTextField1.setText("");
+            jTextField3.setText("");
+            jComboBox1.setSelectedIndex(0);
+            return;
+        }
+        
+         for (Item item : daftarItem) {
+        if (item.getNamaItem().equals(selected)) {
+            jTextField1.setText(item.getNamaItem());   // Nama Barang
+            jTextField3.setText(item.getIdItem());      // ID Barang
+
+            // Tentukan kategori otomatis berdasarkan jenis item
+            if (item instanceof com.mycompany.apotekertest.model.ObatOTC) {
+                jComboBox1.setSelectedItem("Obat OTC");
+            } else if (item instanceof com.mycompany.apotekertest.model.BahanRacikan) {
+                jComboBox1.setSelectedItem("Bahan Racikan");
+            } else if (item instanceof com.mycompany.apotekertest.model.NonObat) {
+                jComboBox1.setSelectedItem("Non Obat");
+            }
+            break;
+            }
+        }
+    }//GEN-LAST:event_NamaItemActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField ItemID2;
+    private javax.swing.JComboBox<String> NamaItem;
     private javax.swing.JButton buttonBatal;
     private javax.swing.JButton buttonSimpan;
     private javax.swing.JComboBox<String> jComboBox1;
