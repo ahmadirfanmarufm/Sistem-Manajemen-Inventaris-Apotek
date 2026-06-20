@@ -298,13 +298,56 @@ public class TambahStokMasuk extends javax.swing.JPanel {
         String idBarang = jTextField3.getText().trim();
         String namaBarang = (String) NamaItem.getSelectedItem();
         String kategori = (String) jComboBox1.getSelectedItem();
-        String jumlahMasuk = jTextField2.getText().trim();
+        String jumlahMasukStr = jTextField2.getText().trim();
         String pemasok = jTextField5.getText().trim();
 
-        if (namaBarang.isEmpty() || idBarang.isEmpty() || jumlahMasuk.isEmpty()) {
+        if (namaBarang.isEmpty() || idBarang.isEmpty() || jumlahMasukStr.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Mohon lengkapi data wajib (ID Barang, Nama Barang, Jumlah Masuk)!");
             return;
         }
+        
+         int jumlahMasuk;
+    try {
+        jumlahMasuk = Integer.parseInt(jumlahMasukStr);
+        if (jumlahMasuk <= 0) {
+            JOptionPane.showMessageDialog(this, "Jumlah Masuk harus lebih dari 0!");
+            return;
+        }
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "Jumlah Masuk harus berupa angka bulat!");
+        return;
+    }
+
+    // Cari item yang dipilih di daftarItem
+    Item itemDipilih = null;
+    for (Item item : daftarItem) {
+        if (item.getNamaItem().equals(namaBarang)) {
+            itemDipilih = item;
+            break;
+        }
+    }
+
+    if (itemDipilih == null) {
+        JOptionPane.showMessageDialog(this, "Item tidak ditemukan di sistem!");
+        return;
+    }
+
+    // Tambahkan stok riil melalui StokService sesuai jenis item
+    try {
+        int stokBaru = itemDipilih.getQuantity() + jumlahMasuk; // <-- DITAMBAH, bukan dikurangi
+        itemDipilih.setQuantity(stokBaru);
+
+        if (itemDipilih instanceof com.mycompany.apotekertest.model.ObatOTC) {
+            MainApp.stokService.updateObat((com.mycompany.apotekertest.model.ObatOTC) itemDipilih);
+        } else if (itemDipilih instanceof com.mycompany.apotekertest.model.BahanRacikan) {
+            MainApp.stokService.updateBahanRacikan((com.mycompany.apotekertest.model.BahanRacikan) itemDipilih);
+        } else if (itemDipilih instanceof com.mycompany.apotekertest.model.NonObat) {
+            MainApp.stokService.updateNonObat((com.mycompany.apotekertest.model.NonObat) itemDipilih);
+        }
+    } catch (com.mycompany.apotekertest.exception.ItemNotFoundException e) {
+        JOptionPane.showMessageDialog(this, "Gagal update stok: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
 
         if (targetTable != null) {
             DefaultTableModel model = (DefaultTableModel) targetTable.getModel();
@@ -313,7 +356,7 @@ public class TambahStokMasuk extends javax.swing.JPanel {
         namaBarang,
         idBarang,
         kategori,
-        jumlahMasuk,
+        jumlahMasukStr,
         tanggal,
         pemasok
     };
@@ -339,32 +382,30 @@ public class TambahStokMasuk extends javax.swing.JPanel {
 
     private void NamaItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NamaItemActionPerformed
         String selected = (String) NamaItem.getSelectedItem();
-        
+
         if(selected == null || selected.equals("Pilih Item...")){
             jTextField3.setText("");
             jComboBox1.setSelectedIndex(0);
             return;
         }
-        
-         for (Item item : daftarItem) {
-        if (item.getNamaItem().equals(selected)) {
-           
-            jTextField3.setText(item.getIdItem()); 
 
-            // Tentukan kategori otomatis berdasarkan jenis item
-            if (item instanceof com.mycompany.apotekertest.model.ObatOTC) {
-                jComboBox1.setSelectedItem("Obat OTC");
-            } else if (item instanceof com.mycompany.apotekertest.model.BahanRacikan) {
-                jComboBox1.setSelectedItem("Bahan Racikan");
-            } else if (item instanceof com.mycompany.apotekertest.model.NonObat) {
-                jComboBox1.setSelectedItem("Non Obat");
-            }
-            break;
+        for (Item item : daftarItem) {
+            if (item.getNamaItem().equals(selected)) {
+
+                jTextField3.setText(item.getIdItem());
+
+                // Tentukan kategori otomatis berdasarkan jenis item
+                if (item instanceof com.mycompany.apotekertest.model.ObatOTC) {
+                    jComboBox1.setSelectedItem("Obat OTC");
+                } else if (item instanceof com.mycompany.apotekertest.model.BahanRacikan) {
+                    jComboBox1.setSelectedItem("Bahan Racikan");
+                } else if (item instanceof com.mycompany.apotekertest.model.NonObat) {
+                    jComboBox1.setSelectedItem("Non Obat");
+                }
+                break;
             }
         }
-       
-         
-         
+
     }//GEN-LAST:event_NamaItemActionPerformed
 
      

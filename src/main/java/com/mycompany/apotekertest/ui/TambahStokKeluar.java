@@ -4,9 +4,12 @@
  */
 package com.mycompany.apotekertest.ui;
 
-import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import com.mycompany.apotekertest.model.Item;
+import javax.swing.DefaultComboBoxModel;
+import java.util.ArrayList;
 
 /**
  *
@@ -15,6 +18,8 @@ import javax.swing.table.DefaultTableModel;
 public class TambahStokKeluar extends javax.swing.JPanel {
 
     private  javax.swing.JTable targetTable;
+    private ArrayList<Item> daftarItem = new ArrayList<>();
+
 
     /**
      * Creates new form TambahObat
@@ -22,6 +27,24 @@ public class TambahStokKeluar extends javax.swing.JPanel {
     public TambahStokKeluar(javax.swing.JTable targetTable) {
         initComponents();
         this.targetTable = targetTable;
+        loadNamaItem();
+    }
+    
+    public void loadNamaItem(){
+    
+        daftarItem.clear();
+        daftarItem.addAll(MainApp.stokService.getSemuaObat());
+        daftarItem.addAll(MainApp.stokService.getSemuaBahanRacikan());
+        daftarItem.addAll(MainApp.stokService.getSemuaNonObat());
+        
+        DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
+        model.addElement("Pilih Item...");
+        
+        for (Item item : daftarItem){
+            model.addElement(item.getNamaItem());
+        }
+        
+        NamaItem.setModel(model);
     }
     
     
@@ -43,7 +66,6 @@ public class TambahStokKeluar extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         jDatePicker1 = new org.jdatepicker.JDatePicker();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jTextField2 = new javax.swing.JTextField();
         jTextField3 = new javax.swing.JTextField();
@@ -54,6 +76,7 @@ public class TambahStokKeluar extends javax.swing.JPanel {
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jComboBox2 = new javax.swing.JComboBox<>();
+        NamaItem = new javax.swing.JComboBox<>();
 
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -97,9 +120,6 @@ public class TambahStokKeluar extends javax.swing.JPanel {
         jLabel2.setForeground(new java.awt.Color(0, 145, 55));
         jLabel2.setText("Nama Barang");
 
-        jTextField1.setText("Nama Produk");
-        jTextField1.addActionListener(this::jTextField1ActionPerformed);
-
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(0, 145, 55));
         jLabel3.setText("Jumlah Keluar");
@@ -137,6 +157,9 @@ public class TambahStokKeluar extends javax.swing.JPanel {
 
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pilih...", "Produk Rusak", "Produk Kadaluarsa", "Pemakaian Internal", "Retur ke Pemasok" }));
 
+        NamaItem.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        NamaItem.addActionListener(this::NamaItemActionPerformed);
+
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
         jPanel10Layout.setHorizontalGroup(
@@ -152,8 +175,8 @@ public class TambahStokKeluar extends javax.swing.JPanel {
                     .addComponent(jLabel1)
                     .addComponent(jDatePicker1, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField1)
-                    .addComponent(jTextField2))
+                    .addComponent(jTextField2)
+                    .addComponent(NamaItem, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 321, Short.MAX_VALUE)
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel5)
@@ -189,15 +212,14 @@ public class TambahStokKeluar extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2)
                     .addGroup(jPanel10Layout.createSequentialGroup()
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox1)))
+                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(NamaItem, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel10Layout.createSequentialGroup()
@@ -238,10 +260,6 @@ public class TambahStokKeluar extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_ItemID2ActionPerformed
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
-
     private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField3ActionPerformed
@@ -262,15 +280,77 @@ public class TambahStokKeluar extends javax.swing.JPanel {
             tanggal = sdf.format(cal.getTime());
         }
         String idBarang = jTextField3.getText().trim();
-        String namaBarang = jTextField1.getText().trim();
+        String namaBarang = (String) NamaItem.getSelectedItem();
         String kategori = (String) jComboBox1.getSelectedItem();
-        String jumlahKeluar = jTextField2.getText().trim();
+        String jumlahKeluarStr = jTextField2.getText().trim();
         String alasan = (String) jComboBox2.getSelectedItem();
 
-        if (namaBarang.isEmpty() || idBarang.isEmpty() || jumlahKeluar.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Mohon lengkapi data wajib (ID Barang, Nama Barang, Jumlah Masuk)!");
+        if (namaBarang == null || namaBarang.equals("Pilih Item...")
+            || idBarang.isEmpty() || jumlahKeluarStr.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Mohon lengkapi data wajib (Nama Barang, ID Barang, Jumlah Keluar)!");
+        return;
+        }
+
+    if (alasan == null || alasan.equals("Pilih...")) {
+        JOptionPane.showMessageDialog(this, "Mohon pilih alasan stok keluar!");
+        return;
+    }
+    
+    //Validasi jumlah harus angka
+       int jumlahKeluar;
+    try {
+        jumlahKeluar = Integer.parseInt(jumlahKeluarStr);
+        if (jumlahKeluar <= 0) {
+            JOptionPane.showMessageDialog(this, "Jumlah Keluar harus lebih dari 0!");
             return;
         }
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "Jumlah Keluar harus berupa angka bulat!");
+        return;
+    }
+    
+    // Cari Item dari Daftar Item
+    Item itemDipilih = null;
+    for (Item item: daftarItem){
+        if (item.getNamaItem().equals(namaBarang)){
+            itemDipilih = item;
+            break;
+        }
+    }
+    
+    if (itemDipilih == null){
+        JOptionPane.showMessageDialog(this, "Item tidak ditemukan di Sistem!");
+        return;
+    }
+    
+    if (jumlahKeluar > itemDipilih.getQuantity()){
+        JOptionPane.showMessageDialog(this, "Stok tidak cukup! Stok tersedia: " + itemDipilih.getQuantity(), "Gagal", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+    
+    // Kurangi Stok Real Time melalui StokService sesuai Jenis Item
+    try{
+        int sisaStok = itemDipilih.getQuantity() - jumlahKeluar;
+        itemDipilih.setQuantity(sisaStok);
+        
+        if(itemDipilih instanceof com.mycompany.apotekertest.model.ObatOTC){
+            MainApp.stokService.updateObat((com.mycompany.apotekertest.model.ObatOTC) itemDipilih);
+        }
+        
+        else if(itemDipilih instanceof com.mycompany.apotekertest.model.BahanRacikan){
+            MainApp.stokService.updateBahanRacikan((com.mycompany.apotekertest.model.BahanRacikan) itemDipilih);
+        }
+        
+        
+        else if(itemDipilih instanceof com.mycompany.apotekertest.model.NonObat){
+            MainApp.stokService.updateNonObat((com.mycompany.apotekertest.model.NonObat) itemDipilih);
+        }
+        
+    } catch (com.mycompany.apotekertest.exception.ItemNotFoundException e) {
+        JOptionPane.showMessageDialog(this, "Gagal update stok: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+    
 
         if (targetTable != null) {
             DefaultTableModel model = (DefaultTableModel) targetTable.getModel();
@@ -278,8 +358,8 @@ public class TambahStokKeluar extends javax.swing.JPanel {
     Object[] data = {
         namaBarang,
         idBarang,
-        kategori,
         jumlahKeluar,
+        kategori,
         tanggal,
         alasan
     };
@@ -299,13 +379,42 @@ public class TambahStokKeluar extends javax.swing.JPanel {
     if (!ditemukanKosong) {
         model.addRow(data);
     }
+    JOptionPane.showMessageDialog(this, "Stok keluar berhasil disimpan");
     javax.swing.SwingUtilities.getWindowAncestor(this).dispose();
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    private void NamaItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NamaItemActionPerformed
+        String selected = (String) NamaItem.getSelectedItem();
+
+        if(selected == null || selected.equals("Pilih Item...")){
+            jTextField3.setText("");
+            jComboBox1.setSelectedIndex(0);
+            return;
+        }
+
+        for (Item item : daftarItem) {
+            if (item.getNamaItem().equals(selected)) {
+
+                jTextField3.setText(item.getIdItem());
+
+                // Tentukan kategori otomatis berdasarkan jenis item
+                if (item instanceof com.mycompany.apotekertest.model.ObatOTC) {
+                    jComboBox1.setSelectedItem("Obat OTC");
+                } else if (item instanceof com.mycompany.apotekertest.model.BahanRacikan) {
+                    jComboBox1.setSelectedItem("Bahan Racikan");
+                } else if (item instanceof com.mycompany.apotekertest.model.NonObat) {
+                    jComboBox1.setSelectedItem("Non Obat");
+                }
+                break;
+            }
+        }
+    }//GEN-LAST:event_NamaItemActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField ItemID2;
+    private javax.swing.JComboBox<String> NamaItem;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JComboBox<String> jComboBox1;
@@ -321,7 +430,6 @@ public class TambahStokKeluar extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel5;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     // End of variables declaration//GEN-END:variables

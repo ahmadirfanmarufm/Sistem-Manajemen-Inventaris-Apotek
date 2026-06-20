@@ -111,7 +111,7 @@ public class StokKeluarPanel extends javax.swing.JPanel {
                 {null, null, null, null, null, null}
             },
             new String [] {
-                "Nama Barang", "ID Barang", "Jumlah Keliar", "Kategori", "Tanggal", "Alasan"
+                "Nama Barang", "ID Barang", "Jumlah Keluar", "Kategori", "Tanggal", "Alasan"
             }
         ));
         jScrollPane1.setViewportView(tabelStokKeluar);
