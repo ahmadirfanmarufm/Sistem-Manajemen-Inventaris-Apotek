@@ -49,6 +49,10 @@ public class TambahStokMasuk extends javax.swing.JPanel {
         
         NamaItem.setModel(model);
     }
+    
+   
+    
+    
 
 
     
@@ -70,7 +74,6 @@ public class TambahStokMasuk extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         jDatePicker1 = new org.jdatepicker.JDatePicker();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jTextField2 = new javax.swing.JTextField();
         jTextField3 = new javax.swing.JTextField();
@@ -124,9 +127,6 @@ public class TambahStokMasuk extends javax.swing.JPanel {
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 145, 55));
         jLabel2.setText("Nama Barang");
-
-        jTextField1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jTextField1.addActionListener(this::jTextField1ActionPerformed);
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(0, 145, 55));
@@ -186,11 +186,9 @@ public class TambahStokMasuk extends javax.swing.JPanel {
                     .addComponent(jLabel1)
                     .addComponent(jDatePicker1, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField1)
-                    .addComponent(jTextField2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
-                .addComponent(NamaItem, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jTextField2)
+                    .addComponent(NamaItem, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 321, Short.MAX_VALUE)
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel5)
                     .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
@@ -214,41 +212,34 @@ public class TambahStokMasuk extends javax.swing.JPanel {
             .addGroup(jPanel10Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
                 .addComponent(jLabel9)
+                .addGap(41, 41, 41)
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addGap(41, 41, 41)
-                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel10Layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jDatePicker1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel10Layout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel10Layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel10Layout.createSequentialGroup()
-                                .addComponent(jLabel6)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jComboBox1)))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel10Layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel10Layout.createSequentialGroup()
-                                .addComponent(jLabel7)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(jDatePicker1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addGap(24, 24, 24)
-                        .addComponent(NamaItem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+                    .addComponent(NamaItem))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel10Layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel10Layout.createSequentialGroup()
+                        .addComponent(jLabel7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 211, Short.MAX_VALUE)
                 .addComponent(buttonSimpan, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(23, 23, 23))
@@ -279,10 +270,6 @@ public class TambahStokMasuk extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_ItemID2ActionPerformed
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
-
     private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField3ActionPerformed
@@ -309,7 +296,7 @@ public class TambahStokMasuk extends javax.swing.JPanel {
             tanggal = sdf.format(cal.getTime());
         }
         String idBarang = jTextField3.getText().trim();
-        String namaBarang = jTextField1.getText().trim();
+        String namaBarang = (String) NamaItem.getSelectedItem();
         String kategori = (String) jComboBox1.getSelectedItem();
         String jumlahMasuk = jTextField2.getText().trim();
         String pemasok = jTextField5.getText().trim();
@@ -353,8 +340,7 @@ public class TambahStokMasuk extends javax.swing.JPanel {
     private void NamaItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NamaItemActionPerformed
         String selected = (String) NamaItem.getSelectedItem();
         
-        if(selected == null | selected.equals("Pilih Item...")){
-            jTextField1.setText("");
+        if(selected == null || selected.equals("Pilih Item...")){
             jTextField3.setText("");
             jComboBox1.setSelectedIndex(0);
             return;
@@ -362,8 +348,8 @@ public class TambahStokMasuk extends javax.swing.JPanel {
         
          for (Item item : daftarItem) {
         if (item.getNamaItem().equals(selected)) {
-            jTextField1.setText(item.getNamaItem());   // Nama Barang
-            jTextField3.setText(item.getIdItem());      // ID Barang
+           
+            jTextField3.setText(item.getIdItem()); 
 
             // Tentukan kategori otomatis berdasarkan jenis item
             if (item instanceof com.mycompany.apotekertest.model.ObatOTC) {
@@ -376,8 +362,12 @@ public class TambahStokMasuk extends javax.swing.JPanel {
             break;
             }
         }
+       
+         
+         
     }//GEN-LAST:event_NamaItemActionPerformed
 
+     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField ItemID2;
@@ -396,7 +386,6 @@ public class TambahStokMasuk extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel5;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField5;
