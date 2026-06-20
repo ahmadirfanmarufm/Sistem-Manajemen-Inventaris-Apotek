@@ -462,6 +462,8 @@ public class ProdukContentPanel extends javax.swing.JPanel {
     private void btnTambahObatOTCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahObatOTCActionPerformed
         JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), "Input Data Obat", true);
         TambahItem panel = new TambahItem();
+        panel.setJenisItem("Obat OTC");
+                
         dialog.setContentPane(panel);
         dialog.pack();
         dialog.setLocationRelativeTo(this);
@@ -476,6 +478,8 @@ public class ProdukContentPanel extends javax.swing.JPanel {
     private void btnTambahBahanRacikanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahBahanRacikanActionPerformed
         JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), "Input Data Obat", true);
         TambahItem panel = new TambahItem();
+        panel.setJenisItem("Bahan Racikan");
+        
         dialog.setContentPane(panel);
         dialog.pack();
         dialog.setLocationRelativeTo(this);
@@ -490,6 +494,8 @@ public class ProdukContentPanel extends javax.swing.JPanel {
     private void btnTambahNonObatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahNonObatActionPerformed
         JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), "Input Data Obat", true);
         TambahItem panel = new TambahItem();
+        panel.setJenisItem("Non Obat");
+        
         dialog.setContentPane(panel);
         dialog.pack();
         dialog.setLocationRelativeTo(this);

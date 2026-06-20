@@ -13,7 +13,6 @@ import javax.swing.*;
 
 public class TambahItem extends javax.swing.JPanel {
     
-    
     public TambahItem() {
         initComponents();
         //Menyembunyikan semua field khusus di awal
@@ -29,6 +28,10 @@ public class TambahItem extends javax.swing.JPanel {
         
         //Agar posisi field tidak bergeser saat component dihide 
         ((javax.swing.GroupLayout) this.getLayout()).setHonorsVisibility(false);
+    }
+    
+    public void setJenisItem(String jenis) {
+        JenisItem1.setSelectedItem(jenis);
     }
     
     //Exception apabila text field tidak diisi
@@ -406,12 +409,14 @@ public class TambahItem extends javax.swing.JPanel {
 
     private void JenisItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JenisItem1ActionPerformed
         String jenis = JenisItem1.getSelectedItem().toString().trim();
-
         // Tampilkan sesuai pilihan
         switch (jenis) {
  
             case "Obat OTC":
                 //Memerlukan field untuk input kategori obat, harga beli, dan harga jual
+                satuanInput.setVisible(false);
+                lblKategori.setVisible(false);
+                kategoriInput.setVisible(false);
                 kategoriObatInput.setVisible(true);
                 lblKategoriObat.setVisible(true);
                 hargaBeliInput.setVisible(true);
@@ -423,6 +428,14 @@ public class TambahItem extends javax.swing.JPanel {
             case "Bahan Racikan":
                 //Memerlukan field untuk input satuan
                 satuanInput.setVisible(true);
+                lblKategori.setVisible(false);
+                kategoriInput.setVisible(false);
+                lblKategoriObat.setVisible(false);
+                kategoriObatInput.setVisible(false);
+                lblHargaBeli.setVisible(false);
+                hargaBeliInput.setVisible(false);
+                lblHargaJual.setVisible(false);
+                hargaJualInput.setVisible(false);
                 break;
                 
             case "Non Obat":
@@ -433,6 +446,9 @@ public class TambahItem extends javax.swing.JPanel {
                 lblHargaBeli.setVisible(true);
                 hargaJualInput.setVisible(true);
                 lblHargaJual.setVisible(true);
+                satuanInput.setVisible(false);
+                lblKategoriObat.setVisible(false);
+                kategoriObatInput.setVisible(false);
                 break;
         }
     }//GEN-LAST:event_JenisItem1ActionPerformed
@@ -450,8 +466,8 @@ public class TambahItem extends javax.swing.JPanel {
     }//GEN-LAST:event_itemIdInputActionPerformed
 
     private void simpanButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_simpanButtonActionPerformed
+
         String jenis = JenisItem1.getSelectedItem().toString().trim();
-        
         //Menyesuaikan dengan jenis item
         if (jenis.equals("Jenis Item")) {
             //Warning untuk mengisi field jenis item
@@ -509,6 +525,7 @@ public class TambahItem extends javax.swing.JPanel {
         } catch (DuplicateItemException | InvalidInputException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Gagal Menambah Item", JOptionPane.ERROR_MESSAGE);
         }
+        
     }//GEN-LAST:event_simpanButtonActionPerformed
 
     private void resetForm() {
