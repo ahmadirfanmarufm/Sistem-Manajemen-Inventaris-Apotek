@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 C:\Rafly\Data Rafly\Semester 2\DPBO\Tubes\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\mycompany\apotekertest\exception\ApotekException.java
 C:\Rafly\Data Rafly\Semester 2\DPBO\Tubes\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\mycompany\apotekertest\exception\DuplicateItemException.java
 C:\Rafly\Data Rafly\Semester 2\DPBO\Tubes\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\mycompany\apotekertest\exception\InvalidInputException.java
@@ -56,3 +57,61 @@ C:\Rafly\Data Rafly\Semester 2\DPBO\Tubes\Sistem-Manajemen-Inventaris-Apotek\src
 C:\Rafly\Data Rafly\Semester 2\DPBO\Tubes\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\mycompany\apotekertest\ui\TambahItem.java
 C:\Rafly\Data Rafly\Semester 2\DPBO\Tubes\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\mycompany\apotekertest\ui\TambahStokKeluar.java
 C:\Rafly\Data Rafly\Semester 2\DPBO\Tubes\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\mycompany\apotekertest\ui\TambahStokMasuk.java
+=======
+C:\Users\diazs\OneDrive\Dokumen\Tugas\Semester2\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\mycompany\apotekertest\exception\ApotekException.java
+C:\Users\diazs\OneDrive\Dokumen\Tugas\Semester2\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\mycompany\apotekertest\exception\DuplicateItemException.java
+C:\Users\diazs\OneDrive\Dokumen\Tugas\Semester2\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\mycompany\apotekertest\exception\InvalidInputException.java
+C:\Users\diazs\OneDrive\Dokumen\Tugas\Semester2\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\mycompany\apotekertest\exception\ItemNotFoundException.java
+C:\Users\diazs\OneDrive\Dokumen\Tugas\Semester2\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\mycompany\apotekertest\exception\StockNotEnoughException.java
+C:\Users\diazs\OneDrive\Dokumen\Tugas\Semester2\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\mycompany\apotekertest\exception\UserNotFoundException.java
+C:\Users\diazs\OneDrive\Dokumen\Tugas\Semester2\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\mycompany\apotekertest\laporan\Laporan.java
+C:\Users\diazs\OneDrive\Dokumen\Tugas\Semester2\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\mycompany\apotekertest\laporan\LaporanPenjualan.java
+C:\Users\diazs\OneDrive\Dokumen\Tugas\Semester2\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\mycompany\apotekertest\laporan\LaporanStok.java
+C:\Users\diazs\OneDrive\Dokumen\Tugas\Semester2\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\mycompany\apotekertest\model\Apoteker.java
+C:\Users\diazs\OneDrive\Dokumen\Tugas\Semester2\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\mycompany\apotekertest\model\BahanRacikan.java
+C:\Users\diazs\OneDrive\Dokumen\Tugas\Semester2\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\mycompany\apotekertest\model\Item.java
+C:\Users\diazs\OneDrive\Dokumen\Tugas\Semester2\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\mycompany\apotekertest\model\NonObat.java
+C:\Users\diazs\OneDrive\Dokumen\Tugas\Semester2\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\mycompany\apotekertest\model\NotifikasiStok.java
+C:\Users\diazs\OneDrive\Dokumen\Tugas\Semester2\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\mycompany\apotekertest\model\ObatOTC.java
+C:\Users\diazs\OneDrive\Dokumen\Tugas\Semester2\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\mycompany\apotekertest\model\PJApoteker.java
+C:\Users\diazs\OneDrive\Dokumen\Tugas\Semester2\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\mycompany\apotekertest\model\RekapanTransaksi.java
+C:\Users\diazs\OneDrive\Dokumen\Tugas\Semester2\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\mycompany\apotekertest\model\StokMasuk.java
+C:\Users\diazs\OneDrive\Dokumen\Tugas\Semester2\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\mycompany\apotekertest\model\Transaksi.java
+C:\Users\diazs\OneDrive\Dokumen\Tugas\Semester2\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\mycompany\apotekertest\model\User.java
+C:\Users\diazs\OneDrive\Dokumen\Tugas\Semester2\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\mycompany\apotekertest\repository\TransaksiRepository.java
+C:\Users\diazs\OneDrive\Dokumen\Tugas\Semester2\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\mycompany\apotekertest\repository\UserRepository.java
+C:\Users\diazs\OneDrive\Dokumen\Tugas\Semester2\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\mycompany\apotekertest\service\LoginSession.java
+C:\Users\diazs\OneDrive\Dokumen\Tugas\Semester2\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\mycompany\apotekertest\service\StokService.java
+C:\Users\diazs\OneDrive\Dokumen\Tugas\Semester2\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\mycompany\apotekertest\service\TransaksiService.java
+C:\Users\diazs\OneDrive\Dokumen\Tugas\Semester2\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\mycompany\apotekertest\service\UserService.java
+C:\Users\diazs\OneDrive\Dokumen\Tugas\Semester2\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\mycompany\apotekertest\stok\Manageable.java
+C:\Users\diazs\OneDrive\Dokumen\Tugas\Semester2\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\mycompany\apotekertest\stok\Stok.java
+C:\Users\diazs\OneDrive\Dokumen\Tugas\Semester2\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\mycompany\apotekertest\stok\StokBahanRacikan.java
+C:\Users\diazs\OneDrive\Dokumen\Tugas\Semester2\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\mycompany\apotekertest\stok\StokNonObat.java
+C:\Users\diazs\OneDrive\Dokumen\Tugas\Semester2\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\mycompany\apotekertest\stok\StokObatOTC.java
+C:\Users\diazs\OneDrive\Dokumen\Tugas\Semester2\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\mycompany\apotekertest\ui\AuditStokPanel.java
+C:\Users\diazs\OneDrive\Dokumen\Tugas\Semester2\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\mycompany\apotekertest\ui\DashboardApoteker.java
+C:\Users\diazs\OneDrive\Dokumen\Tugas\Semester2\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\mycompany\apotekertest\ui\DashboardApotekerFrame.java
+C:\Users\diazs\OneDrive\Dokumen\Tugas\Semester2\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\mycompany\apotekertest\ui\DashboardApotekerPanel.java
+C:\Users\diazs\OneDrive\Dokumen\Tugas\Semester2\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\mycompany\apotekertest\ui\DashboardContentPanel.java
+C:\Users\diazs\OneDrive\Dokumen\Tugas\Semester2\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\mycompany\apotekertest\ui\DashboardPJApoteker.java
+C:\Users\diazs\OneDrive\Dokumen\Tugas\Semester2\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\mycompany\apotekertest\ui\DashboardPJApotekerFrame.java
+C:\Users\diazs\OneDrive\Dokumen\Tugas\Semester2\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\mycompany\apotekertest\ui\HeaderLayout.java
+C:\Users\diazs\OneDrive\Dokumen\Tugas\Semester2\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\mycompany\apotekertest\ui\HeaderPanel.java
+C:\Users\diazs\OneDrive\Dokumen\Tugas\Semester2\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\mycompany\apotekertest\ui\InventarisPanel.java
+C:\Users\diazs\OneDrive\Dokumen\Tugas\Semester2\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\mycompany\apotekertest\ui\LaporanPanel.java
+C:\Users\diazs\OneDrive\Dokumen\Tugas\Semester2\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\mycompany\apotekertest\ui\LoginFrame.java
+C:\Users\diazs\OneDrive\Dokumen\Tugas\Semester2\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\mycompany\apotekertest\ui\MainApp.java
+C:\Users\diazs\OneDrive\Dokumen\Tugas\Semester2\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\mycompany\apotekertest\ui\NotifikasiPanel.java
+C:\Users\diazs\OneDrive\Dokumen\Tugas\Semester2\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\mycompany\apotekertest\ui\PenjualanPanel.java
+C:\Users\diazs\OneDrive\Dokumen\Tugas\Semester2\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\mycompany\apotekertest\ui\ProdukContentPanel.java
+C:\Users\diazs\OneDrive\Dokumen\Tugas\Semester2\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\mycompany\apotekertest\ui\RingkasanPanel.java
+C:\Users\diazs\OneDrive\Dokumen\Tugas\Semester2\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\mycompany\apotekertest\ui\SiderbarApotekerPanel.java
+C:\Users\diazs\OneDrive\Dokumen\Tugas\Semester2\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\mycompany\apotekertest\ui\SiderbarPJApotekerPanel.java
+C:\Users\diazs\OneDrive\Dokumen\Tugas\Semester2\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\mycompany\apotekertest\ui\StokKeluarPanel.java
+C:\Users\diazs\OneDrive\Dokumen\Tugas\Semester2\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\mycompany\apotekertest\ui\StokMasuk.java
+C:\Users\diazs\OneDrive\Dokumen\Tugas\Semester2\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\mycompany\apotekertest\ui\StokMasukPanel.java
+C:\Users\diazs\OneDrive\Dokumen\Tugas\Semester2\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\mycompany\apotekertest\ui\TambahItem.java
+C:\Users\diazs\OneDrive\Dokumen\Tugas\Semester2\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\mycompany\apotekertest\ui\TambahStokKeluar.java
+C:\Users\diazs\OneDrive\Dokumen\Tugas\Semester2\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\mycompany\apotekertest\ui\TambahStokMasuk.java
+>>>>>>> 0ef8a18e694ac0d8ce2f76ebc5742f983bc44c40

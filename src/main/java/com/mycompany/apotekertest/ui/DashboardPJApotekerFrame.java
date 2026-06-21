@@ -20,6 +20,7 @@ public class DashboardPJApotekerFrame extends JFrame {
     
     private CardLayout cardLayout;
     private JPanel contentContainer;
+    private DashboardContentPanel dashboardPanel;
 
     /**
      * Creates new form DashboardApotekerFrame
@@ -36,6 +37,9 @@ public class DashboardPJApotekerFrame extends JFrame {
     
     public void showPage(String name) {
         cardLayout.show(contentContainer, name);
+        if (name.equals("dashboard")) {
+        dashboardPanel.refreshTotalKategori();
+    }
     }
     
     private void initCustomLayout() {
@@ -43,7 +47,7 @@ public class DashboardPJApotekerFrame extends JFrame {
         getContentPane().setLayout(new BorderLayout());
 
         SiderbarPJApotekerPanel sidebar = new SiderbarPJApotekerPanel(this);
-        DashboardContentPanel dashboardPanel = new DashboardContentPanel();
+        dashboardPanel = new DashboardContentPanel();
         
         JScrollPane dashboardScrollPane = new JScrollPane(dashboardPanel); 
 

@@ -197,7 +197,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="37" green="91" red="0" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Tambah Stok Masuk"/>
+            <Property name="text" type="java.lang.String" value="Tambah Stok Keluar"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel1">
@@ -333,15 +333,19 @@
         <Component class="javax.swing.JComboBox" name="jComboBox2">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="5">
+              <StringArray count="6">
                 <StringItem index="0" value="Pilih..."/>
                 <StringItem index="1" value="Produk Rusak"/>
                 <StringItem index="2" value="Produk Kadaluarsa"/>
                 <StringItem index="3" value="Pemakaian Internal"/>
                 <StringItem index="4" value="Retur ke Pemasok"/>
+                <StringItem index="5" value="Terjual"/>
               </StringArray>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBox2ActionPerformed"/>
+          </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
