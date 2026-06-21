@@ -10,6 +10,7 @@ import javax.swing.table.DefaultTableModel;
 import com.mycompany.apotekertest.model.Item;
 import javax.swing.DefaultComboBoxModel;
 import java.util.ArrayList;
+import javax.swing.JTextField;
 
 /**
  *
@@ -28,6 +29,36 @@ public class TambahStokKeluar extends javax.swing.JPanel {
         initComponents();
         this.targetTable = targetTable;
         loadNamaItem();
+        NamaItem.setEditable(true);
+        searchFilter();
+    }
+    
+    // Fitur search dan filter item
+    public void searchFilter() { 
+        JTextField editor = (JTextField) NamaItem.getEditor().getEditorComponent(); // Mengambil inputan yang diketik di JComboBox menjadi format JTextField
+        editor.addKeyListener(new java.awt.event.KeyAdapter() { // Membaca input keyboard
+            @Override
+            public void keyReleased(java.awt.event.KeyEvent e) { 
+                javax.swing.SwingUtilities.invokeLater(() -> { // Multithreading Swing (memastikan aplikasi tidak macet / freeze saat mengetik)
+                    //Mengambil input pengguna dari JTextField editor
+                    String input = editor.getText(); 
+                    DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(); // Membuat component ComboBoxModel yang menyimpan list barang / selection
+                    model.addElement("Pilih Item...");
+
+                    // Filter pencarian item berdasarkan input
+                    for (Item item : daftarItem) {
+                        if (item.getNamaItem().toLowerCase().contains(input.toLowerCase())) {
+                            model.addElement(item.getNamaItem()); //Menambahkan item yang sesuai input ke selection / pilihan
+                        }
+                    }
+                    
+                    //Mengset model JComboBox NamaItem sesuai model baru yang dihasilkan setelah filter
+                    NamaItem.setModel(model);
+                    editor.setText(input); // Kembalikan teks yang sedang diketik
+                    if (!input.isEmpty()) NamaItem.showPopup(); // Tampilkan dropdown otomatis
+                });
+            }
+        });
     }
     
     public void loadNamaItem(){

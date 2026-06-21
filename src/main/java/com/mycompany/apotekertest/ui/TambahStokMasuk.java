@@ -11,7 +11,6 @@ import com.mycompany.apotekertest.model.Item;
 import javax.swing.DefaultComboBoxModel;
 import java.util.ArrayList;
 import javax.swing.JTextField;
-import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 /**
  *
  * @author Dean Akmal

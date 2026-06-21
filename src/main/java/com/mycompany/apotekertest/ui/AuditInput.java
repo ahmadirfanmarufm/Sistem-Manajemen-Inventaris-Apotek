@@ -10,6 +10,7 @@ import javax.swing.table.DefaultTableModel;
 import com.mycompany.apotekertest.model.Item;
 import javax.swing.DefaultComboBoxModel;
 import java.util.ArrayList;
+import javax.swing.JTextField;
 /**
  *
  * @author Dean Akmal
@@ -18,36 +19,66 @@ public class AuditInput extends javax.swing.JPanel {
 
     private JTable targetTable;
     private ArrayList<Item> daftarItem = new ArrayList<>();
-    /**
-     * Creates new form TambahObat
-     */
-public AuditInput() {
-    initComponents();
-    jTextField3.setEditable(false);   // ID Barang: auto-fill, readonly
-    jTextField1.setEditable(false);   // Auditor: auto-fill dari user login, readonly
-    isiAuditorDariLogin();
-    loadNamaItem();
-}
-
-public AuditInput(JTable targetTable) {
-    initComponents();
-    this.targetTable = targetTable;
-    jTextField3.setEditable(false);   // ID Barang: auto-fill, readonly
-    jTextField1.setEditable(false);   // Auditor: auto-fill dari user login, readonly
-    isiAuditorDariLogin();
-    loadNamaItem();
-}
-
-private void isiAuditorDariLogin() {
-    com.mycompany.apotekertest.model.User currentUser = 
-        com.mycompany.apotekertest.service.LoginSession.getCurrentUser();
-    if (currentUser != null) {
-        jTextField1.setText(currentUser.getName());
-    } else {
-        jTextField1.setText("Unknown");
-    }
-}   
     
+    public AuditInput() {
+        initComponents();
+        jTextField3.setEditable(false);   // ID Barang: auto-fill, readonly
+        jTextField1.setEditable(false);   // Auditor: auto-fill dari user login, readonly
+        isiAuditorDariLogin();
+        loadNamaItem();
+        NamaItem.setEditable(true); // Buka kunci ketikan
+        searchFilter(); // Pasang logika filter
+    }
+
+    public AuditInput(JTable targetTable) {
+        initComponents();
+        this.targetTable = targetTable;
+        jTextField3.setEditable(false);   // ID Barang: auto-fill, readonly
+        jTextField1.setEditable(false);   // Auditor: auto-fill dari user login, readonly
+        isiAuditorDariLogin();
+        loadNamaItem();
+        NamaItem.setEditable(true); // Buka kunci ketikan
+        searchFilter(); // Pasang logika filter
+    }
+    
+    // Fitur search dan filter item
+    public void searchFilter() { 
+        JTextField editor = (JTextField) NamaItem.getEditor().getEditorComponent(); // Mengambil inputan yang diketik di JComboBox menjadi format JTextField
+        editor.addKeyListener(new java.awt.event.KeyAdapter() { // Membaca input keyboard
+            @Override
+            public void keyReleased(java.awt.event.KeyEvent e) { 
+                javax.swing.SwingUtilities.invokeLater(() -> { // Multithreading Swing (memastikan aplikasi tidak macet / freeze saat mengetik)
+                    //Mengambil input pengguna dari JTextField editor
+                    String input = editor.getText(); 
+                    DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(); // Membuat component ComboBoxModel yang menyimpan list barang / selection
+                    model.addElement("Pilih Item...");
+
+                    // Filter pencarian item berdasarkan input
+                    for (Item item : daftarItem) {
+                        if (item.getNamaItem().toLowerCase().contains(input.toLowerCase())) {
+                            model.addElement(item.getNamaItem()); //Menambahkan item yang sesuai input ke selection / pilihan
+                        }
+                    }
+                    
+                    //Mengset model JComboBox NamaItem sesuai model baru yang dihasilkan setelah filter
+                    NamaItem.setModel(model);
+                    editor.setText(input); // Kembalikan teks yang sedang diketik
+                    if (!input.isEmpty()) NamaItem.showPopup(); // Tampilkan dropdown otomatis
+                });
+            }
+        });
+    }
+
+    private void isiAuditorDariLogin() {
+        com.mycompany.apotekertest.model.User currentUser = 
+            com.mycompany.apotekertest.service.LoginSession.getCurrentUser();
+        if (currentUser != null) {
+            jTextField1.setText(currentUser.getName());
+        } else {
+            jTextField1.setText("Unknown");
+        }
+    }   
+
     public void loadNamaItem(){
     
         daftarItem.clear();
@@ -166,6 +197,7 @@ private void isiAuditorDariLogin() {
         buttonSimpan.setText("Simpan");
         buttonSimpan.addActionListener(this::buttonSimpanActionPerformed);
 
+        NamaItem.setEditable(true);
         NamaItem.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         NamaItem.addActionListener(this::NamaItemActionPerformed);
 
@@ -265,58 +297,58 @@ private void isiAuditorDariLogin() {
 
     private void buttonSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSimpanActionPerformed
         // TODO add your handling code here:
-            String tanggal = "";
-    if (InputTanggal.getModel().getValue() != null) {
-        java.util.Calendar cal = (java.util.Calendar) InputTanggal.getModel().getValue();
-        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd/MM/yyyy");
-        tanggal = sdf.format(cal.getTime());
-    }
+        String tanggal = "";
+        if (InputTanggal.getModel().getValue() != null) {
+            java.util.Calendar cal = (java.util.Calendar) InputTanggal.getModel().getValue();
+            java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd/MM/yyyy");
+            tanggal = sdf.format(cal.getTime());
+        }
 
-    String idBarang = jTextField3.getText().trim();
-    String namaBarang = (String) NamaItem.getSelectedItem();
-    String stokFisikStr = jTextField2.getText().trim();
-    String auditor = jTextField1.getText().trim();
+        String idBarang = jTextField3.getText().trim();
+        String namaBarang = (String) NamaItem.getSelectedItem();
+        String stokFisikStr = jTextField2.getText().trim();
+        String auditor = jTextField1.getText().trim();
 
-    if (namaBarang == null || namaBarang.equals("Pilih Item...") || idBarang.isEmpty() || stokFisikStr.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Mohon lengkapi data wajib (Nama Barang, Stok Fisik)!");
-        return;
-    }
-
-    int stokFisik;
-    try {
-        stokFisik = Integer.parseInt(stokFisikStr);
-        if (stokFisik < 0) {
-            JOptionPane.showMessageDialog(this, "Stok Fisik tidak boleh negatif!");
+        if (namaBarang == null || namaBarang.equals("Pilih Item...") || idBarang.isEmpty() || stokFisikStr.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Mohon lengkapi data wajib (Nama Barang, Stok Fisik)!");
             return;
         }
-    } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(this, "Stok Fisik harus berupa angka bulat!");
-        return;
-    }
 
-    Item itemDipilih = null;
-    for (Item item : daftarItem) {
-        if (item.getNamaItem().equals(namaBarang)) {
-            itemDipilih = item;
-            break;
+        int stokFisik;
+        try {
+            stokFisik = Integer.parseInt(stokFisikStr);
+            if (stokFisik < 0) {
+                JOptionPane.showMessageDialog(this, "Stok Fisik tidak boleh negatif!");
+                return;
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Stok Fisik harus berupa angka bulat!");
+            return;
         }
-    }
 
-    if (itemDipilih == null) {
-        JOptionPane.showMessageDialog(this, "Item tidak ditemukan di sistem!");
-        return;
-    }
+        Item itemDipilih = null;
+        for (Item item : daftarItem) {
+            if (item.getNamaItem().equals(namaBarang)) {
+                itemDipilih = item;
+                break;
+            }
+        }
 
-    int stokSistem = itemDipilih.getQuantity();
-    int selisih = stokFisik - stokSistem;
-    String statusAudit = (selisih == 0) ? "Sesuai" : "Selisih";
+        if (itemDipilih == null) {
+            JOptionPane.showMessageDialog(this, "Item tidak ditemukan di sistem!");
+            return;
+        }
 
-    // Simpan hasil audit ke memory (AuditService), supaya AuditStokPanel bisa nampilinnya
-    com.mycompany.apotekertest.service.AuditService.simpanHasilAudit(
-        idBarang, stokFisik, stokSistem, selisih, statusAudit, tanggal, auditor
-    );
+        int stokSistem = itemDipilih.getQuantity();
+        int selisih = stokFisik - stokSistem;
+        String statusAudit = (selisih == 0) ? "Sesuai" : "Selisih";
 
-    javax.swing.SwingUtilities.getWindowAncestor(this).dispose();
+        // Simpan hasil audit ke memory (AuditService), supaya AuditStokPanel bisa nampilinnya
+        com.mycompany.apotekertest.service.AuditService.simpanHasilAudit(
+            idBarang, stokFisik, stokSistem, selisih, statusAudit, tanggal, auditor
+        );
+
+        javax.swing.SwingUtilities.getWindowAncestor(this).dispose();
     }//GEN-LAST:event_buttonSimpanActionPerformed
 
     private void NamaItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NamaItemActionPerformed

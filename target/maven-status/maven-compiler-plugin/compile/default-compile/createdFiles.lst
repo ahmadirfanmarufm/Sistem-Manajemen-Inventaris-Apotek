@@ -47,6 +47,7 @@ com\mycompany\apotekertest\ui\DashboardPJApotekerFrame.class
 com\mycompany\apotekertest\ui\StokMasuk.class
 com\mycompany\apotekertest\laporan\Laporan.class
 com\mycompany\apotekertest\ui\StokKeluarPanel.class
+com\mycompany\apotekertest\ui\AuditInput$1.class
 com\mycompany\apotekertest\model\User.class
 com\mycompany\apotekertest\service\UserService.class
 com\mycompany\apotekertest\ui\AuditInput.class

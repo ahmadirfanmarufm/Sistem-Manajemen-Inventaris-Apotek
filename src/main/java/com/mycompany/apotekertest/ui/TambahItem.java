@@ -28,6 +28,8 @@ public class TambahItem extends javax.swing.JPanel {
         
         //Agar posisi field tidak bergeser saat component dihide 
         ((javax.swing.GroupLayout) this.getLayout()).setHonorsVisibility(false);
+        
+        
     }
     
     public void setJenisItem(String jenis) {
