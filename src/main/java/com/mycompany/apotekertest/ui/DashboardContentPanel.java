@@ -13,6 +13,9 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javax.swing.JPanel;
+import com.mycompany.apotekertest.model.ObatOTC;
+import com.mycompany.apotekertest.model.BahanRacikan;
+import com.mycompany.apotekertest.model.NonObat;
 
 /**
  *
@@ -21,6 +24,29 @@ import javax.swing.JPanel;
 public class DashboardContentPanel extends JPanel {
     
     private boolean initialized = false;
+    
+    
+    public void refreshTotalKategori() {
+    int totalQuantityOTC = 0;
+    for (ObatOTC obat : MainApp.stokService.getSemuaObat()) {
+        totalQuantityOTC += obat.getQuantity();
+    }
+
+    int totalQuantityRacikan = 0;
+    for (BahanRacikan bahan : MainApp.stokService.getSemuaBahanRacikan()) {
+        totalQuantityRacikan += bahan.getQuantity();
+    }
+
+    int totalQuantityNonObat = 0;
+    for (NonObat nonObat : MainApp.stokService.getSemuaNonObat()) {
+        totalQuantityNonObat += nonObat.getQuantity();
+    }
+
+    totalObatOTC.setText(String.valueOf(totalQuantityOTC));
+    totalBahanRacikan.setText(String.valueOf(totalQuantityRacikan));
+    totalNonObat.setText(String.valueOf(totalQuantityNonObat));
+    totalTransaksiHariIni.setText(String.valueOf(MainApp.transaksiService.hitungTransaksiHariIni()));
+}
     
     private void initCharts() {
         if (initialized) return;
@@ -117,6 +143,8 @@ public class DashboardContentPanel extends JPanel {
         headerContainer.setLayout(new BorderLayout());
         headerContainer.add(new HeaderPanel(MainApp.stokService), BorderLayout.CENTER);
         initCharts();
+        
+        refreshTotalKategori();
     }
     
 
