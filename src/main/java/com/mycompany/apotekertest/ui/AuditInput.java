@@ -14,24 +14,39 @@ import java.util.ArrayList;
  *
  * @author Dean Akmal
  */
-public class TambahStokMasuk extends javax.swing.JPanel {
+public class AuditInput extends javax.swing.JPanel {
 
     private JTable targetTable;
     private ArrayList<Item> daftarItem = new ArrayList<>();
     /**
      * Creates new form TambahObat
      */
-    public TambahStokMasuk() {
-        initComponents();
-        loadNamaItem();
-            
+public AuditInput() {
+    initComponents();
+    jTextField3.setEditable(false);   // ID Barang: auto-fill, readonly
+    jTextField1.setEditable(false);   // Auditor: auto-fill dari user login, readonly
+    isiAuditorDariLogin();
+    loadNamaItem();
+}
+
+public AuditInput(JTable targetTable) {
+    initComponents();
+    this.targetTable = targetTable;
+    jTextField3.setEditable(false);   // ID Barang: auto-fill, readonly
+    jTextField1.setEditable(false);   // Auditor: auto-fill dari user login, readonly
+    isiAuditorDariLogin();
+    loadNamaItem();
+}
+
+private void isiAuditorDariLogin() {
+    com.mycompany.apotekertest.model.User currentUser = 
+        com.mycompany.apotekertest.service.LoginSession.getCurrentUser();
+    if (currentUser != null) {
+        jTextField1.setText(currentUser.getName());
+    } else {
+        jTextField1.setText("Unknown");
     }
-    
-    public TambahStokMasuk(JTable targetTable) {
-        initComponents();
-        this.targetTable = targetTable;
-        loadNamaItem();
-    }
+}   
     
     public void loadNamaItem(){
     
@@ -72,19 +87,17 @@ public class TambahStokMasuk extends javax.swing.JPanel {
         jPanel10 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        jDatePicker1 = new org.jdatepicker.JDatePicker();
+        InputTanggal = new org.jdatepicker.JDatePicker();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jTextField2 = new javax.swing.JTextField();
         jTextField3 = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox<>();
         buttonBatal = new javax.swing.JButton();
         buttonSimpan = new javax.swing.JButton();
         NamaItem = new javax.swing.JComboBox<>();
+        jLabel8 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
 
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -130,9 +143,10 @@ public class TambahStokMasuk extends javax.swing.JPanel {
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(0, 145, 55));
-        jLabel3.setText("Jumlah Masuk");
+        jLabel3.setText("Stok Fisik");
 
         jTextField2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jTextField2.addActionListener(this::jTextField2ActionPerformed);
 
         jTextField3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jTextField3.setText("cth. OTC-001");
@@ -141,22 +155,6 @@ public class TambahStokMasuk extends javax.swing.JPanel {
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(0, 145, 55));
         jLabel5.setText("ID Barang");
-
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(0, 145, 55));
-        jLabel6.setText("Kategori");
-
-        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(0, 145, 55));
-        jLabel7.setText("Pemasok");
-
-        jTextField5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jTextField5.setText("Nama Pemasok");
-        jTextField5.addActionListener(this::jTextField5ActionPerformed);
-
-        jComboBox1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pilih...", "Obat OTC", "Bahan Racikan", "Non Obat" }));
-        jComboBox1.addActionListener(this::jComboBox1ActionPerformed);
 
         buttonBatal.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         buttonBatal.setText("Batal");
@@ -171,96 +169,82 @@ public class TambahStokMasuk extends javax.swing.JPanel {
         NamaItem.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         NamaItem.addActionListener(this::NamaItemActionPerformed);
 
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(0, 145, 55));
+        jLabel8.setText("Auditor");
+
+        jTextField1.addActionListener(this::jTextField1ActionPerformed);
+
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
         jPanel10Layout.setHorizontalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel10Layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addComponent(jLabel9)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel10Layout.createSequentialGroup()
-                .addGap(54, 54, 54)
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel1)
-                    .addComponent(jDatePicker1, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
-                    .addComponent(jLabel2)
-                    .addComponent(jTextField2)
-                    .addComponent(NamaItem, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 321, Short.MAX_VALUE)
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel5)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
-                    .addComponent(jLabel6)
-                    .addComponent(jLabel7)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
-                    .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(59, 59, 59))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(buttonSimpan, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(14, 14, 14))
-            .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
-                    .addContainerGap(789, Short.MAX_VALUE)
-                    .addComponent(buttonBatal, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(145, 145, 145)))
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel10Layout.createSequentialGroup()
+                        .addComponent(buttonBatal, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26)
+                        .addComponent(buttonSimpan, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel1)
+                        .addComponent(InputTanggal, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel2)
+                        .addComponent(NamaItem, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel3)
+                        .addComponent(jLabel9)
+                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel5)))
+                .addGap(53, 53, 53))
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel10Layout.createSequentialGroup()
-                .addGap(15, 15, 15)
+                .addContainerGap()
                 .addComponent(jLabel9)
-                .addGap(41, 41, 41)
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jDatePicker1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
+                .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel6)
-                    .addComponent(jLabel2))
+                .addComponent(InputTanggal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
-                    .addComponent(NamaItem))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addComponent(jLabel7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 211, Short.MAX_VALUE)
-                .addComponent(buttonSimpan, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(NamaItem, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(80, 80, 80)
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(buttonSimpan, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(buttonBatal, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(23, 23, 23))
-            .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
-                    .addContainerGap(529, Short.MAX_VALUE)
-                    .addComponent(buttonBatal, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(23, 23, 23)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, 333, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
@@ -274,14 +258,6 @@ public class TambahStokMasuk extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField3ActionPerformed
 
-    private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField5ActionPerformed
-
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
-
     private void buttonBatalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonBatalActionPerformed
         // TODO add your handling code here:
             javax.swing.SwingUtilities.getWindowAncestor(this).dispose();
@@ -289,36 +265,35 @@ public class TambahStokMasuk extends javax.swing.JPanel {
 
     private void buttonSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSimpanActionPerformed
         // TODO add your handling code here:
-        String tanggal = "";
-        if (jDatePicker1.getModel().getValue() != null) {
-            java.util.Calendar cal = (java.util.Calendar) jDatePicker1.getModel().getValue();
-            java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd/MM/yyyy");
-            tanggal = sdf.format(cal.getTime());
-        }
-        String idBarang = jTextField3.getText().trim();
-        String namaBarang = (String) NamaItem.getSelectedItem();
-        String kategori = (String) jComboBox1.getSelectedItem();
-        String jumlahMasukStr = jTextField2.getText().trim();
-        String pemasok = jTextField5.getText().trim();
+            String tanggal = "";
+    if (InputTanggal.getModel().getValue() != null) {
+        java.util.Calendar cal = (java.util.Calendar) InputTanggal.getModel().getValue();
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd/MM/yyyy");
+        tanggal = sdf.format(cal.getTime());
+    }
 
-        if (namaBarang.isEmpty() || idBarang.isEmpty() || jumlahMasukStr.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Mohon lengkapi data wajib (ID Barang, Nama Barang, Jumlah Masuk)!");
-            return;
-        }
-        
-         int jumlahMasuk;
-    try {
-        jumlahMasuk = Integer.parseInt(jumlahMasukStr);
-        if (jumlahMasuk <= 0) {
-            JOptionPane.showMessageDialog(this, "Jumlah Masuk harus lebih dari 0!");
-            return;
-        }
-    } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(this, "Jumlah Masuk harus berupa angka bulat!");
+    String idBarang = jTextField3.getText().trim();
+    String namaBarang = (String) NamaItem.getSelectedItem();
+    String stokFisikStr = jTextField2.getText().trim();
+    String auditor = jTextField1.getText().trim();
+
+    if (namaBarang == null || namaBarang.equals("Pilih Item...") || idBarang.isEmpty() || stokFisikStr.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Mohon lengkapi data wajib (Nama Barang, Stok Fisik)!");
         return;
     }
 
-    // Cari item yang dipilih di daftarItem
+    int stokFisik;
+    try {
+        stokFisik = Integer.parseInt(stokFisikStr);
+        if (stokFisik < 0) {
+            JOptionPane.showMessageDialog(this, "Stok Fisik tidak boleh negatif!");
+            return;
+        }
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "Stok Fisik harus berupa angka bulat!");
+        return;
+    }
+
     Item itemDipilih = null;
     for (Item item : daftarItem) {
         if (item.getNamaItem().equals(namaBarang)) {
@@ -332,103 +307,61 @@ public class TambahStokMasuk extends javax.swing.JPanel {
         return;
     }
 
-    // Tambahkan stok riil melalui StokService sesuai jenis item
-    try {
-        int stokBaru = itemDipilih.getQuantity() + jumlahMasuk; // <-- DITAMBAH, bukan dikurangi
-        itemDipilih.setQuantity(stokBaru);
+    int stokSistem = itemDipilih.getQuantity();
+    int selisih = stokFisik - stokSistem;
+    String statusAudit = (selisih == 0) ? "Sesuai" : "Selisih";
 
-        if (itemDipilih instanceof com.mycompany.apotekertest.model.ObatOTC) {
-            MainApp.stokService.updateObat((com.mycompany.apotekertest.model.ObatOTC) itemDipilih);
-        } else if (itemDipilih instanceof com.mycompany.apotekertest.model.BahanRacikan) {
-            MainApp.stokService.updateBahanRacikan((com.mycompany.apotekertest.model.BahanRacikan) itemDipilih);
-        } else if (itemDipilih instanceof com.mycompany.apotekertest.model.NonObat) {
-            MainApp.stokService.updateNonObat((com.mycompany.apotekertest.model.NonObat) itemDipilih);
-        }
-    } catch (com.mycompany.apotekertest.exception.ItemNotFoundException e) {
-        JOptionPane.showMessageDialog(this, "Gagal update stok: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        return;
-    }
+    // Simpan hasil audit ke memory (AuditService), supaya AuditStokPanel bisa nampilinnya
+    com.mycompany.apotekertest.service.AuditService.simpanHasilAudit(
+        idBarang, stokFisik, stokSistem, selisih, statusAudit, tanggal, auditor
+    );
 
-        if (targetTable != null) {
-            DefaultTableModel model = (DefaultTableModel) targetTable.getModel();
-
-    Object[] data = {
-        namaBarang,
-        idBarang,
-        kategori,
-        jumlahMasukStr,
-        tanggal,
-        pemasok
-    };
-
-    boolean ditemukanKosong = false;
-
-    for (int i = 0; i < model.getRowCount(); i++) {
-        if (model.getValueAt(i, 0) == null) {
-            for (int j = 0; j < data.length; j++) {
-                model.setValueAt(data[j], i, j);
-            }
-            ditemukanKosong = true;
-            break;
-        }
-    }
-
-    if (!ditemukanKosong) {
-        model.addRow(data);
-    }
     javax.swing.SwingUtilities.getWindowAncestor(this).dispose();
-        }
     }//GEN-LAST:event_buttonSimpanActionPerformed
 
     private void NamaItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NamaItemActionPerformed
         String selected = (String) NamaItem.getSelectedItem();
 
-        if(selected == null || selected.equals("Pilih Item...")){
+        if (selected == null || selected.equals("Pilih Item...")) {
             jTextField3.setText("");
-            jComboBox1.setSelectedIndex(0);
             return;
         }
 
         for (Item item : daftarItem) {
             if (item.getNamaItem().equals(selected)) {
-
                 jTextField3.setText(item.getIdItem());
-
-                // Tentukan kategori otomatis berdasarkan jenis item
-                if (item instanceof com.mycompany.apotekertest.model.ObatOTC) {
-                    jComboBox1.setSelectedItem("Obat OTC");
-                } else if (item instanceof com.mycompany.apotekertest.model.BahanRacikan) {
-                    jComboBox1.setSelectedItem("Bahan Racikan");
-                } else if (item instanceof com.mycompany.apotekertest.model.NonObat) {
-                    jComboBox1.setSelectedItem("Non Obat");
-                }
                 break;
             }
         }
-
     }//GEN-LAST:event_NamaItemActionPerformed
+
+    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField2ActionPerformed
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
 
      
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private org.jdatepicker.JDatePicker InputTanggal;
     private javax.swing.JTextField ItemID2;
     private javax.swing.JComboBox<String> NamaItem;
     private javax.swing.JButton buttonBatal;
     private javax.swing.JButton buttonSimpan;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private org.jdatepicker.JDatePicker jDatePicker1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField5;
     // End of variables declaration//GEN-END:variables
 }

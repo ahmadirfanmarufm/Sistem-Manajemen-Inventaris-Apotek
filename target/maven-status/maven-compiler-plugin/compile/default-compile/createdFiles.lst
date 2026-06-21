@@ -5,6 +5,7 @@ com\mycompany\apotekertest\service\TransaksiService$DuplicateTransaksiException.
 com\mycompany\apotekertest\laporan\LaporanStok.class
 com\mycompany\apotekertest\ui\MainApp.class
 com\mycompany\apotekertest\exception\ApotekException.class
+com\mycompany\apotekertest\service\AuditService.class
 com\mycompany\apotekertest\ui\HeaderLayout.class
 com\mycompany\apotekertest\ui\NotifikasiPanel.class
 com\mycompany\apotekertest\ui\TambahStokKeluar.class
@@ -17,6 +18,7 @@ com\mycompany\apotekertest\ui\AuditStokPanel.class
 com\mycompany\apotekertest\exception\DuplicateItemException.class
 com\mycompany\apotekertest\ui\PenjualanPanel.class
 com\mycompany\apotekertest\stok\StokBahanRacikan.class
+com\mycompany\apotekertest\ui\AuditStokPanel$3.class
 com\mycompany\apotekertest\ui\ProdukContentPanel$2.class
 com\mycompany\apotekertest\ui\ProdukContentPanel.class
 com\mycompany\apotekertest\ui\SiderbarPJApotekerPanel.class
@@ -34,6 +36,7 @@ com\mycompany\apotekertest\exception\ItemNotFoundException.class
 com\mycompany\apotekertest\model\NonObat.class
 com\mycompany\apotekertest\ui\HeaderPanel.class
 com\mycompany\apotekertest\repository\UserRepository.class
+com\mycompany\apotekertest\ui\AuditStokPanel$2.class
 com\mycompany\apotekertest\ui\DashboardPJApoteker.class
 com\mycompany\apotekertest\model\ObatOTC.class
 com\mycompany\apotekertest\ui\StokKeluarPanel$1.class
@@ -45,6 +48,7 @@ com\mycompany\apotekertest\laporan\Laporan.class
 com\mycompany\apotekertest\ui\StokKeluarPanel.class
 com\mycompany\apotekertest\model\User.class
 com\mycompany\apotekertest\service\UserService.class
+com\mycompany\apotekertest\ui\AuditInput.class
 com\mycompany\apotekertest\service\LoginSession.class
 com\mycompany\apotekertest\stok\Manageable.class
 com\mycompany\apotekertest\ui\StokMasukPanel.class
@@ -64,3 +68,4 @@ com\mycompany\apotekertest\ui\DashboardContentPanel$1.class
 com\mycompany\apotekertest\ui\ProdukContentPanel$3.class
 com\mycompany\apotekertest\stok\StokObatOTC.class
 com\mycompany\apotekertest\ui\LoginFrame.class
+com\mycompany\apotekertest\service\AuditService$HasilAudit.class
