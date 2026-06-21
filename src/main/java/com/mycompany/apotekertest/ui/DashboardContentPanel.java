@@ -27,24 +27,13 @@ public class DashboardContentPanel extends JPanel {
     
     
     public void refreshTotalKategori() {
-    int totalQuantityOTC = 0;
-    for (ObatOTC obat : MainApp.stokService.getSemuaObat()) {
-        totalQuantityOTC += obat.getQuantity();
-    }
+        int jumlahOTC = MainApp.stokService.getSemuaObat().size();
+    int jumlahRacikan = MainApp.stokService.getSemuaBahanRacikan().size();
+    int jumlahNonObat = MainApp.stokService.getSemuaNonObat().size();
 
-    int totalQuantityRacikan = 0;
-    for (BahanRacikan bahan : MainApp.stokService.getSemuaBahanRacikan()) {
-        totalQuantityRacikan += bahan.getQuantity();
-    }
-
-    int totalQuantityNonObat = 0;
-    for (NonObat nonObat : MainApp.stokService.getSemuaNonObat()) {
-        totalQuantityNonObat += nonObat.getQuantity();
-    }
-
-    totalObatOTC.setText(String.valueOf(totalQuantityOTC));
-    totalBahanRacikan.setText(String.valueOf(totalQuantityRacikan));
-    totalNonObat.setText(String.valueOf(totalQuantityNonObat));
+    totalObatOTC.setText(String.valueOf(jumlahOTC));
+    totalBahanRacikan.setText(String.valueOf(jumlahRacikan));
+    totalNonObat.setText(String.valueOf(jumlahNonObat));
     totalTransaksiHariIni.setText(String.valueOf(MainApp.transaksiService.hitungTransaksiHariIni()));
 }
     

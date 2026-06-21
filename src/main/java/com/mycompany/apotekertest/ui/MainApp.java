@@ -19,7 +19,7 @@ import javax.swing.SwingUtilities;
  * @author Kelompok Kipli
  */
 public class MainApp extends javax.swing.JFrame {
-    
+
     public static UserRepository userRepository = new UserRepository();
 
     // Stok global
@@ -67,29 +67,118 @@ public class MainApp extends javax.swing.JFrame {
     public static void main(String args[]) {
         try {
             stokService.tambahObat(
-                "Analgesik",
-                500,
-                1000,
-                "OBT001",
-                "Paracetamol",
-                3,
-                5,
-                "2027-12-31",
-                "Obat demam"
+                    "Analgesik",
+                    500,
+                    1000,
+                    "OBT001",
+                    "Paracetamol",
+                    3,
+                    5,
+                    "2027-12-31",
+                    "Obat demam"
             );
 
             stokService.tambahObat(
-                "Vitamin",
-                1000,
-                2000,
-                "OBT002",
-                "Vitamin C",
-                2,
-                5,
-                "2027-12-31",
-                "Vitamin"
+                    "Vitamin",
+                    1000,
+                    2000,
+                    "OBT002",
+                    "Vitamin C",
+                    2,
+                    5,
+                    "2027-12-31",
+                    "Vitamin"
             );
-        } catch(Exception e) {
+
+            // Contoh data dengan satuan yang bervariasi
+            stokService.tambahBahanRacikan(
+                    "BR001", 
+                    "Asam Salisilat", 
+                    "g", 
+                    500, 
+                    50, 
+                    "2027-10-15", 
+                    "Bahan dasar salep racikan"
+            );
+            
+            stokService.tambahBahanRacikan(
+                    "BR002", 
+                    "Glukosa Anhidrat", 
+                    "kg", 
+                    5, 
+                    1, 
+                    "2028-01-20", 
+                    "Bahan tambahan serbuk"
+            );
+            
+            stokService.tambahBahanRacikan(
+                    "BR003", 
+                    "Aqua Destillata", 
+                    "ml", 
+                    2000,
+                    500, 
+                    "2026-12-30", 
+                    "Pelarut untuk sirup"
+            );
+            
+            stokService.tambahBahanRacikan(
+                    "BR004", 
+                    "Paracetamol Serbuk",
+                    "mg", 
+                    10000,
+                    1000,
+                    "2027-05-12", 
+                    "Bahan aktif puyer anak"
+            );
+
+            stokService.tambahNonObat(
+                    "Perawatan",
+                    45000.0, 
+                    65000.0, 
+                    "NO006", 
+                    "Sabun Antiseptik", 
+                    60, 
+                    10, 
+                    "2027-04-12", 
+                    "Sabun cair antiseptik 250ml"
+            );
+            
+            stokService.tambahNonObat(
+                    "Alat kesehatan", 
+                    12000.0, 
+                    20000.0, 
+                    "NO007", 
+                    "Perban Elastis", 
+                    80, 
+                    15,
+                    "2029-05-20",
+                    "Perban untuk cedera otot"
+            );
+            
+            stokService.tambahNonObat("Bayi", 
+                    95000.0,
+                    130000.0, 
+                    "NO008", 
+                    "Minyak Telon",
+                    25, 
+                    5, 
+                    "2028-09-15", 
+                    "Minyak penghangat bayi 100ml"
+            );
+            
+            stokService.tambahNonObat(
+                    "Perawatan", 
+                    28000.0,
+                    40000.0, 
+                    "NO009",
+                    "Plester Luka",
+                    150,
+                    30,
+                    "2030-01-10", 
+                    "Plester kain steril isi 20"
+            );
+            
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
