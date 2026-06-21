@@ -70,4 +70,5 @@ com\mycompany\apotekertest\ui\DashboardContentPanel$1.class
 com\mycompany\apotekertest\ui\ProdukContentPanel$3.class
 com\mycompany\apotekertest\stok\StokObatOTC.class
 com\mycompany\apotekertest\ui\LoginFrame.class
+com\mycompany\apotekertest\ui\TambahStokKeluar$1.class
 com\mycompany\apotekertest\service\AuditService$HasilAudit.class

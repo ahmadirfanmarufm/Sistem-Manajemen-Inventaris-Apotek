@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 public class TambahItem extends javax.swing.JPanel {
-    
+
     public TambahItem() {
         initComponents();
         //Menyembunyikan semua field khusus di awal
@@ -25,17 +25,16 @@ public class TambahItem extends javax.swing.JPanel {
         satuanInput.setVisible(false);
         kategoriInput.setVisible(false);
         lblKategori.setVisible(false);
-        
+
         //Agar posisi field tidak bergeser saat component dihide 
         ((javax.swing.GroupLayout) this.getLayout()).setHonorsVisibility(false);
-        
-        
+
     }
-    
+
     public void setJenisItem(String jenis) {
         JenisItem1.setSelectedItem(jenis);
     }
-    
+
     //Exception apabila text field tidak diisi
     private String getRequiredText(JTextField field, String namaField) throws InvalidInputException {
         String text = field.getText().trim();
@@ -45,7 +44,7 @@ public class TambahItem extends javax.swing.JPanel {
         }
         return text;
     }
-    
+
     //Parse JTextField ke Integer sekaligus exception apabila field kosong / tidak valid
     private int parseIntField(JTextField field, String namaField) throws InvalidInputException {
         String text = field.getText().trim();
@@ -61,7 +60,7 @@ public class TambahItem extends javax.swing.JPanel {
             throw new InvalidInputException(namaField, "harus berupa angka bulat");
         }
     }
-    
+
     //Parse JTextField ke double sekaligus exception apabila field kosong / tidak valid
     private double parseDoubleField(JTextField field, String namaField) throws InvalidInputException {
         String text = field.getText().trim();
@@ -77,7 +76,7 @@ public class TambahItem extends javax.swing.JPanel {
             throw new InvalidInputException(namaField, "harus berupa angka");
         }
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -413,7 +412,7 @@ public class TambahItem extends javax.swing.JPanel {
         String jenis = JenisItem1.getSelectedItem().toString().trim();
         // Tampilkan sesuai pilihan
         switch (jenis) {
- 
+
             case "Obat OTC":
                 //Memerlukan field untuk input kategori obat, harga beli, dan harga jual
                 satuanInput.setVisible(false);
@@ -426,7 +425,7 @@ public class TambahItem extends javax.swing.JPanel {
                 hargaJualInput.setVisible(true);
                 lblHargaJual.setVisible(true);
                 break;
-                
+
             case "Bahan Racikan":
                 //Memerlukan field untuk input satuan
                 satuanInput.setVisible(true);
@@ -439,7 +438,7 @@ public class TambahItem extends javax.swing.JPanel {
                 lblHargaJual.setVisible(false);
                 hargaJualInput.setVisible(false);
                 break;
-                
+
             case "Non Obat":
                 //Memerlukan field untuk input kategori, harga beli, dan harga jual
                 kategoriInput.setVisible(true);
@@ -485,7 +484,7 @@ public class TambahItem extends javax.swing.JPanel {
             int stokMinimum = parseIntField(stokMinimumInput, "Stok Minimum");
             String expiredDate = getRequiredText(expiredDateInput, "Tanggal Kadaluarsa");
             String deskripsi = deskripsiInput.getText().trim();
-            
+
             //Sesuai dengan jenis item yang dipilih
             switch (jenis) {
                 case "Obat OTC": {
@@ -496,7 +495,7 @@ public class TambahItem extends javax.swing.JPanel {
                     MainApp.stokService.tambahObat(kategoriObat, hargaBeli, hargaJual, idItem, namaItem, quantity, stokMinimum, expiredDate, deskripsi);
                     break;
                 }
-                
+
                 case "Bahan Racikan": {
                     String satuan = satuanInput.getSelectedItem().toString().trim();
                     if (satuan.equals("Satuan")) {
@@ -504,10 +503,10 @@ public class TambahItem extends javax.swing.JPanel {
                         throw new InvalidInputException("Satuan", "harus dipilih");
                     }
                     //Penyimpanan item ke dalam sistem
-                    MainApp.stokService.tambahBahanRacikan(satuan, idItem, namaItem, quantity, stokMinimum, expiredDate, deskripsi);
+                    MainApp.stokService.tambahBahanRacikan(idItem, namaItem, satuan, quantity, stokMinimum, expiredDate, deskripsi);
                     break;
                 }
-                
+
                 case "Non Obat": {
                     String kategori = getRequiredText(kategoriInput, "Kategori");
                     double hargaBeli = parseDoubleField(hargaBeliInput, "Harga Beli");
@@ -517,17 +516,17 @@ public class TambahItem extends javax.swing.JPanel {
                     break;
                 }
             }
-            
+
             //Notifikasi keberhasilan
             JOptionPane.showMessageDialog(this, "Item berhasil ditambahkan.");
             resetForm();
             tutupPanel();
-            
-        //Menampilkan notifikasi apabila item duplikat atau terdapat input yang invalid
+
+            //Menampilkan notifikasi apabila item duplikat atau terdapat input yang invalid
         } catch (DuplicateItemException | InvalidInputException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Gagal Menambah Item", JOptionPane.ERROR_MESSAGE);
         }
-        
+
     }//GEN-LAST:event_simpanButtonActionPerformed
 
     private void resetForm() {
@@ -558,7 +557,7 @@ public class TambahItem extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_expiredDateInputActionPerformed
 
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField ItemID2;
     private javax.swing.JComboBox<String> JenisItem1;
