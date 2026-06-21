@@ -6,6 +6,7 @@ com\mycompany\apotekertest\laporan\LaporanStok.class
 com\mycompany\apotekertest\ui\MainApp.class
 com\mycompany\apotekertest\exception\ApotekException.class
 com\mycompany\apotekertest\ui\HeaderLayout.class
+com\mycompany\apotekertest\ui\TambahStokMasuk$1.class
 com\mycompany\apotekertest\ui\NotifikasiPanel.class
 com\mycompany\apotekertest\ui\TambahStokKeluar.class
 com\mycompany\apotekertest\ui\DashboardApotekerPanel.class

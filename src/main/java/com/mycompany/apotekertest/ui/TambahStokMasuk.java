@@ -10,6 +10,8 @@ import javax.swing.table.DefaultTableModel;
 import com.mycompany.apotekertest.model.Item;
 import javax.swing.DefaultComboBoxModel;
 import java.util.ArrayList;
+import javax.swing.JTextField;
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 /**
  *
  * @author Dean Akmal
@@ -24,13 +26,44 @@ public class TambahStokMasuk extends javax.swing.JPanel {
     public TambahStokMasuk() {
         initComponents();
         loadNamaItem();
-            
+        NamaItem.setEditable(true); // Buka kunci ketikan
+        searchFilter();        // Pasang logika filter
     }
     
     public TambahStokMasuk(JTable targetTable) {
         initComponents();
         this.targetTable = targetTable;
         loadNamaItem();
+        NamaItem.setEditable(true); // Buka kunci ketikan
+        searchFilter();        // Pasang logika filter
+    }
+    
+    public void searchFilter() {
+        JTextField editor = (JTextField) NamaItem.getEditor().getEditorComponent();
+        editor.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent e) {
+                javax.swing.SwingUtilities.invokeLater(() -> {
+                    int code = e.getKeyCode();
+                    // Abaikan panah atas, bawah, enter, dan shift agar navigasi keyboard tetap aman
+                    if (code == 38 || code == 40 || code == 10 || code == 16) return;
+
+                    String input = editor.getText();
+                    DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
+                    model.addElement("Pilih Item...");
+
+                    // Filter pencarian langsung dari daftarItem (sumber utama)
+                    for (Item item : daftarItem) {
+                        if (item.getNamaItem().toLowerCase().contains(input.toLowerCase())) {
+                            model.addElement(item.getNamaItem());
+                        }
+                    }
+
+                    NamaItem.setModel(model);
+                    editor.setText(input); // Kembalikan teks yang sedang diketik
+                    if (!input.isEmpty()) NamaItem.showPopup(); // Tampilkan dropdown otomatis
+                });
+            }
+        });
     }
     
     public void loadNamaItem(){
@@ -50,7 +83,6 @@ public class TambahStokMasuk extends javax.swing.JPanel {
         NamaItem.setModel(model);
     }
     
-   
     
     
 
@@ -168,6 +200,7 @@ public class TambahStokMasuk extends javax.swing.JPanel {
         buttonSimpan.setText("Simpan");
         buttonSimpan.addActionListener(this::buttonSimpanActionPerformed);
 
+        NamaItem.setEditable(true);
         NamaItem.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         NamaItem.addActionListener(this::NamaItemActionPerformed);
 
@@ -380,6 +413,7 @@ public class TambahStokMasuk extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_buttonSimpanActionPerformed
 
+    
     private void NamaItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NamaItemActionPerformed
         String selected = (String) NamaItem.getSelectedItem();
 

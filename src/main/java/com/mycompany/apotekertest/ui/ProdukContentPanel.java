@@ -45,6 +45,8 @@ public class ProdukContentPanel extends javax.swing.JPanel {
             public boolean isCellEditable(int row, int column) { return false; }
         };
         tabelObatOTC.setModel(model);
+        tabelObatOTC.getTableHeader().setReorderingAllowed(false); // gak bisa drag pindah posisi kolom
+        tabelObatOTC.getTableHeader().setResizingAllowed(false);   // gak bisa drag resize lebar kolom
         lblShowDataObatOTC.setText("Menampilkan " + listObat.size() + " dari " + listObat.size() + " data");
     }
 
@@ -69,6 +71,8 @@ public class ProdukContentPanel extends javax.swing.JPanel {
             public boolean isCellEditable(int row, int column) { return false; }
         };
         tabelBahanRacikan.setModel(model);
+        tabelBahanRacikan.getTableHeader().setReorderingAllowed(false); // gak bisa drag pindah posisi kolom
+        tabelBahanRacikan.getTableHeader().setResizingAllowed(false);   // gak bisa drag resize lebar kolom
         lblShowDataBahanRacikan.setText("Menampilkan " + listBahan.size() + " dari " + listBahan.size() + " data");
     }
 
@@ -95,6 +99,8 @@ public class ProdukContentPanel extends javax.swing.JPanel {
             public boolean isCellEditable(int row, int column) { return false; }
         };
         tableNonObat.setModel(model);
+        tableNonObat.getTableHeader().setReorderingAllowed(false); // gak bisa drag pindah posisi kolom
+        tableNonObat.getTableHeader().setResizingAllowed(false);   // gak bisa drag resize lebar kolom
         lblShowDataBahanRacikan1.setText("Menampilkan " + listNonObat.size() + " dari " + listNonObat.size() + " data");
     }
 
