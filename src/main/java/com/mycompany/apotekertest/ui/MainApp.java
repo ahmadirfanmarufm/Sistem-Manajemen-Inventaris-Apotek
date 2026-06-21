@@ -11,6 +11,7 @@ import com.mycompany.apotekertest.service.StokService;
 import com.mycompany.apotekertest.stok.StokBahanRacikan;
 import com.mycompany.apotekertest.stok.StokNonObat;
 import com.mycompany.apotekertest.stok.StokObatOTC;
+import com.mycompany.apotekertest.service.TransaksiService;
 import javax.swing.SwingUtilities;
 
 /**
@@ -26,6 +27,7 @@ public class MainApp extends javax.swing.JFrame {
     public static StokBahanRacikan stokBahanRacikan = new StokBahanRacikan(10);
     public static StokNonObat stokNonObat = new StokNonObat(5);
     public static StokService stokService = new StokService(stokObatOTC, stokBahanRacikan, stokNonObat);
+    public static TransaksiService transaksiService = new TransaksiService();
 
     /**
      * Creates new form MainApp
@@ -63,12 +65,6 @@ public class MainApp extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        // Daftarkan user ke repository
-        userRepository.tambahUser(new Apoteker("APT001", "Budi Santoso", "budi123", "Pagi"));
-        userRepository.tambahUser(new Apoteker("APT002", "Sari Dewi",   "sari123", "Sore"));
-        userRepository.tambahUser(new PJApoteker("PJA001", "Dr. Ahmad", "pja123"));
-        
-            
         try {
             stokService.tambahObat(
                 "Analgesik",

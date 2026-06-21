@@ -110,7 +110,7 @@ public class TambahStokKeluar extends javax.swing.JPanel {
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(0, 145, 55));
-        jLabel9.setText("Tambah Stok Masuk");
+        jLabel9.setText("Tambah Stok Keluar");
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 145, 55));
@@ -155,7 +155,8 @@ public class TambahStokKeluar extends javax.swing.JPanel {
         jButton3.setText("Simpan");
         jButton3.addActionListener(this::jButton3ActionPerformed);
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pilih...", "Produk Rusak", "Produk Kadaluarsa", "Pemakaian Internal", "Retur ke Pemasok" }));
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pilih...", "Produk Rusak", "Produk Kadaluarsa", "Pemakaian Internal", "Retur ke Pemasok", "Terjual" }));
+        jComboBox2.addActionListener(this::jComboBox2ActionPerformed);
 
         NamaItem.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         NamaItem.addActionListener(this::NamaItemActionPerformed);
@@ -351,6 +352,24 @@ public class TambahStokKeluar extends javax.swing.JPanel {
         return;
     }
     
+     if (alasan.equals("Terjual")) {
+        double hargaJualSatuan = 0;
+
+        if (itemDipilih instanceof com.mycompany.apotekertest.model.ObatOTC) {
+            hargaJualSatuan = ((com.mycompany.apotekertest.model.ObatOTC) itemDipilih).getHargaJual();
+        } else if (itemDipilih instanceof com.mycompany.apotekertest.model.NonObat) {
+            hargaJualSatuan = ((com.mycompany.apotekertest.model.NonObat) itemDipilih).getHargaJual();
+        }
+
+        double totalNominal = hargaJualSatuan * jumlahKeluar;
+        String idTransaksi = "TRX-" + System.currentTimeMillis();
+
+        try {
+            MainApp.transaksiService.tambahTransaksi(idTransaksi, (int) totalNominal, "Penjualan " + namaBarang);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Gagal mencatat transaksi: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
 
         if (targetTable != null) {
             DefaultTableModel model = (DefaultTableModel) targetTable.getModel();
@@ -410,6 +429,10 @@ public class TambahStokKeluar extends javax.swing.JPanel {
             }
         }
     }//GEN-LAST:event_NamaItemActionPerformed
+
+    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

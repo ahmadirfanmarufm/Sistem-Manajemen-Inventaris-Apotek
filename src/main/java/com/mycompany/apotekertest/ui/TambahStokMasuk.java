@@ -340,76 +340,76 @@ public class TambahStokMasuk extends javax.swing.JPanel {
         }
         
          int jumlahMasuk;
-    try {
-        jumlahMasuk = Integer.parseInt(jumlahMasukStr);
-        if (jumlahMasuk <= 0) {
-            JOptionPane.showMessageDialog(this, "Jumlah Masuk harus lebih dari 0!");
+        try {
+            jumlahMasuk = Integer.parseInt(jumlahMasukStr);
+            if (jumlahMasuk <= 0) {
+                JOptionPane.showMessageDialog(this, "Jumlah Masuk harus lebih dari 0!");
+                return;
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Jumlah Masuk harus berupa angka bulat!");
             return;
         }
-    } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(this, "Jumlah Masuk harus berupa angka bulat!");
-        return;
-    }
 
-    // Cari item yang dipilih di daftarItem
-    Item itemDipilih = null;
-    for (Item item : daftarItem) {
-        if (item.getNamaItem().equals(namaBarang)) {
-            itemDipilih = item;
-            break;
-        }
-    }
-
-    if (itemDipilih == null) {
-        JOptionPane.showMessageDialog(this, "Item tidak ditemukan di sistem!");
-        return;
-    }
-
-    // Tambahkan stok riil melalui StokService sesuai jenis item
-    try {
-        int stokBaru = itemDipilih.getQuantity() + jumlahMasuk; // <-- DITAMBAH, bukan dikurangi
-        itemDipilih.setQuantity(stokBaru);
-
-        if (itemDipilih instanceof com.mycompany.apotekertest.model.ObatOTC) {
-            MainApp.stokService.updateObat((com.mycompany.apotekertest.model.ObatOTC) itemDipilih);
-        } else if (itemDipilih instanceof com.mycompany.apotekertest.model.BahanRacikan) {
-            MainApp.stokService.updateBahanRacikan((com.mycompany.apotekertest.model.BahanRacikan) itemDipilih);
-        } else if (itemDipilih instanceof com.mycompany.apotekertest.model.NonObat) {
-            MainApp.stokService.updateNonObat((com.mycompany.apotekertest.model.NonObat) itemDipilih);
-        }
-    } catch (com.mycompany.apotekertest.exception.ItemNotFoundException e) {
-        JOptionPane.showMessageDialog(this, "Gagal update stok: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        return;
-    }
-
-        if (targetTable != null) {
-            DefaultTableModel model = (DefaultTableModel) targetTable.getModel();
-
-    Object[] data = {
-        namaBarang,
-        idBarang,
-        kategori,
-        jumlahMasukStr,
-        tanggal,
-        pemasok
-    };
-
-    boolean ditemukanKosong = false;
-
-    for (int i = 0; i < model.getRowCount(); i++) {
-        if (model.getValueAt(i, 0) == null) {
-            for (int j = 0; j < data.length; j++) {
-                model.setValueAt(data[j], i, j);
+        // Cari item yang dipilih di daftarItem
+        Item itemDipilih = null;
+        for (Item item : daftarItem) {
+            if (item.getNamaItem().equals(namaBarang)) {
+                itemDipilih = item;
+                break;
             }
-            ditemukanKosong = true;
-            break;
         }
-    }
 
-    if (!ditemukanKosong) {
-        model.addRow(data);
-    }
-    javax.swing.SwingUtilities.getWindowAncestor(this).dispose();
+        if (itemDipilih == null) {
+            JOptionPane.showMessageDialog(this, "Item tidak ditemukan di sistem!");
+            return;
+        }
+
+        // Tambahkan stok riil melalui StokService sesuai jenis item
+        try {
+            int stokBaru = itemDipilih.getQuantity() + jumlahMasuk; // <-- DITAMBAH, bukan dikurangi
+            itemDipilih.setQuantity(stokBaru);
+
+            if (itemDipilih instanceof com.mycompany.apotekertest.model.ObatOTC) {
+                MainApp.stokService.updateObat((com.mycompany.apotekertest.model.ObatOTC) itemDipilih);
+            } else if (itemDipilih instanceof com.mycompany.apotekertest.model.BahanRacikan) {
+                MainApp.stokService.updateBahanRacikan((com.mycompany.apotekertest.model.BahanRacikan) itemDipilih);
+            } else if (itemDipilih instanceof com.mycompany.apotekertest.model.NonObat) {
+                MainApp.stokService.updateNonObat((com.mycompany.apotekertest.model.NonObat) itemDipilih);
+            }
+        } catch (com.mycompany.apotekertest.exception.ItemNotFoundException e) {
+            JOptionPane.showMessageDialog(this, "Gagal update stok: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+            if (targetTable != null) {
+                DefaultTableModel model = (DefaultTableModel) targetTable.getModel();
+
+        Object[] data = {
+            namaBarang,
+            idBarang,
+            kategori,
+            jumlahMasukStr,
+            tanggal,
+            pemasok
+        };
+
+        boolean ditemukanKosong = false;
+
+        for (int i = 0; i < model.getRowCount(); i++) {
+            if (model.getValueAt(i, 0) == null) {
+                for (int j = 0; j < data.length; j++) {
+                    model.setValueAt(data[j], i, j);
+                }
+                ditemukanKosong = true;
+                break;
+            }
+        }
+
+        if (!ditemukanKosong) {
+            model.addRow(data);
+        }
+        javax.swing.SwingUtilities.getWindowAncestor(this).dispose();
         }
     }//GEN-LAST:event_buttonSimpanActionPerformed
 

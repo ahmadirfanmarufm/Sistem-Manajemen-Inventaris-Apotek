@@ -31,7 +31,7 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="contentScrollPane" alignment="0" pref="856" max="32767" attributes="0"/>
+          <Component id="contentScrollPane" alignment="0" pref="934" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">

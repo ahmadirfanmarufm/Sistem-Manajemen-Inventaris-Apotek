@@ -4,7 +4,13 @@
  */
 package com.mycompany.apotekertest.ui;
 
+import com.mycompany.apotekertest.model.Item;
+import com.mycompany.apotekertest.service.AuditService;
 import java.awt.BorderLayout;
+import java.util.ArrayList;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -20,6 +26,7 @@ public class AuditStokPanel extends javax.swing.JPanel {
         headerContainer.setLayout(new BorderLayout());
         headerContainer.add(new HeaderPanel(MainApp.stokService), BorderLayout.CENTER);
         contentScrollPane.getVerticalScrollBar().setUnitIncrement(16);
+        loadTabelAudit();  
     }
 
     /**
@@ -218,7 +225,7 @@ public class AuditStokPanel extends javax.swing.JPanel {
 
         lblTitleObatOTC.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         lblTitleObatOTC.setForeground(new java.awt.Color(20, 145, 66));
-        lblTitleObatOTC.setText("Stok Keluar");
+        lblTitleObatOTC.setText("Catat Audit Stok");
 
         lblDescriptionObatOTC.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblDescriptionObatOTC.setForeground(new java.awt.Color(42, 137, 79));
@@ -228,6 +235,7 @@ public class AuditStokPanel extends javax.swing.JPanel {
         btnBuatAudit.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         btnBuatAudit.setForeground(new java.awt.Color(255, 255, 255));
         btnBuatAudit.setText("Buat Audit Baru");
+        btnBuatAudit.addActionListener(this::btnBuatAuditActionPerformed);
 
         txtSearch.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtSearch.setForeground(new java.awt.Color(42, 137, 79));
@@ -243,15 +251,23 @@ public class AuditStokPanel extends javax.swing.JPanel {
 
         tabelAuditStok.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "ID Barang", "Nama Barang", "Stok Sistem", "Stok Fisik ", "Selisih", "Status", "Auditor", "Tanggal Audit", "Aksi"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, true, true, true, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(tabelAuditStok);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -359,6 +375,65 @@ public class AuditStokPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void loadTabelAudit() {          
+        ArrayList<Item> semuaBarang = new ArrayList<>();
+        semuaBarang.addAll(MainApp.stokService.getSemuaObat());
+        semuaBarang.addAll(MainApp.stokService.getSemuaBahanRacikan());
+        semuaBarang.addAll(MainApp.stokService.getSemuaNonObat());
+
+        String[] kolom = {"ID Barang", "Nama Barang", "Stok Sistem", "Stok Fisik", "Selisih", "Status", "Auditor", "Tanggal Audit", "Aksi"};
+        Object[][] data = new Object[semuaBarang.size()][kolom.length];
+
+        int totalSesuai = 0, totalSelisih = 0, totalPending = 0;
+
+        for (int i = 0; i < semuaBarang.size(); i++) {
+            Item item = semuaBarang.get(i);
+            AuditService.HasilAudit hasil = AuditService.getHasilAudit(item.getIdItem());
+
+            data[i][0] = item.getIdItem();
+            data[i][1] = item.getNamaItem();
+            data[i][2] = item.getQuantity();
+
+            if (hasil == null) {
+                data[i][3] = "Belum dicatat";
+                data[i][4] = "—";
+                data[i][5] = "Pending";
+                data[i][6] = "—";
+                data[i][7] = "—";
+                data[i][8] = "Catat Fisik";
+                totalPending++;
+            } else {
+                data[i][3] = hasil.stokFisik;
+                data[i][4] = hasil.selisih;
+                data[i][5] = hasil.status;
+                data[i][6] = hasil.auditor;
+                data[i][7] = hasil.tanggal;
+                if (hasil.selisih == 0) {
+                    data[i][8] = "—";
+                    totalSesuai++;
+                } else {
+                    data[i][8] = "Ajukan Koreksi";
+                    totalSelisih++;
+                }
+            }
+        }
+
+        DefaultTableModel model = new DefaultTableModel(data, kolom) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        tabelAuditStok.setModel(model);
+
+        totalItemAudit.setText(String.valueOf(semuaBarang.size()));
+        totalItemSesuai.setText(String.valueOf(totalSesuai));
+        totalItemSelisih.setText(String.valueOf(totalSelisih));
+        totalItemPending.setText(String.valueOf(totalPending));
+
+        jLabel1.setText("Menampilkan " + semuaBarang.size() + " dari " + semuaBarang.size() + " transaksi");
+    }
+  
     private void txtSearchFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtSearchFocusGained
         if(txtSearch.getText().equalsIgnoreCase("Cari transaksi, produk...")) {
             txtSearch.setText("");
@@ -370,6 +445,20 @@ public class AuditStokPanel extends javax.swing.JPanel {
             txtSearch.setText("Cari transaksi, produk...");
         }
     }//GEN-LAST:event_txtSearchFocusLost
+
+    private void btnBuatAuditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuatAuditActionPerformed
+        // TODO add your handling code here:
+        JDialog dialog = new JDialog(
+        (JFrame) javax.swing.SwingUtilities.getWindowAncestor(this),
+        "Buat Audit Baru",
+        true // modal
+        );
+        dialog.getContentPane().add(new AuditInput(tabelAuditStok));
+        dialog.pack();
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+        loadTabelAudit(); 
+    }//GEN-LAST:event_btnBuatAuditActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

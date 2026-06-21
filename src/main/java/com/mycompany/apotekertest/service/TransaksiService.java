@@ -8,7 +8,7 @@ import com.mycompany.apotekertest.exception.ItemNotFoundException;
 import com.mycompany.apotekertest.exception.InvalidInputException;
 import com.mycompany.apotekertest.model.Transaksi;
 import com.mycompany.apotekertest.repository.TransaksiRepository;
-
+import java.time.LocalDate;
 /**
  *
  * @author Kelompok Kipli
@@ -51,4 +51,15 @@ public class TransaksiService {
             super("ID Transaksi '" + id + "' sudah ada.");
         }
     }
+    
+    public int hitungTransaksiHariIni() {
+    int jumlah = 0;
+    LocalDate hariIni = LocalDate.now();
+    for (Transaksi t : repository.findAll()) {
+        if (t.getTanggalTransaksi().equals(hariIni)) {
+            jumlah++;
+        }
+    }
+    return jumlah;
+}
 }
