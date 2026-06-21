@@ -375,7 +375,7 @@ public class AuditStokPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void loadTabelAudit() {          
+    public void loadTabelAudit() {          
         ArrayList<Item> semuaBarang = new ArrayList<>();
         semuaBarang.addAll(MainApp.stokService.getSemuaObat());
         semuaBarang.addAll(MainApp.stokService.getSemuaBahanRacikan());

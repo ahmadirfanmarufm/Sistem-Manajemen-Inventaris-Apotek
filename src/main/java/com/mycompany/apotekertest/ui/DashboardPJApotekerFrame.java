@@ -21,6 +21,7 @@ public class DashboardPJApotekerFrame extends JFrame {
     private CardLayout cardLayout;
     private JPanel contentContainer;
     private DashboardContentPanel dashboardPanel;
+    private AuditStokPanel auditStokPanel;
 
     /**
      * Creates new form DashboardApotekerFrame
@@ -39,7 +40,10 @@ public class DashboardPJApotekerFrame extends JFrame {
         cardLayout.show(contentContainer, name);
         if (name.equals("dashboard")) {
         dashboardPanel.refreshTotalKategori();
-    }
+        }
+        if (name.equals("auditStok")) {             
+        auditStokPanel.loadTabelAudit();
+        }
     }
     
     private void initCustomLayout() {
@@ -60,7 +64,8 @@ public class DashboardPJApotekerFrame extends JFrame {
         contentContainer.add(new ProdukContentPanel(), "produk");
         contentContainer.add(new StokMasukPanel(), "stokMasuk");
         contentContainer.add(new StokKeluarPanel(), "stokKeluar");
-        contentContainer.add(new AuditStokPanel(), "auditStok");
+        auditStokPanel = new AuditStokPanel();
+        contentContainer.add(auditStokPanel, "auditStok");
         contentContainer.add(new LaporanPanel(), "laporan");
         contentContainer.add(new NotifikasiPanel(), "notifikasi");
 

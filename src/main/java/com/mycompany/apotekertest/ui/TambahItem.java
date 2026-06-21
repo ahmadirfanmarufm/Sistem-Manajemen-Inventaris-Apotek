@@ -504,7 +504,7 @@ public class TambahItem extends javax.swing.JPanel {
                         throw new InvalidInputException("Satuan", "harus dipilih");
                     }
                     //Penyimpanan item ke dalam sistem
-                    MainApp.stokService.tambahBahanRacikan(satuan, idItem, namaItem, quantity, stokMinimum, expiredDate, deskripsi);
+                    MainApp.stokService.tambahBahanRacikan(idItem, namaItem, satuan, quantity, stokMinimum, expiredDate, deskripsi);
                     break;
                 }
                 
