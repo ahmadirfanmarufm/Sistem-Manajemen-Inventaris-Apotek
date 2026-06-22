@@ -72,7 +72,7 @@ public class MainApp extends javax.swing.JFrame {
                     1000,
                     "OBT001",
                     "Paracetamol",
-                    3,
+                    6,
                     5,
                     "2027-12-31",
                     "Obat demam"
@@ -86,7 +86,7 @@ public class MainApp extends javax.swing.JFrame {
                     "Vitamin C",
                     2,
                     5,
-                    "2027-12-31",
+                    "2026-06-23",
                     "Vitamin"
             );
 
@@ -117,7 +117,7 @@ public class MainApp extends javax.swing.JFrame {
                     "ml", 
                     2000,
                     500, 
-                    "2026-12-30", 
+                    "2026-06-27", 
                     "Pelarut untuk sirup"
             );
             

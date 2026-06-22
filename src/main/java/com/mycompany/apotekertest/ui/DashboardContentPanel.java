@@ -16,31 +16,133 @@ import javax.swing.JPanel;
 import com.mycompany.apotekertest.model.ObatOTC;
 import com.mycompany.apotekertest.model.BahanRacikan;
 import com.mycompany.apotekertest.model.NonObat;
+import com.mycompany.apotekertest.model.Item;
+import java.util.ArrayList;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import javax.swing.table.DefaultTableModel;
+import com.mycompany.apotekertest.model.Item;
 
 /**
  *
  * @author himorii
  */
 public class DashboardContentPanel extends JPanel {
-    
+
     private boolean initialized = false;
-    
-    
+
     public void refreshTotalKategori() {
         int jumlahOTC = MainApp.stokService.getSemuaObat().size();
-    int jumlahRacikan = MainApp.stokService.getSemuaBahanRacikan().size();
-    int jumlahNonObat = MainApp.stokService.getSemuaNonObat().size();
+        int jumlahRacikan = MainApp.stokService.getSemuaBahanRacikan().size();
+        int jumlahNonObat = MainApp.stokService.getSemuaNonObat().size();
 
-    totalObatOTC.setText(String.valueOf(jumlahOTC));
-    totalBahanRacikan.setText(String.valueOf(jumlahRacikan));
-    totalNonObat.setText(String.valueOf(jumlahNonObat));
-    totalTransaksiHariIni.setText(String.valueOf(MainApp.transaksiService.hitungTransaksiHariIni()));
-}
-    
+        totalObatOTC.setText(String.valueOf(jumlahOTC));
+        totalBahanRacikan.setText(String.valueOf(jumlahRacikan));
+        totalNonObat.setText(String.valueOf(jumlahNonObat));
+        totalTransaksiHariIni.setText(String.valueOf(MainApp.transaksiService.hitungTransaksiHariIni()));
+        refreshAlert();
+    }
+
+    public void refreshAlert() {
+        ArrayList<Item> semuaItem = new ArrayList<>();
+        semuaItem.addAll(MainApp.stokService.getSemuaObat());
+        semuaItem.addAll(MainApp.stokService.getSemuaBahanRacikan());
+        semuaItem.addAll(MainApp.stokService.getSemuaNonObat());
+
+        DefaultTableModel modelStok = new DefaultTableModel(
+                new String[]{"ID", "Nama Barang", "Kategori", "Stok Saat Ini", "Minimum Stok", "Status"}, 0
+        ) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+
+        for (Item item : semuaItem) {
+            if (item.getQuantity() <= item.getStokMinimum()) {
+
+                // Tentukan nama kategori berdasarkan tipe item
+                String kategori;
+                if (item instanceof ObatOTC) {
+                    kategori = ((ObatOTC) item).getKategori();
+                } else if (item instanceof NonObat) {
+                    kategori = ((NonObat) item).getKategori();
+                } else {
+                    kategori = "Bahan Racikan";
+                }
+
+                // Tentukan status: Habis atau Stok Rendah
+                String status;
+                if (item.getQuantity() == 0) {
+                    status = "Habis";
+                } else {
+                    status = "Stok Rendah";
+                }
+                // Tambahkan baris ke tabel
+                modelStok.addRow(new Object[]{
+                    item.getIdItem(),
+                    item.getNamaItem(),
+                    kategori,
+                    item.getQuantity(),
+                    item.getStokMinimum(),
+                    status
+                });
+            }
+        }
+
+        tableStockWarning.setModel(modelStok); // tampilkan ke tabel UI
+
+        // ============================================================
+        // BAGIAN 2: ISI TABEL PRODUK MENDEKATI EXPIRED
+        // Logika: tampilkan item yang expired dalam 5 hari ke depan
+        // ============================================================
+        DefaultTableModel modelExpired = new DefaultTableModel(
+                new String[]{"ID", "Nama Barang", "Tanggal Expired", "Sisa Hari", "Status"}, 0
+        ) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+
+        LocalDate hariIni = LocalDate.now();
+
+        for (Item item : semuaItem) {
+
+            // Hitung selisih hari antara hari ini dan tanggal expired
+            long sisaHari = ChronoUnit.DAYS.between(hariIni, item.getExpiredDate());
+
+            // Hanya tampilkan jika sisa hari antara 0 sampai 5
+            if (sisaHari >= 0 && sisaHari <= 5) {
+
+                // Kritis jika <= 2 hari lagi, selainnya Mendekati Expired
+                String status;
+                if(sisaHari <= 2){
+                    status = "Kritis";
+                }else{
+                    status = "Mendekati Expired";
+                }
+
+                // Tambahkan baris ke tabel
+                modelExpired.addRow(new Object[]{
+                    item.getIdItem(),
+                    item.getNamaItem(),
+                    item.getExpiredDate().toString(),
+                    sisaHari + " hari",
+                    status
+                });
+            }
+        }
+
+        tableProdukExpired.setModel(modelExpired); // tampilkan ke tabel UI
+    }
+
     private void initCharts() {
-        if (initialized) return;
+        if (initialized) {
+            return;
+        }
         initialized = true;
-        
+
         JFXPanel fxPie = new JFXPanel();
         pieChartDistribusiInventarisPanel.setLayout(new BorderLayout());
         pieChartDistribusiInventarisPanel.add(fxPie);
@@ -51,7 +153,7 @@ public class DashboardContentPanel extends JPanel {
             pieChart.getData().add(new PieChart.Data("Obat OTC", 40));
             pieChart.getData().add(new PieChart.Data("Bahan Racikan", 25));
             pieChart.getData().add(new PieChart.Data("Non Obat", 35));
-            
+
             pieChart.setAnimated(false);
             pieChart.setTitle("Distribusi Inventaris");
             pieChart.setStyle("-fx-background-color: white;");
@@ -61,14 +163,14 @@ public class DashboardContentPanel extends JPanel {
             scene.setFill(Color.WHITE);
 
             fxPie.setScene(scene);
-                        
+
             Platform.runLater(() -> {
                 for (PieChart.Data data : pieChart.getData()) {
                     data.nodeProperty().addListener((obs, oldNode, node) -> {
                         if (node != null) {
                             Tooltip tooltip = new Tooltip(
-                                data.getName() + "\n" +
-                                (int) data.getPieValue()
+                                    data.getName() + "\n"
+                                    + (int) data.getPieValue()
                             );
 
                             Tooltip.install(node, tooltip);
@@ -77,7 +179,7 @@ public class DashboardContentPanel extends JPanel {
                 }
             });
         });
-        
+
         JFXPanel fxBar = new JFXPanel();
         barChartTransaksiBulananPanel.setLayout(new BorderLayout());
         barChartTransaksiBulananPanel.add(fxBar);
@@ -107,13 +209,13 @@ public class DashboardContentPanel extends JPanel {
             scene.setFill(Color.WHITE);
 
             fxBar.setScene(scene);
-             Platform.runLater(() -> {
+            Platform.runLater(() -> {
                 for (XYChart.Data<String, Number> data : series.getData()) {
                     data.nodeProperty().addListener((obs, oldNode, node) -> {
                         if (node != null) {
                             Tooltip tooltip = new Tooltip(
-                                "Bulan: " + data.getXValue() + "\n" +
-                                "Jumlah: " + data.getYValue()
+                                    "Bulan: " + data.getXValue() + "\n"
+                                    + "Jumlah: " + data.getYValue()
                             );
 
                             Tooltip.install(node, tooltip);
@@ -132,10 +234,9 @@ public class DashboardContentPanel extends JPanel {
         headerContainer.setLayout(new BorderLayout());
         headerContainer.add(new HeaderPanel(MainApp.stokService), BorderLayout.CENTER);
         initCharts();
-        
+
         refreshTotalKategori();
     }
-    
 
     /**
      * This method is called from within the constructor to initialize the form.

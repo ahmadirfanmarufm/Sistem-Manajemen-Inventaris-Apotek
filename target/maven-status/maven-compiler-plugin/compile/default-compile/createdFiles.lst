@@ -10,6 +10,7 @@ com\mycompany\apotekertest\ui\HeaderLayout.class
 com\mycompany\apotekertest\ui\TambahStokMasuk$1.class
 com\mycompany\apotekertest\ui\NotifikasiPanel.class
 com\mycompany\apotekertest\ui\TambahStokKeluar.class
+com\mycompany\apotekertest\ui\DashboardContentPanel$2.class
 com\mycompany\apotekertest\ui\DashboardApotekerPanel.class
 com\mycompany\apotekertest\ui\TambahItem.class
 com\mycompany\apotekertest\model\Apoteker.class
@@ -27,6 +28,7 @@ com\mycompany\apotekertest\ui\DashboardApoteker$1.class
 com\mycompany\apotekertest\service\StokService.class
 com\mycompany\apotekertest\stok\Stok.class
 com\mycompany\apotekertest\model\NotifikasiStok.class
+com\mycompany\apotekertest\ui\DashboardContentPanel$3.class
 com\mycompany\apotekertest\ui\DashboardContentPanel.class
 com\mycompany\apotekertest\laporan\LaporanPenjualan.class
 com\mycompany\apotekertest\model\Transaksi.class

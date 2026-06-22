@@ -8,33 +8,36 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import com.mycompany.apotekertest.model.ObatOTC;
+import com.mycompany.apotekertest.model.BahanRacikan;
+import com.mycompany.apotekertest.model.NonObat;
 
 /**
  *
  * @author himorii
  */
 public class LaporanPanel extends JPanel {
-    
+
     private RingkasanPanel ringkasanPanel;
     private PenjualanPanel penjualanPanel;
     private InventarisPanel inventarisPanel;
 
-    private final Color ACTIVE_BG = new Color(20,145,66);
+    private final Color ACTIVE_BG = new Color(20, 145, 66);
     private final Color ACTIVE_FG = Color.WHITE;
 
     private final Color NORMAL_BG = Color.WHITE;
-    private final Color NORMAL_FG = new Color(20,145,66);
-    
+    private final Color NORMAL_FG = new Color(20, 145, 66);
+
     private void showPanel(JPanel panel) {
         tabPanel.removeAll();
         tabPanel.setLayout(new BorderLayout());
-        
+
         tabPanel.add(panel, BorderLayout.CENTER);
-        
+
         tabPanel.revalidate();
         tabPanel.repaint();
     }
-    
+
     private void setActiveMenu(JButton activeButton) {
 
         JButton[] buttons = {
@@ -54,7 +57,7 @@ public class LaporanPanel extends JPanel {
 
         activeButton.setBackground(ACTIVE_BG);
         activeButton.setForeground(ACTIVE_FG);
-}
+    }
 
     /**
      * Creates new form DashboardContentPanel
@@ -72,7 +75,22 @@ public class LaporanPanel extends JPanel {
         setActiveMenu(btnRingkasanPanel);
         contentScrollPane.getVerticalScrollBar().setUnitIncrement(16);
     }
-    
+
+    public void refreshLaporan() {
+
+        int jumlahOTC = MainApp.stokService.getSemuaObat().size();
+        int jumlahRacikan = MainApp.stokService.getSemuaBahanRacikan().size();
+        int jumlahNonObat = MainApp.stokService.getSemuaNonObat().size();
+
+        // Total Produk = jumlah semua jenis dari ketiga kategori
+        int totalSemuaProduk = jumlahOTC + jumlahRacikan + jumlahNonObat;
+
+        totalProduk.setText(String.valueOf(totalSemuaProduk));
+        totalObatOTC.setText(String.valueOf(jumlahOTC));
+        totalBahanRacikan.setText(String.valueOf(jumlahRacikan));
+        totalNonObat.setText(String.valueOf(jumlahNonObat));
+        totalTransaksi.setText(String.valueOf(MainApp.transaksiService.getTotalTransaksi()));
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.

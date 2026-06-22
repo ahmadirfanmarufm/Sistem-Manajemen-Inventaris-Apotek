@@ -22,6 +22,13 @@ public class ProdukContentPanel extends javax.swing.JPanel {
         loadNonObatTable();
     }
     
+    public void refreshSemuaTabel() {
+    loadObatOTCTable();
+    loadBahanRacikanTable();
+    loadNonObatTable();
+}
+    
+    
     private void loadObatOTCTable() {
         ArrayList<ObatOTC> listObat = MainApp.stokService.getSemuaObat();
         String[] kolom = {"ID", "Nama Obat", "Kategori", "Stok", "Harga Beli", "Harga Jual", "Minimum Stok", "Expired Date", "Deskripsi"};
@@ -93,6 +100,8 @@ public class ProdukContentPanel extends javax.swing.JPanel {
             data[i][7] = non.getExpiredDate();
             data[i][8] = non.getDeskripsi();
         }
+        
+        
 
         DefaultTableModel model = new DefaultTableModel(data, kolom) {
             @Override

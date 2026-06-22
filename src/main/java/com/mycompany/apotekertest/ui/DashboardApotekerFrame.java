@@ -15,13 +15,15 @@ import javax.swing.JScrollPane;
  * @author himorii
  */
 public class DashboardApotekerFrame extends JFrame {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(DashboardApotekerFrame.class.getName());
-    
+
     private CardLayout cardLayout;
     private JPanel contentContainer;
     private DashboardContentPanel dashboardPanel;
     private AuditStokPanel auditStokPanel;
+    private ProdukContentPanel produkPanel;
+    private LaporanPanel laporanPanel;   
 
     /**
      * Creates new form DashboardApotekerFrame
@@ -30,43 +32,48 @@ public class DashboardApotekerFrame extends JFrame {
         initComponents();
 
         setTitle("Dashboard Apoteker");
-        
+
         initCustomLayout();
         setSize(1366, 768);
         setLocationRelativeTo(null);
     }
-    
+
     public void showPage(String name) {
         cardLayout.show(contentContainer, name);
-         if (name.equals("dashboard")) {
-        dashboardPanel.refreshTotalKategori();
-        }
-        if (name.equals("auditStok")) {           
-        auditStokPanel.loadTabelAudit();
+        if (name.equals("dashboard")) {
+            dashboardPanel.refreshTotalKategori();
+        } else if (name.equals("produk")) {
+            produkPanel.refreshSemuaTabel();
+        }else if (name.equals("laporan")) {
+            laporanPanel.refreshLaporan();
         }
     }
-    
+
     private void initCustomLayout() {
         getContentPane().removeAll();
         getContentPane().setLayout(new BorderLayout());
 
         SiderbarApotekerPanel sidebar = new SiderbarApotekerPanel(this);
         dashboardPanel = new DashboardContentPanel();
-        
-        JScrollPane dashboardScrollPane = new JScrollPane(dashboardPanel); 
+
+        JScrollPane dashboardScrollPane = new JScrollPane(dashboardPanel);
 
         cardLayout = new CardLayout();
         contentContainer = new JPanel(cardLayout);
-        
-        dashboardScrollPane.getVerticalScrollBar().setUnitIncrement(16);    
+
+        dashboardScrollPane.getVerticalScrollBar().setUnitIncrement(16);
+
+        produkPanel = new ProdukContentPanel();
+        contentContainer.add(produkPanel, "produk");
+
+        laporanPanel = new LaporanPanel();
+        contentContainer.add(laporanPanel, "laporan");
 
         contentContainer.add(dashboardScrollPane, "dashboard");
-        contentContainer.add(new ProdukContentPanel(), "produk");
         contentContainer.add(new StokMasukPanel(), "stokMasuk");
         contentContainer.add(new StokKeluarPanel(), "stokKeluar");
         auditStokPanel = new AuditStokPanel();
         contentContainer.add(auditStokPanel, "auditStok");
-        contentContainer.add(new LaporanPanel(), "laporan");
         contentContainer.add(new NotifikasiPanel(), "notifikasi");
 
         getContentPane().add(sidebar, BorderLayout.WEST);

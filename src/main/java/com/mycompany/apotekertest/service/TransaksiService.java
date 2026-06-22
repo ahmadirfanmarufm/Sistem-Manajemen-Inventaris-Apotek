@@ -62,4 +62,8 @@ public class TransaksiService {
     }
     return jumlah;
 }
+    
+    public int getTotalTransaksi() {
+    return repository.findAll().size();
+}
 }
