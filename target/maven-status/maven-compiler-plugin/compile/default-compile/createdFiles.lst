@@ -19,6 +19,7 @@ com\mycompany\apotekertest\ui\PenjualanPanel$1.class
 com\mycompany\apotekertest\ui\AuditStokPanel.class
 com\mycompany\apotekertest\exception\DuplicateItemException.class
 com\mycompany\apotekertest\ui\PenjualanPanel.class
+com\mycompany\apotekertest\ui\TambahStokMasuk$2.class
 com\mycompany\apotekertest\stok\StokBahanRacikan.class
 com\mycompany\apotekertest\ui\AuditStokPanel$3.class
 com\mycompany\apotekertest\ui\ProdukContentPanel$2.class
@@ -75,3 +76,4 @@ com\mycompany\apotekertest\model\StokMasuk.class
 com\mycompany\apotekertest\ui\LoginFrame.class
 com\mycompany\apotekertest\ui\TambahStokKeluar$1.class
 com\mycompany\apotekertest\service\AuditService$HasilAudit.class
+com\mycompany\apotekertest\ui\TambahStokMasuk$3.class

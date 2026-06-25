@@ -42,8 +42,20 @@ public class AuditInput extends javax.swing.JPanel {
     }
     
     // Fitur search dan filter item
-    public void searchFilter() { 
-        JTextField editor = (JTextField) NamaItem.getEditor().getEditorComponent(); // Mengambil inputan yang diketik di JComboBox menjadi format JTextField
+    public void searchFilter() {
+        JTextField editor = (JTextField) NamaItem.getEditor().getEditorComponent();
+        
+        // Membaca input klik dari mouse 
+        editor.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            // Apabila mouse memencet combo box, text langsug kosong agar pengguna dapat langsung mengetik
+            public void mousePressed(java.awt.event.MouseEvent e) {
+                if (editor.getText().equals("Pilih Item...")) {
+                    editor.setText("");
+                }
+            }
+        });
+        
         editor.addKeyListener(new java.awt.event.KeyAdapter() { // Membaca input keyboard
             @Override
             public void keyReleased(java.awt.event.KeyEvent e) { 

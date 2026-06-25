@@ -39,24 +39,35 @@ public class TambahStokMasuk extends javax.swing.JPanel {
     
     public void searchFilter() {
         JTextField editor = (JTextField) NamaItem.getEditor().getEditorComponent();
-        editor.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent e) {
-                javax.swing.SwingUtilities.invokeLater(() -> {
-                    int code = e.getKeyCode();
-                    // Abaikan panah atas, bawah, enter, dan shift agar navigasi keyboard tetap aman
-                    if (code == 38 || code == 40 || code == 10 || code == 16) return;
-
-                    String input = editor.getText();
-                    DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
+        
+        // Membaca input klik dari mouse 
+        editor.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            // Apabila mouse memencet combo box, text langsug kosong agar pengguna dapat langsung mengetik
+            public void mousePressed(java.awt.event.MouseEvent e) {
+                if (editor.getText().equals("Pilih Item...")) {
+                    editor.setText("");
+                }
+            }
+        });
+        
+        editor.addKeyListener(new java.awt.event.KeyAdapter() { // Membaca input keyboard
+            @Override
+            public void keyReleased(java.awt.event.KeyEvent e) { 
+                javax.swing.SwingUtilities.invokeLater(() -> { // Multithreading Swing (memastikan aplikasi tidak macet / freeze saat mengetik)
+                    //Mengambil input pengguna dari JTextField editor
+                    String input = editor.getText(); 
+                    DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(); // Membuat component ComboBoxModel yang menyimpan list barang / selection
                     model.addElement("Pilih Item...");
 
-                    // Filter pencarian langsung dari daftarItem (sumber utama)
+                    // Filter pencarian item berdasarkan input
                     for (Item item : daftarItem) {
                         if (item.getNamaItem().toLowerCase().contains(input.toLowerCase())) {
-                            model.addElement(item.getNamaItem());
+                            model.addElement(item.getNamaItem()); //Menambahkan item yang sesuai input ke selection / pilihan
                         }
                     }
-
+                    
+                    //Mengset model JComboBox NamaItem sesuai model baru yang dihasilkan setelah filter
                     NamaItem.setModel(model);
                     editor.setText(input); // Kembalikan teks yang sedang diketik
                     if (!input.isEmpty()) NamaItem.showPopup(); // Tampilkan dropdown otomatis
