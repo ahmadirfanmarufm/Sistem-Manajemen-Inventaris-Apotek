@@ -41,11 +41,13 @@ com\mycompany\apotekertest\model\NonObat.class
 com\mycompany\apotekertest\ui\HeaderPanel.class
 com\mycompany\apotekertest\repository\UserRepository.class
 com\mycompany\apotekertest\ui\AuditStokPanel$2.class
+com\mycompany\apotekertest\ui\AuditInput$2.class
 com\mycompany\apotekertest\ui\DashboardPJApoteker.class
 com\mycompany\apotekertest\model\ObatOTC.class
 com\mycompany\apotekertest\ui\StokKeluarPanel$1.class
 com\mycompany\apotekertest\ui\StokMasuk$1.class
 com\mycompany\apotekertest\exception\StockNotEnoughException.class
+com\mycompany\apotekertest\ui\TambahStokKeluar$2.class
 com\mycompany\apotekertest\ui\DashboardPJApotekerFrame.class
 com\mycompany\apotekertest\ui\StokMasuk.class
 com\mycompany\apotekertest\laporan\Laporan.class
@@ -76,4 +78,3 @@ com\mycompany\apotekertest\model\StokMasuk.class
 com\mycompany\apotekertest\ui\LoginFrame.class
 com\mycompany\apotekertest\ui\TambahStokKeluar$1.class
 com\mycompany\apotekertest\service\AuditService$HasilAudit.class
-com\mycompany\apotekertest\ui\TambahStokMasuk$3.class

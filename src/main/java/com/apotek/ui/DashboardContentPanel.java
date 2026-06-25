@@ -1,0 +1,608 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
+ */
+package com.apotek.ui;
+
+import java.awt.BorderLayout;
+import javafx.application.Platform;
+import javafx.embed.swing.JFXPanel;
+import javafx.scene.Scene;
+import javafx.scene.chart.*;
+import javafx.scene.control.Tooltip;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Color;
+import javax.swing.JPanel;
+import com.apotek.model.ObatOTC;
+import com.apotek.model.BahanRacikan;
+import com.apotek.model.NonObat;
+import com.apotek.model.Item;
+import java.util.ArrayList;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import javax.swing.table.DefaultTableModel;
+import com.apotek.model.Item;
+
+/**
+ *
+ * @author himorii
+ */
+public class DashboardContentPanel extends JPanel {
+
+    private boolean initialized = false;
+
+    public void refreshTotalKategori() {
+        int jumlahOTC = MainApp.stokService.getSemuaObat().size();
+        int jumlahRacikan = MainApp.stokService.getSemuaBahanRacikan().size();
+        int jumlahNonObat = MainApp.stokService.getSemuaNonObat().size();
+
+        totalObatOTC.setText(String.valueOf(jumlahOTC));
+        totalBahanRacikan.setText(String.valueOf(jumlahRacikan));
+        totalNonObat.setText(String.valueOf(jumlahNonObat));
+        totalTransaksiHariIni.setText(String.valueOf(MainApp.transaksiService.hitungTransaksiHariIni()));
+        refreshAlert();
+    }
+
+    public void refreshAlert() {
+        ArrayList<Item> semuaItem = new ArrayList<>();
+        semuaItem.addAll(MainApp.stokService.getSemuaObat());
+        semuaItem.addAll(MainApp.stokService.getSemuaBahanRacikan());
+        semuaItem.addAll(MainApp.stokService.getSemuaNonObat());
+
+        DefaultTableModel modelStok = new DefaultTableModel(
+                new String[]{"ID", "Nama Barang", "Kategori", "Stok Saat Ini", "Minimum Stok", "Status"}, 0
+        ) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+
+        for (Item item : semuaItem) {
+            if (item.getQuantity() <= item.getStokMinimum()) {
+
+                // Tentukan nama kategori berdasarkan tipe item
+                String kategori;
+                if (item instanceof ObatOTC) {
+                    kategori = ((ObatOTC) item).getKategori();
+                } else if (item instanceof NonObat) {
+                    kategori = ((NonObat) item).getKategori();
+                } else {
+                    kategori = "Bahan Racikan";
+                }
+
+                // Tentukan status: Habis atau Stok Rendah
+                String status;
+                if (item.getQuantity() == 0) {
+                    status = "Habis";
+                } else {
+                    status = "Stok Rendah";
+                }
+                // Tambahkan baris ke tabel
+                modelStok.addRow(new Object[]{
+                    item.getIdItem(),
+                    item.getNamaItem(),
+                    kategori,
+                    item.getQuantity(),
+                    item.getStokMinimum(),
+                    status
+                });
+            }
+        }
+
+        tableStockWarning.setModel(modelStok); // tampilkan ke tabel UI
+
+        // ============================================================
+        // BAGIAN 2: ISI TABEL PRODUK MENDEKATI EXPIRED
+        // Logika: tampilkan item yang expired dalam 5 hari ke depan
+        // ============================================================
+        DefaultTableModel modelExpired = new DefaultTableModel(
+                new String[]{"ID", "Nama Barang", "Tanggal Expired", "Sisa Hari", "Status"}, 0
+        ) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+
+        LocalDate hariIni = LocalDate.now();
+
+        for (Item item : semuaItem) {
+
+            // Hitung selisih hari antara hari ini dan tanggal expired
+            long sisaHari = ChronoUnit.DAYS.between(hariIni, item.getExpiredDate());
+
+            // Hanya tampilkan jika sisa hari antara 0 sampai 5
+            if (sisaHari >= 0 && sisaHari <= 5) {
+
+                // Kritis jika <= 2 hari lagi, selainnya Mendekati Expired
+                String status;
+                if(sisaHari <= 2){
+                    status = "Kritis";
+                }else{
+                    status = "Mendekati Expired";
+                }
+
+                // Tambahkan baris ke tabel
+                modelExpired.addRow(new Object[]{
+                    item.getIdItem(),
+                    item.getNamaItem(),
+                    item.getExpiredDate().toString(),
+                    sisaHari + " hari",
+                    status
+                });
+            }
+        }
+
+        tableProdukExpired.setModel(modelExpired); // tampilkan ke tabel UI
+    }
+
+    private void initCharts() {
+        if (initialized) {
+            return;
+        }
+        initialized = true;
+
+        JFXPanel fxPie = new JFXPanel();
+        pieChartDistribusiInventarisPanel.setLayout(new BorderLayout());
+        pieChartDistribusiInventarisPanel.add(fxPie);
+
+        Platform.runLater(() -> {
+
+            PieChart pieChart = new PieChart();
+            pieChart.getData().add(new PieChart.Data("Obat OTC", 40));
+            pieChart.getData().add(new PieChart.Data("Bahan Racikan", 25));
+            pieChart.getData().add(new PieChart.Data("Non Obat", 35));
+
+            pieChart.setAnimated(false);
+            pieChart.setTitle("Distribusi Inventaris");
+            pieChart.setStyle("-fx-background-color: white;");
+
+            BorderPane root = new BorderPane(pieChart);
+            Scene scene = new Scene(root);
+            scene.setFill(Color.WHITE);
+
+            fxPie.setScene(scene);
+
+            Platform.runLater(() -> {
+                for (PieChart.Data data : pieChart.getData()) {
+                    data.nodeProperty().addListener((obs, oldNode, node) -> {
+                        if (node != null) {
+                            Tooltip tooltip = new Tooltip(
+                                    data.getName() + "\n"
+                                    + (int) data.getPieValue()
+                            );
+
+                            Tooltip.install(node, tooltip);
+                        }
+                    });
+                }
+            });
+        });
+
+        JFXPanel fxBar = new JFXPanel();
+        barChartTransaksiBulananPanel.setLayout(new BorderLayout());
+        barChartTransaksiBulananPanel.add(fxBar);
+
+        Platform.runLater(() -> {
+
+            CategoryAxis xAxis = new CategoryAxis();
+            NumberAxis yAxis = new NumberAxis();
+
+            BarChart<String, Number> barChart = new BarChart<>(xAxis, yAxis);
+            barChart.setTitle("Transaksi Bulanan");
+            barChart.setStyle("-fx-background-color: white;");
+
+            XYChart.Series<String, Number> series = new XYChart.Series<>();
+            series.setName("2026");
+
+            series.getData().add(new XYChart.Data<>("Jan", 30));
+            series.getData().add(new XYChart.Data<>("Feb", 50));
+            series.getData().add(new XYChart.Data<>("Mar", 40));
+            series.getData().add(new XYChart.Data<>("Apr", 70));
+
+            barChart.getData().add(series);
+            barChart.setAnimated(false);
+
+            BorderPane root = new BorderPane(barChart);
+            Scene scene = new Scene(root);
+            scene.setFill(Color.WHITE);
+
+            fxBar.setScene(scene);
+            Platform.runLater(() -> {
+                for (XYChart.Data<String, Number> data : series.getData()) {
+                    data.nodeProperty().addListener((obs, oldNode, node) -> {
+                        if (node != null) {
+                            Tooltip tooltip = new Tooltip(
+                                    "Bulan: " + data.getXValue() + "\n"
+                                    + "Jumlah: " + data.getYValue()
+                            );
+
+                            Tooltip.install(node, tooltip);
+                        }
+                    });
+                }
+            });
+        });
+    }
+
+    /**
+     * Creates new form DashboardContentPanel
+     */
+    public DashboardContentPanel() {
+        initComponents();
+        headerContainer.setLayout(new BorderLayout());
+        headerContainer.add(new HeaderPanel(MainApp.stokService), BorderLayout.CENTER);
+        initCharts();
+
+        refreshTotalKategori();
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        totalTransaksiHariIniPanel = new javax.swing.JPanel();
+        labelTotalTransaksiHariIni = new javax.swing.JLabel();
+        totalTransaksiHariIni = new javax.swing.JLabel();
+        totalNonObatPanel = new javax.swing.JPanel();
+        labelTotalNonObat = new javax.swing.JLabel();
+        totalNonObat = new javax.swing.JLabel();
+        totalBahanRacikanPanel = new javax.swing.JPanel();
+        labelTotalBahanRacikan = new javax.swing.JLabel();
+        totalBahanRacikan = new javax.swing.JLabel();
+        totalObatOTCPanel = new javax.swing.JPanel();
+        labelTotalObatOTC = new javax.swing.JLabel();
+        totalObatOTC = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        pieChartDistribusiInventarisPanel = new javax.swing.JPanel();
+        barChartTransaksiBulananPanel = new javax.swing.JPanel();
+        headerContainer = new javax.swing.JPanel();
+        lblTableExpied = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tableProdukExpired = new javax.swing.JTable();
+        lblWarningStock1 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tableStockWarning = new javax.swing.JTable();
+
+        setBackground(new java.awt.Color(240, 252, 245));
+
+        totalTransaksiHariIniPanel.setBackground(new java.awt.Color(255, 255, 255));
+        totalTransaksiHariIniPanel.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(208, 232, 216)));
+        totalTransaksiHariIniPanel.setForeground(new java.awt.Color(42, 137, 79));
+
+        labelTotalTransaksiHariIni.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        labelTotalTransaksiHariIni.setForeground(new java.awt.Color(42, 137, 79));
+        labelTotalTransaksiHariIni.setText("Transaksi Hari ini");
+
+        totalTransaksiHariIni.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        totalTransaksiHariIni.setForeground(new java.awt.Color(42, 137, 79));
+        totalTransaksiHariIni.setText("0");
+
+        javax.swing.GroupLayout totalTransaksiHariIniPanelLayout = new javax.swing.GroupLayout(totalTransaksiHariIniPanel);
+        totalTransaksiHariIniPanel.setLayout(totalTransaksiHariIniPanelLayout);
+        totalTransaksiHariIniPanelLayout.setHorizontalGroup(
+            totalTransaksiHariIniPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(totalTransaksiHariIniPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(totalTransaksiHariIniPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(labelTotalTransaksiHariIni, javax.swing.GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE)
+                    .addComponent(totalTransaksiHariIni, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        totalTransaksiHariIniPanelLayout.setVerticalGroup(
+            totalTransaksiHariIniPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(totalTransaksiHariIniPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(labelTotalTransaksiHariIni)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(totalTransaksiHariIni, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        totalNonObatPanel.setBackground(new java.awt.Color(255, 255, 255));
+        totalNonObatPanel.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(208, 232, 216)));
+        totalNonObatPanel.setForeground(new java.awt.Color(42, 137, 79));
+
+        labelTotalNonObat.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        labelTotalNonObat.setForeground(new java.awt.Color(42, 137, 79));
+        labelTotalNonObat.setText("Total Non Obat");
+
+        totalNonObat.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        totalNonObat.setForeground(new java.awt.Color(42, 137, 79));
+        totalNonObat.setText("0");
+
+        javax.swing.GroupLayout totalNonObatPanelLayout = new javax.swing.GroupLayout(totalNonObatPanel);
+        totalNonObatPanel.setLayout(totalNonObatPanelLayout);
+        totalNonObatPanelLayout.setHorizontalGroup(
+            totalNonObatPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(totalNonObatPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(totalNonObatPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(labelTotalNonObat, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
+                    .addComponent(totalNonObat, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        totalNonObatPanelLayout.setVerticalGroup(
+            totalNonObatPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(totalNonObatPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(labelTotalNonObat)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(totalNonObat, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        totalBahanRacikanPanel.setBackground(new java.awt.Color(255, 255, 255));
+        totalBahanRacikanPanel.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(208, 232, 216)));
+        totalBahanRacikanPanel.setForeground(new java.awt.Color(42, 137, 79));
+
+        labelTotalBahanRacikan.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        labelTotalBahanRacikan.setForeground(new java.awt.Color(42, 137, 79));
+        labelTotalBahanRacikan.setText("Total Bahan Racikan");
+
+        totalBahanRacikan.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        totalBahanRacikan.setForeground(new java.awt.Color(42, 137, 79));
+        totalBahanRacikan.setText("0");
+
+        javax.swing.GroupLayout totalBahanRacikanPanelLayout = new javax.swing.GroupLayout(totalBahanRacikanPanel);
+        totalBahanRacikanPanel.setLayout(totalBahanRacikanPanelLayout);
+        totalBahanRacikanPanelLayout.setHorizontalGroup(
+            totalBahanRacikanPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(totalBahanRacikanPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(totalBahanRacikanPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(labelTotalBahanRacikan, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
+                    .addComponent(totalBahanRacikan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        totalBahanRacikanPanelLayout.setVerticalGroup(
+            totalBahanRacikanPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(totalBahanRacikanPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(labelTotalBahanRacikan)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(totalBahanRacikan, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        totalObatOTCPanel.setBackground(new java.awt.Color(255, 255, 255));
+        totalObatOTCPanel.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(208, 232, 216)));
+        totalObatOTCPanel.setForeground(new java.awt.Color(42, 137, 79));
+
+        labelTotalObatOTC.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        labelTotalObatOTC.setForeground(new java.awt.Color(42, 137, 79));
+        labelTotalObatOTC.setText("Total Obat OTC");
+
+        totalObatOTC.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        totalObatOTC.setForeground(new java.awt.Color(42, 137, 79));
+        totalObatOTC.setText("0");
+
+        javax.swing.GroupLayout totalObatOTCPanelLayout = new javax.swing.GroupLayout(totalObatOTCPanel);
+        totalObatOTCPanel.setLayout(totalObatOTCPanelLayout);
+        totalObatOTCPanelLayout.setHorizontalGroup(
+            totalObatOTCPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(totalObatOTCPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(totalObatOTCPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(labelTotalObatOTC, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)
+                    .addComponent(totalObatOTC, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        totalObatOTCPanelLayout.setVerticalGroup(
+            totalObatOTCPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(totalObatOTCPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(labelTotalObatOTC)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(totalObatOTC, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(42, 137, 79));
+        jLabel1.setText("Ringkasan sistem inventaris apotek");
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(20, 145, 66));
+        jLabel2.setText("Dashboard");
+
+        pieChartDistribusiInventarisPanel.setBackground(new java.awt.Color(255, 255, 255));
+        pieChartDistribusiInventarisPanel.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(217, 230, 221), 1, true));
+        pieChartDistribusiInventarisPanel.setForeground(new java.awt.Color(42, 137, 79));
+
+        javax.swing.GroupLayout pieChartDistribusiInventarisPanelLayout = new javax.swing.GroupLayout(pieChartDistribusiInventarisPanel);
+        pieChartDistribusiInventarisPanel.setLayout(pieChartDistribusiInventarisPanelLayout);
+        pieChartDistribusiInventarisPanelLayout.setHorizontalGroup(
+            pieChartDistribusiInventarisPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        pieChartDistribusiInventarisPanelLayout.setVerticalGroup(
+            pieChartDistribusiInventarisPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 247, Short.MAX_VALUE)
+        );
+
+        barChartTransaksiBulananPanel.setBackground(new java.awt.Color(255, 255, 255));
+        barChartTransaksiBulananPanel.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(217, 230, 221), 1, true));
+        barChartTransaksiBulananPanel.setForeground(new java.awt.Color(42, 137, 79));
+
+        javax.swing.GroupLayout barChartTransaksiBulananPanelLayout = new javax.swing.GroupLayout(barChartTransaksiBulananPanel);
+        barChartTransaksiBulananPanel.setLayout(barChartTransaksiBulananPanelLayout);
+        barChartTransaksiBulananPanelLayout.setHorizontalGroup(
+            barChartTransaksiBulananPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        barChartTransaksiBulananPanelLayout.setVerticalGroup(
+            barChartTransaksiBulananPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
+        headerContainer.setMinimumSize(new java.awt.Dimension(100, 80));
+        headerContainer.setPreferredSize(new java.awt.Dimension(0, 80));
+
+        javax.swing.GroupLayout headerContainerLayout = new javax.swing.GroupLayout(headerContainer);
+        headerContainer.setLayout(headerContainerLayout);
+        headerContainerLayout.setHorizontalGroup(
+            headerContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        headerContainerLayout.setVerticalGroup(
+            headerContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 80, Short.MAX_VALUE)
+        );
+
+        lblTableExpied.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        lblTableExpied.setForeground(new java.awt.Color(20, 145, 66));
+        lblTableExpied.setText("Peringatan Produk Mendekati Expired");
+
+        tableProdukExpired.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "ID", "Nama Barang", "Tanggal Expired", "Sisa Hari", "Status"
+            }
+        ));
+        jScrollPane1.setViewportView(tableProdukExpired);
+
+        lblWarningStock1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        lblWarningStock1.setForeground(new java.awt.Color(20, 145, 66));
+        lblWarningStock1.setText("Peringatan Stok Rendah");
+
+        tableStockWarning.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
+            },
+            new String [] {
+                "ID", "Nama Barang", "Kategori", "Stok Saat Ini", "Minimum Stok", "Status"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(tableStockWarning);
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(41, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addGap(0, 531, Short.MAX_VALUE)))
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblWarningStock1)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(lblTableExpied)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(pieChartDistribusiInventarisPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(totalObatOTCPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(totalBahanRacikanPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGap(18, 18, 18)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(totalNonObatPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(totalTransaksiHariIniPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(barChartTransaksiBulananPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addComponent(jScrollPane1))
+                            .addComponent(jScrollPane2))
+                        .addGap(59, 59, 59))))
+            .addComponent(headerContainer, javax.swing.GroupLayout.DEFAULT_SIZE, 800, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(headerContainer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(24, 24, 24)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(totalNonObatPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(totalBahanRacikanPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(totalTransaksiHariIniPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(totalObatOTCPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(barChartTransaksiBulananPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pieChartDistribusiInventarisPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(lblWarningStock1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(lblTableExpied)
+                .addGap(12, 12, 12)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+    }// </editor-fold>//GEN-END:initComponents
+
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel barChartTransaksiBulananPanel;
+    private javax.swing.JPanel headerContainer;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel labelTotalBahanRacikan;
+    private javax.swing.JLabel labelTotalNonObat;
+    private javax.swing.JLabel labelTotalObatOTC;
+    private javax.swing.JLabel labelTotalTransaksiHariIni;
+    private javax.swing.JLabel lblTableExpied;
+    private javax.swing.JLabel lblWarningStock1;
+    private javax.swing.JPanel pieChartDistribusiInventarisPanel;
+    private javax.swing.JTable tableProdukExpired;
+    private javax.swing.JTable tableStockWarning;
+    private javax.swing.JLabel totalBahanRacikan;
+    private javax.swing.JPanel totalBahanRacikanPanel;
+    private javax.swing.JLabel totalNonObat;
+    private javax.swing.JPanel totalNonObatPanel;
+    private javax.swing.JLabel totalObatOTC;
+    private javax.swing.JPanel totalObatOTCPanel;
+    private javax.swing.JLabel totalTransaksiHariIni;
+    private javax.swing.JPanel totalTransaksiHariIniPanel;
+    // End of variables declaration//GEN-END:variables
+}
