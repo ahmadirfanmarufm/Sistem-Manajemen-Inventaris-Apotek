@@ -11,12 +11,4 @@ public class Apoteker extends User {
     public String getShift() {
         return shift;
     }
-
-    public void melihatStok() {
-        System.out.println("Melihat stok...");
-    }
-
-    public void laporkanTransaksi() {
-        System.out.println("Laporan transaksi...");
-    }
 }

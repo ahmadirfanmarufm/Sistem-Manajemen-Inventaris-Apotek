@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package com.apotek.ui;
 
 import javax.swing.JTable;
@@ -107,13 +103,6 @@ public class AuditInput extends javax.swing.JPanel {
         
         NamaItem.setModel(model);
     }
-    
-   
-    
-    
-
-
-    
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -309,11 +298,14 @@ public class AuditInput extends javax.swing.JPanel {
 
     private void buttonSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSimpanActionPerformed
         // TODO add your handling code here:
-        String tanggal = "";
+        String tanggal;
         if (InputTanggal.getModel().getValue() != null) {
             java.util.Calendar cal = (java.util.Calendar) InputTanggal.getModel().getValue();
             java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd/MM/yyyy");
             tanggal = sdf.format(cal.getTime());
+        } else {
+            JOptionPane.showMessageDialog(this, "Mohon isi tanggal yang valid!");
+            return;
         }
 
         String idBarang = jTextField3.getText().trim();
@@ -322,7 +314,7 @@ public class AuditInput extends javax.swing.JPanel {
         String auditor = jTextField1.getText().trim();
 
         if (namaBarang == null || namaBarang.equals("Pilih Item...") || idBarang.isEmpty() || stokFisikStr.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Mohon lengkapi data wajib (Nama Barang, Stok Fisik)!");
+            JOptionPane.showMessageDialog(this, "Mohon lengkapi data wajib!");
             return;
         }
 

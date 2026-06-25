@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package com.apotek.ui;
 import com.apotek.service.UserService;
 import com.apotek.service.LoginSession;
@@ -170,17 +166,18 @@ public class LoginFrame extends javax.swing.JFrame {
 
         if (user != null) {
             String role = user.getClass().getSimpleName();
+            String displayRole;
 
             if(role.equalsIgnoreCase("PJApoteker")) {
-                role = "Apoteker PJ";
+                displayRole = "Apoteker PJ";
             } else {
-                role = "Apoteker";
+                displayRole = "Apoteker";
             }
 
             LoginSession.setCurrentUser(user);
             LoginSession.login(user);
 
-            JOptionPane.showMessageDialog(this, user.getName() + " kamu berhasil Login sebagai " + role);
+            JOptionPane.showMessageDialog(this, user.getName() + " kamu berhasil Login sebagai " + displayRole);
 
             if(role.equalsIgnoreCase("PJApoteker")) {
                 new DashboardPJApotekerFrame().setVisible(true);

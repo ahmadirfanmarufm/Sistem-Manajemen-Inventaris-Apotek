@@ -19,7 +19,6 @@ public class StokService {
     private final StokBahanRacikan stokBahanRacikan;
     private final StokNonObat stokNonObat;
     
-    // ================= CONSTRUCTOR =================
     public StokService(StokObatOTC stokObatOTC, StokBahanRacikan stokBahanRacikan, StokNonObat stokNonObat) {
         this.stokObatOTC = stokObatOTC;
         this.stokBahanRacikan = stokBahanRacikan;
