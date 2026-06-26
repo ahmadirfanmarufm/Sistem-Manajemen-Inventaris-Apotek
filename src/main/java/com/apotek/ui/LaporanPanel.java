@@ -4,9 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import com.apotek.model.ObatOTC;
-import com.apotek.model.BahanRacikan;
-import com.apotek.model.NonObat;
 
 /**
  *
@@ -14,7 +11,6 @@ import com.apotek.model.NonObat;
  */
 public class LaporanPanel extends JPanel {
 
-    private RingkasanPanel ringkasanPanel;
     private PenjualanPanel penjualanPanel;
     private InventarisPanel inventarisPanel;
 
@@ -37,7 +33,6 @@ public class LaporanPanel extends JPanel {
     private void setActiveMenu(JButton activeButton) {
 
         JButton[] buttons = {
-            btnRingkasanPanel,
             btnPenjualanPanel,
             btnInventarisPanel
         };
@@ -63,12 +58,11 @@ public class LaporanPanel extends JPanel {
         headerContainer.setLayout(new BorderLayout());
         headerContainer.add(new HeaderPanel(MainApp.stokService), BorderLayout.CENTER);
 
-        ringkasanPanel = new RingkasanPanel();
         penjualanPanel = new PenjualanPanel();
         inventarisPanel = new InventarisPanel();
 
-        showPanel(ringkasanPanel);
-        setActiveMenu(btnRingkasanPanel);
+        setActiveMenu(btnInventarisPanel);
+        showPanel(inventarisPanel);
         contentScrollPane.getVerticalScrollBar().setUnitIncrement(16);
     }
 
@@ -99,44 +93,38 @@ public class LaporanPanel extends JPanel {
 
         contentScrollPane = new javax.swing.JScrollPane();
         contentContainer = new javax.swing.JPanel();
-        btnRingkasanPanel = new javax.swing.JButton();
+        btnInventarisPanel = new javax.swing.JButton();
         headerContainer = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         totalObatOTCPanel4 = new javax.swing.JPanel();
         labelTotalProduk4 = new javax.swing.JLabel();
         totalTransaksi = new javax.swing.JLabel();
-        labelKenaikanDanKeturunanTotalTransaksi = new javax.swing.JLabel();
         totalObatOTCPanel3 = new javax.swing.JPanel();
         labelTotalProduk3 = new javax.swing.JLabel();
         totalNonObat = new javax.swing.JLabel();
-        labelKenaikanDanKeturunanTotalNonObat = new javax.swing.JLabel();
         totalObatOTCPanel2 = new javax.swing.JPanel();
         labelTotalProduk2 = new javax.swing.JLabel();
         totalBahanRacikan = new javax.swing.JLabel();
-        labelKenaikanDanKeturunanTotalBahanRacikan = new javax.swing.JLabel();
         totalObatOTCPanel1 = new javax.swing.JPanel();
         labelTotalProduk1 = new javax.swing.JLabel();
         totalObatOTC = new javax.swing.JLabel();
-        labelKenaikanDanKeturunanTotalObatOTC = new javax.swing.JLabel();
         totalObatOTCPanel = new javax.swing.JPanel();
         labelTotalProduk = new javax.swing.JLabel();
         totalProduk = new javax.swing.JLabel();
-        labelKenaikanDanKeturunanTotalProduk = new javax.swing.JLabel();
         btnPenjualanPanel = new javax.swing.JButton();
-        btnInventarisPanel = new javax.swing.JButton();
         tabPanel = new javax.swing.JPanel();
 
         setBackground(new java.awt.Color(240, 252, 245));
 
         contentContainer.setBackground(new java.awt.Color(240, 252, 245));
 
-        btnRingkasanPanel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnRingkasanPanel.setForeground(new java.awt.Color(0, 155, 54));
-        btnRingkasanPanel.setText("Ringkasan");
-        btnRingkasanPanel.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        btnRingkasanPanel.setPreferredSize(new java.awt.Dimension(210, 50));
-        btnRingkasanPanel.addActionListener(this::btnRingkasanPanelActionPerformed);
+        btnInventarisPanel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnInventarisPanel.setForeground(new java.awt.Color(0, 155, 54));
+        btnInventarisPanel.setText("Inventaris");
+        btnInventarisPanel.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnInventarisPanel.setPreferredSize(new java.awt.Dimension(210, 50));
+        btnInventarisPanel.addActionListener(this::btnInventarisPanelActionPerformed);
 
         headerContainer.setMinimumSize(new java.awt.Dimension(100, 80));
         headerContainer.setPreferredSize(new java.awt.Dimension(0, 80));
@@ -172,9 +160,6 @@ public class LaporanPanel extends JPanel {
         totalTransaksi.setForeground(new java.awt.Color(42, 137, 79));
         totalTransaksi.setText("0");
 
-        labelKenaikanDanKeturunanTotalTransaksi.setForeground(new java.awt.Color(42, 137, 79));
-        labelKenaikanDanKeturunanTotalTransaksi.setText("+0%");
-
         javax.swing.GroupLayout totalObatOTCPanel4Layout = new javax.swing.GroupLayout(totalObatOTCPanel4);
         totalObatOTCPanel4.setLayout(totalObatOTCPanel4Layout);
         totalObatOTCPanel4Layout.setHorizontalGroup(
@@ -183,8 +168,7 @@ public class LaporanPanel extends JPanel {
                 .addContainerGap()
                 .addGroup(totalObatOTCPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(labelTotalProduk4, javax.swing.GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE)
-                    .addComponent(totalTransaksi, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(labelKenaikanDanKeturunanTotalTransaksi, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(totalTransaksi, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         totalObatOTCPanel4Layout.setVerticalGroup(
@@ -194,8 +178,6 @@ public class LaporanPanel extends JPanel {
                 .addComponent(labelTotalProduk4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(totalTransaksi, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(labelKenaikanDanKeturunanTotalTransaksi)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -211,9 +193,6 @@ public class LaporanPanel extends JPanel {
         totalNonObat.setForeground(new java.awt.Color(42, 137, 79));
         totalNonObat.setText("0");
 
-        labelKenaikanDanKeturunanTotalNonObat.setForeground(new java.awt.Color(255, 0, 58));
-        labelKenaikanDanKeturunanTotalNonObat.setText("-0%");
-
         javax.swing.GroupLayout totalObatOTCPanel3Layout = new javax.swing.GroupLayout(totalObatOTCPanel3);
         totalObatOTCPanel3.setLayout(totalObatOTCPanel3Layout);
         totalObatOTCPanel3Layout.setHorizontalGroup(
@@ -222,8 +201,7 @@ public class LaporanPanel extends JPanel {
                 .addContainerGap()
                 .addGroup(totalObatOTCPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(labelTotalProduk3, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)
-                    .addComponent(totalNonObat, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(labelKenaikanDanKeturunanTotalNonObat, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(totalNonObat, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         totalObatOTCPanel3Layout.setVerticalGroup(
@@ -233,8 +211,6 @@ public class LaporanPanel extends JPanel {
                 .addComponent(labelTotalProduk3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(totalNonObat, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(labelKenaikanDanKeturunanTotalNonObat)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -250,9 +226,6 @@ public class LaporanPanel extends JPanel {
         totalBahanRacikan.setForeground(new java.awt.Color(42, 137, 79));
         totalBahanRacikan.setText("0");
 
-        labelKenaikanDanKeturunanTotalBahanRacikan.setForeground(new java.awt.Color(42, 137, 79));
-        labelKenaikanDanKeturunanTotalBahanRacikan.setText("+0%");
-
         javax.swing.GroupLayout totalObatOTCPanel2Layout = new javax.swing.GroupLayout(totalObatOTCPanel2);
         totalObatOTCPanel2.setLayout(totalObatOTCPanel2Layout);
         totalObatOTCPanel2Layout.setHorizontalGroup(
@@ -261,8 +234,7 @@ public class LaporanPanel extends JPanel {
                 .addContainerGap()
                 .addGroup(totalObatOTCPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(labelTotalProduk2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(totalBahanRacikan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(labelKenaikanDanKeturunanTotalBahanRacikan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(totalBahanRacikan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         totalObatOTCPanel2Layout.setVerticalGroup(
@@ -272,8 +244,6 @@ public class LaporanPanel extends JPanel {
                 .addComponent(labelTotalProduk2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(totalBahanRacikan, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(labelKenaikanDanKeturunanTotalBahanRacikan)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -289,9 +259,6 @@ public class LaporanPanel extends JPanel {
         totalObatOTC.setForeground(new java.awt.Color(42, 137, 79));
         totalObatOTC.setText("0");
 
-        labelKenaikanDanKeturunanTotalObatOTC.setForeground(new java.awt.Color(42, 137, 79));
-        labelKenaikanDanKeturunanTotalObatOTC.setText("+0%");
-
         javax.swing.GroupLayout totalObatOTCPanel1Layout = new javax.swing.GroupLayout(totalObatOTCPanel1);
         totalObatOTCPanel1.setLayout(totalObatOTCPanel1Layout);
         totalObatOTCPanel1Layout.setHorizontalGroup(
@@ -300,8 +267,7 @@ public class LaporanPanel extends JPanel {
                 .addContainerGap()
                 .addGroup(totalObatOTCPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(labelTotalProduk1, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)
-                    .addComponent(totalObatOTC, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(labelKenaikanDanKeturunanTotalObatOTC, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(totalObatOTC, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         totalObatOTCPanel1Layout.setVerticalGroup(
@@ -311,9 +277,7 @@ public class LaporanPanel extends JPanel {
                 .addComponent(labelTotalProduk1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(totalObatOTC, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(labelKenaikanDanKeturunanTotalObatOTC)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         totalObatOTCPanel.setBackground(new java.awt.Color(255, 255, 255));
@@ -328,9 +292,6 @@ public class LaporanPanel extends JPanel {
         totalProduk.setForeground(new java.awt.Color(42, 137, 79));
         totalProduk.setText("0");
 
-        labelKenaikanDanKeturunanTotalProduk.setForeground(new java.awt.Color(42, 137, 79));
-        labelKenaikanDanKeturunanTotalProduk.setText("+0%");
-
         javax.swing.GroupLayout totalObatOTCPanelLayout = new javax.swing.GroupLayout(totalObatOTCPanel);
         totalObatOTCPanel.setLayout(totalObatOTCPanelLayout);
         totalObatOTCPanelLayout.setHorizontalGroup(
@@ -339,8 +300,7 @@ public class LaporanPanel extends JPanel {
                 .addContainerGap()
                 .addGroup(totalObatOTCPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(labelTotalProduk, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)
-                    .addComponent(totalProduk, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(labelKenaikanDanKeturunanTotalProduk, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(totalProduk, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         totalObatOTCPanelLayout.setVerticalGroup(
@@ -350,8 +310,6 @@ public class LaporanPanel extends JPanel {
                 .addComponent(labelTotalProduk)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(totalProduk, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(labelKenaikanDanKeturunanTotalProduk)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -361,13 +319,6 @@ public class LaporanPanel extends JPanel {
         btnPenjualanPanel.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btnPenjualanPanel.setPreferredSize(new java.awt.Dimension(210, 50));
         btnPenjualanPanel.addActionListener(this::btnPenjualanPanelActionPerformed);
-
-        btnInventarisPanel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnInventarisPanel.setForeground(new java.awt.Color(0, 155, 54));
-        btnInventarisPanel.setText("Inventaris");
-        btnInventarisPanel.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        btnInventarisPanel.setPreferredSize(new java.awt.Dimension(210, 50));
-        btnInventarisPanel.addActionListener(this::btnInventarisPanelActionPerformed);
 
         tabPanel.setMaximumSize(new java.awt.Dimension(1019, 810));
         tabPanel.setPreferredSize(new java.awt.Dimension(1019, 810));
@@ -396,11 +347,9 @@ public class LaporanPanel extends JPanel {
                         .addGroup(contentContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(tabPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(contentContainerLayout.createSequentialGroup()
-                                .addComponent(btnRingkasanPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnInventarisPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnPenjualanPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnInventarisPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(btnPenjualanPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jLabel1)
                             .addGroup(contentContainerLayout.createSequentialGroup()
                                 .addGap(149, 149, 149)
@@ -425,17 +374,16 @@ public class LaporanPanel extends JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(contentContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(totalObatOTCPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(totalObatOTCPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(totalObatOTCPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(totalObatOTCPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(totalObatOTCPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGroup(contentContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(totalObatOTCPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(totalObatOTCPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(totalObatOTCPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(totalObatOTCPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(totalObatOTCPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(30, 30, 30)
                 .addGroup(contentContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnRingkasanPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnPenjualanPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnInventarisPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnInventarisPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnPenjualanPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(tabPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(103, Short.MAX_VALUE))
@@ -455,36 +403,25 @@ public class LaporanPanel extends JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnRingkasanPanelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRingkasanPanelActionPerformed
-        setActiveMenu(btnRingkasanPanel);
-        showPanel(ringkasanPanel);
-    }//GEN-LAST:event_btnRingkasanPanelActionPerformed
+    private void btnInventarisPanelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInventarisPanelActionPerformed
+        setActiveMenu(btnInventarisPanel);
+        showPanel(inventarisPanel);
+    }//GEN-LAST:event_btnInventarisPanelActionPerformed
 
     private void btnPenjualanPanelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPenjualanPanelActionPerformed
         setActiveMenu(btnPenjualanPanel);
         showPanel(penjualanPanel);
     }//GEN-LAST:event_btnPenjualanPanelActionPerformed
 
-    private void btnInventarisPanelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInventarisPanelActionPerformed
-        setActiveMenu(btnInventarisPanel);
-        showPanel(inventarisPanel);
-    }//GEN-LAST:event_btnInventarisPanelActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnInventarisPanel;
     private javax.swing.JButton btnPenjualanPanel;
-    private javax.swing.JButton btnRingkasanPanel;
     private javax.swing.JPanel contentContainer;
     private javax.swing.JScrollPane contentScrollPane;
     private javax.swing.JPanel headerContainer;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel labelKenaikanDanKeturunanTotalBahanRacikan;
-    private javax.swing.JLabel labelKenaikanDanKeturunanTotalNonObat;
-    private javax.swing.JLabel labelKenaikanDanKeturunanTotalObatOTC;
-    private javax.swing.JLabel labelKenaikanDanKeturunanTotalProduk;
-    private javax.swing.JLabel labelKenaikanDanKeturunanTotalTransaksi;
     private javax.swing.JLabel labelTotalProduk;
     private javax.swing.JLabel labelTotalProduk1;
     private javax.swing.JLabel labelTotalProduk2;

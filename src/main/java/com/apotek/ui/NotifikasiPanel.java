@@ -1,18 +1,94 @@
 package com.apotek.ui;
 
+import com.apotek.model.Notifikasi;
+import com.apotek.observer.NotifikasiObserver;
 import java.awt.BorderLayout;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import javax.swing.JOptionPane;
+import static javax.swing.JOptionPane.WARNING_MESSAGE;
+import static javax.swing.JOptionPane.YES_NO_OPTION;
+import static javax.swing.JOptionPane.YES_OPTION;
+import javax.swing.Timer;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author himorii
  */
-public class NotifikasiPanel extends javax.swing.JPanel {
+public class NotifikasiPanel extends javax.swing.JPanel implements NotifikasiObserver {
+    private List<Notifikasi> notifikasiStok;
+    private Timer refreshTimer;
+    
+    private void loadStatistik() {
+        int kritis = 0;
+        int info = 0;
+        int warning = 0;
+        int sukses = 0;
+    
+        for(Notifikasi notif : MainApp.notifikasiManager.getAllNotifikasi()) {
+            switch(notif.getTipe()) {
+                case "CRITICAL":
+                    kritis++;
+                    break;
+                    
+                case "WARNING":
+                    warning++;
+                    break;
+                    
+                case "INFO":
+                    info++;
+                    break;
+                  
+                case "SUCCESS":
+                    sukses++;
+                    break;
+            }
+        }
+        
+        totalNotifikasiKritis.setText(String.valueOf(kritis));
+        totalNotifikasiInfo.setText(String.valueOf(info));
+        totalNotifikasiPeringatan.setText(String.valueOf(warning));
+        totalNotifikasiBerhasil.setText(String.valueOf(sukses));
+    }
+    
+    private void loadTabelNotifikasi() {      
+        notifikasiStok = MainApp.notifikasiManager.getAllNotifikasi();
+        
+        DefaultTableModel model = (DefaultTableModel) tableNotifikasi.getModel();
+        
+        model.setRowCount(0);
+        
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        
+        for(Notifikasi notif : notifikasiStok) {            
+            model.addRow(new Object[] {
+                notif.getTanggal().format(formatter),
+                notif.getJudul(),
+                notif.getTipe(),
+                notif.getPesan(),
+                notif.getPrioritas(),
+                notif.isStatusBaca() ? "Dibaca" : "Belum Dibaca",
+            });
+        }
+    }
+    
+    @Override
+    public void updateNotifikasi() {
+        loadStatistik();
+        loadTabelNotifikasi();
+    }
 
     /**
      * Creates new form ProdukPanel
      */
     public NotifikasiPanel() {
         initComponents();
+        
+        MainApp.notifikasiManager.addObserver(this);
+        
+        updateNotifikasi();
+        
         headerContainer.setLayout(new BorderLayout());
         headerContainer.add(new HeaderPanel(MainApp.stokService), BorderLayout.CENTER);
         contentScrollPane.getVerticalScrollBar().setUnitIncrement(16);
@@ -35,10 +111,6 @@ public class NotifikasiPanel extends javax.swing.JPanel {
         lblDescriptionObatOTC = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableNotifikasi = new javax.swing.JTable();
-        jLabel1 = new javax.swing.JLabel();
-        btnPrevious = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
-        btnNext1 = new javax.swing.JButton();
         totalNotifikasiKritisPanel3 = new javax.swing.JPanel();
         labelTotalNotifikasiBerhasil = new javax.swing.JLabel();
         totalNotifikasiBerhasil = new javax.swing.JLabel();
@@ -51,6 +123,7 @@ public class NotifikasiPanel extends javax.swing.JPanel {
         totalNotifikasiKritisPanel = new javax.swing.JPanel();
         labelTotalNotifikasiKritis = new javax.swing.JLabel();
         totalNotifikasiKritis = new javax.swing.JLabel();
+        btnHapusNotifikasi = new javax.swing.JButton();
 
         jRadioButton1.setText("jRadioButton1");
 
@@ -88,34 +161,29 @@ public class NotifikasiPanel extends javax.swing.JPanel {
 
         tableNotifikasi.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Tanggal", "Judul", "Tipe", "Pesan", "Prioritas", "Status"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        tableNotifikasi.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableNotifikasiMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tableNotifikasi);
-
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(42, 137, 79));
-        jLabel1.setText("Menampilkan 0 dari 0 transaksi");
-
-        btnPrevious.setBackground(new java.awt.Color(20, 145, 66));
-        btnPrevious.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnPrevious.setForeground(new java.awt.Color(255, 255, 255));
-        btnPrevious.setText("Sebelumnya");
-
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(42, 137, 79));
-        jLabel2.setText("Halaman 0 dari 0");
-
-        btnNext1.setBackground(new java.awt.Color(20, 145, 66));
-        btnNext1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnNext1.setForeground(new java.awt.Color(255, 255, 255));
-        btnNext1.setText("Selanjutnya");
 
         totalNotifikasiKritisPanel3.setBackground(new java.awt.Color(255, 255, 255));
         totalNotifikasiKritisPanel3.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(208, 232, 216)));
@@ -189,10 +257,10 @@ public class NotifikasiPanel extends javax.swing.JPanel {
 
         labelTotalNotifikasiPeringatan.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         labelTotalNotifikasiPeringatan.setForeground(new java.awt.Color(42, 137, 79));
-        labelTotalNotifikasiPeringatan.setText("Transaksi Hari ini");
+        labelTotalNotifikasiPeringatan.setText("Peringatan");
 
         totalNotifikasiPeringatan.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        totalNotifikasiPeringatan.setForeground(new java.awt.Color(241, 140, 163));
+        totalNotifikasiPeringatan.setForeground(new java.awt.Color(255, 153, 0));
         totalNotifikasiPeringatan.setText("0");
 
         javax.swing.GroupLayout totalNotifikasiKritisPanel1Layout = new javax.swing.GroupLayout(totalNotifikasiKritisPanel1);
@@ -225,7 +293,7 @@ public class NotifikasiPanel extends javax.swing.JPanel {
         labelTotalNotifikasiKritis.setText("Kritis");
 
         totalNotifikasiKritis.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        totalNotifikasiKritis.setForeground(new java.awt.Color(241, 140, 163));
+        totalNotifikasiKritis.setForeground(new java.awt.Color(255, 0, 0));
         totalNotifikasiKritis.setText("0");
 
         javax.swing.GroupLayout totalNotifikasiKritisPanelLayout = new javax.swing.GroupLayout(totalNotifikasiKritisPanel);
@@ -249,48 +317,53 @@ public class NotifikasiPanel extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
+        btnHapusNotifikasi.setBackground(new java.awt.Color(20, 145, 66));
+        btnHapusNotifikasi.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        btnHapusNotifikasi.setForeground(new java.awt.Color(255, 255, 255));
+        btnHapusNotifikasi.setText("HAPUS NOTIFIKASI");
+        btnHapusNotifikasi.setBorder(null);
+        btnHapusNotifikasi.addActionListener(this::btnHapusNotifikasiActionPerformed);
+
         javax.swing.GroupLayout contentPanelLayout = new javax.swing.GroupLayout(contentPanel);
         contentPanel.setLayout(contentPanelLayout);
         contentPanelLayout.setHorizontalGroup(
             contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(headerContainer, javax.swing.GroupLayout.DEFAULT_SIZE, 1080, Short.MAX_VALUE)
-            .addGroup(contentPanelLayout.createSequentialGroup()
-                .addGap(41, 41, 41)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, contentPanelLayout.createSequentialGroup()
                 .addGroup(contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(contentPanelLayout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnPrevious)
+                        .addGap(150, 150, 150)
+                        .addComponent(totalNotifikasiKritisPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jLabel2)
+                        .addComponent(totalNotifikasiKritisPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(btnNext1))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(totalNotifikasiKritisPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(totalNotifikasiKritisPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(contentPanelLayout.createSequentialGroup()
-                        .addGroup(contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(lblDescriptionObatOTC, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblTitleObatOTC, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(41, 41, 41)
+                        .addGroup(contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 998, Short.MAX_VALUE)
+                            .addGroup(contentPanelLayout.createSequentialGroup()
+                                .addGroup(contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(lblDescriptionObatOTC, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblTitleObatOTC, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnHapusNotifikasi, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addGap(41, 41, 41))
-            .addGroup(contentPanelLayout.createSequentialGroup()
-                .addGap(150, 150, 150)
-                .addComponent(totalNotifikasiKritisPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(totalNotifikasiKritisPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(totalNotifikasiKritisPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(totalNotifikasiKritisPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(150, 150, 150))
         );
         contentPanelLayout.setVerticalGroup(
             contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(contentPanelLayout.createSequentialGroup()
-                .addComponent(headerContainer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(24, 24, 24)
-                .addComponent(lblTitleObatOTC, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblDescriptionObatOTC)
+                .addGroup(contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(contentPanelLayout.createSequentialGroup()
+                        .addComponent(headerContainer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(24, 24, 24)
+                        .addComponent(lblTitleObatOTC, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblDescriptionObatOTC))
+                    .addComponent(btnHapusNotifikasi, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(totalNotifikasiKritisPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -298,15 +371,8 @@ public class NotifikasiPanel extends javax.swing.JPanel {
                     .addComponent(totalNotifikasiKritisPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(totalNotifikasiKritisPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 457, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addGroup(contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnPrevious, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel2)
-                        .addComponent(btnNext1, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)))
-                .addGap(859, 859, 859))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 509, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         contentScrollPane.setViewportView(contentPanel);
@@ -323,15 +389,48 @@ public class NotifikasiPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void tableNotifikasiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableNotifikasiMouseClicked
+        int row = tableNotifikasi.getSelectedRow();
+        
+        if(row >= 0) {
+            Notifikasi notif = notifikasiStok.get(row);
+            
+            if(!notif.isStatusBaca()) {                
+                MainApp.notifikasiManager.tandaiDibaca(notif.getIdNotifikasi());
+            }
+        }
+    }//GEN-LAST:event_tableNotifikasiMouseClicked
+
+    private void btnHapusNotifikasiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusNotifikasiActionPerformed
+        int row = tableNotifikasi.getSelectedRow();
+        
+        if(row < 0) {
+            JOptionPane.showMessageDialog(this, "Pilih notifikasi yang ingin dihapus!", "Peringatan", WARNING_MESSAGE);
+            return;
+        }
+        
+        Notifikasi notif = notifikasiStok.get(row);
+        
+        int konfirmasi = JOptionPane.showConfirmDialog(
+            this, 
+            "Yakin ingin menghapus notifikasi ini?", 
+            "Konfirmasi Hapus", 
+            YES_NO_OPTION
+        );
+        
+        if(konfirmasi == YES_OPTION) {
+            MainApp.notifikasiManager.hapusNotifikasi(notif.getIdNotifikasi());
+        }
+    }//GEN-LAST:event_btnHapusNotifikasiActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnNext1;
-    private javax.swing.JButton btnPrevious;
+    private javax.swing.JButton btnHapusNotifikasi;
+    private javax.swing.JButton btnTambahObatOTC;
+    private javax.swing.JButton btnTambahObatOTC1;
     private javax.swing.JPanel contentPanel;
     private javax.swing.JScrollPane contentScrollPane;
     private javax.swing.JPanel headerContainer;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel labelTotalNotifikasiBerhasil;

@@ -131,9 +131,6 @@ public class ProdukContentPanel extends javax.swing.JPanel {
         btnTambahObatOTC = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tabelBahanRacikan = new javax.swing.JTable();
-        btnNextObatOTC = new javax.swing.JButton();
-        lblHalamanObatOTC = new javax.swing.JLabel();
-        btnPreviousBahanRacikan = new javax.swing.JButton();
         lblShowDataObatOTC = new javax.swing.JLabel();
         lblTitleBahanRacikan = new javax.swing.JLabel();
         lblDescriptionBahanRacikan = new javax.swing.JLabel();
@@ -141,9 +138,6 @@ public class ProdukContentPanel extends javax.swing.JPanel {
         tabelObatOTC = new javax.swing.JTable();
         tabelObatOTC.getTableHeader().setReorderingAllowed(false);
         btnTambahBahanRacikan = new javax.swing.JButton();
-        lblHalamanBahanRacikan = new javax.swing.JLabel();
-        btnNextBahanRacikan = new javax.swing.JButton();
-        btnPreviousObatOTC = new javax.swing.JButton();
         lblShowDataBahanRacikan = new javax.swing.JLabel();
         lblTitleNonObat = new javax.swing.JLabel();
         lblDescriptionNonObat = new javax.swing.JLabel();
@@ -151,12 +145,15 @@ public class ProdukContentPanel extends javax.swing.JPanel {
         jScrollPane4 = new javax.swing.JScrollPane();
         tableNonObat = new javax.swing.JTable();
         lblShowDataBahanRacikan1 = new javax.swing.JLabel();
+<<<<<<< HEAD
         btnNextNonObat = new javax.swing.JButton();
         lblHalamanNonObat = new javax.swing.JLabel();
         btnPreviousNonObat = new javax.swing.JButton();
         editObatOTC = new javax.swing.JButton();
         editBahanRacikan = new javax.swing.JButton();
         editNonObat = new javax.swing.JButton();
+=======
+>>>>>>> 0ce9a0c084ebcea576ba9e3de21249ac04b1e934
 
         jRadioButton1.setText("jRadioButton1");
 
@@ -217,19 +214,6 @@ public class ProdukContentPanel extends javax.swing.JPanel {
         ));
         jScrollPane2.setViewportView(tabelBahanRacikan);
 
-        btnNextObatOTC.setBackground(new java.awt.Color(20, 145, 66));
-        btnNextObatOTC.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnNextObatOTC.setForeground(new java.awt.Color(255, 255, 255));
-        btnNextObatOTC.setText("Selanjutnya");
-
-        lblHalamanObatOTC.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblHalamanObatOTC.setText("Halaman 0 dari 0");
-
-        btnPreviousBahanRacikan.setBackground(new java.awt.Color(20, 145, 66));
-        btnPreviousBahanRacikan.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnPreviousBahanRacikan.setForeground(new java.awt.Color(255, 255, 255));
-        btnPreviousBahanRacikan.setText("Sebelumnya");
-
         lblShowDataObatOTC.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblShowDataObatOTC.setForeground(new java.awt.Color(42, 137, 79));
         lblShowDataObatOTC.setText("Menampilkan 0 dari 15 data");
@@ -274,19 +258,6 @@ public class ProdukContentPanel extends javax.swing.JPanel {
         btnTambahBahanRacikan.setMinimumSize(new java.awt.Dimension(148, 25));
         btnTambahBahanRacikan.setPreferredSize(new java.awt.Dimension(148, 25));
         btnTambahBahanRacikan.addActionListener(this::btnTambahBahanRacikanActionPerformed);
-
-        lblHalamanBahanRacikan.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblHalamanBahanRacikan.setText("Halaman 0 dari 0");
-
-        btnNextBahanRacikan.setBackground(new java.awt.Color(20, 145, 66));
-        btnNextBahanRacikan.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnNextBahanRacikan.setForeground(new java.awt.Color(255, 255, 255));
-        btnNextBahanRacikan.setText("Selanjutnya");
-
-        btnPreviousObatOTC.setBackground(new java.awt.Color(20, 145, 66));
-        btnPreviousObatOTC.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnPreviousObatOTC.setForeground(new java.awt.Color(255, 255, 255));
-        btnPreviousObatOTC.setText("Sebelumnya");
 
         lblShowDataBahanRacikan.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblShowDataBahanRacikan.setForeground(new java.awt.Color(42, 137, 79));
@@ -337,6 +308,7 @@ public class ProdukContentPanel extends javax.swing.JPanel {
         lblShowDataBahanRacikan1.setForeground(new java.awt.Color(42, 137, 79));
         lblShowDataBahanRacikan1.setText("Menampilkan 0 dari 15 data");
 
+<<<<<<< HEAD
         btnNextNonObat.setBackground(new java.awt.Color(20, 145, 66));
         btnNextNonObat.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnNextNonObat.setForeground(new java.awt.Color(255, 255, 255));
@@ -368,13 +340,16 @@ public class ProdukContentPanel extends javax.swing.JPanel {
         editNonObat.setText("Edit Non Obat");
         editNonObat.addActionListener(this::editNonObatActionPerformed);
 
+=======
+>>>>>>> 0ce9a0c084ebcea576ba9e3de21249ac04b1e934
         javax.swing.GroupLayout contentPanelLayout = new javax.swing.GroupLayout(contentPanel);
         contentPanel.setLayout(contentPanelLayout);
         contentPanelLayout.setHorizontalGroup(
             contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(headerContainer, javax.swing.GroupLayout.DEFAULT_SIZE, 1051, Short.MAX_VALUE)
+            .addComponent(headerContainer, javax.swing.GroupLayout.DEFAULT_SIZE, 1089, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, contentPanelLayout.createSequentialGroup()
                 .addGap(41, 41, 41)
+<<<<<<< HEAD
                 .addGroup(contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, contentPanelLayout.createSequentialGroup()
@@ -401,8 +376,15 @@ public class ProdukContentPanel extends javax.swing.JPanel {
                         .addComponent(lblHalamanBahanRacikan)
                         .addGap(18, 18, 18)
                         .addComponent(btnNextBahanRacikan))
+=======
+                .addGroup(contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+>>>>>>> 0ce9a0c084ebcea576ba9e3de21249ac04b1e934
                     .addGroup(contentPanelLayout.createSequentialGroup()
+                        .addComponent(lblShowDataBahanRacikan)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, contentPanelLayout.createSequentialGroup()
                         .addComponent(lblShowDataObatOTC)
+<<<<<<< HEAD
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnPreviousObatOTC)
                         .addGap(18, 18, 18)
@@ -428,6 +410,36 @@ public class ProdukContentPanel extends javax.swing.JPanel {
                         .addComponent(btnTambahNonObat, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane4))
                 .addGap(41, 41, 41))
+=======
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(contentPanelLayout.createSequentialGroup()
+                        .addGroup(contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, contentPanelLayout.createSequentialGroup()
+                                .addGroup(contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(lblTitleObatOTC)
+                                    .addComponent(lblDescriptionObatOTC))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnTambahObatOTC, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, contentPanelLayout.createSequentialGroup()
+                                .addComponent(lblShowDataBahanRacikan1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, contentPanelLayout.createSequentialGroup()
+                                .addGroup(contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblTitleBahanRacikan)
+                                    .addComponent(lblDescriptionBahanRacikan))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 477, Short.MAX_VALUE)
+                                .addComponent(btnTambahBahanRacikan, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, contentPanelLayout.createSequentialGroup()
+                                .addGroup(contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblDescriptionNonObat)
+                                    .addComponent(lblTitleNonObat))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnTambahNonObat, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane4))
+                        .addGap(41, 41, 41))))
+>>>>>>> 0ce9a0c084ebcea576ba9e3de21249ac04b1e934
         );
         contentPanelLayout.setVerticalGroup(
             contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -447,13 +459,8 @@ public class ProdukContentPanel extends javax.swing.JPanel {
                 .addGap(21, 21, 21)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnNextObatOTC, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(lblHalamanObatOTC)
-                        .addComponent(lblShowDataObatOTC)
-                        .addComponent(btnPreviousObatOTC)))
-                .addGap(30, 30, 30)
+                .addComponent(lblShowDataObatOTC)
+                .addGap(34, 34, 34)
                 .addGroup(contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(contentPanelLayout.createSequentialGroup()
                         .addComponent(lblTitleBahanRacikan, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -464,6 +471,7 @@ public class ProdukContentPanel extends javax.swing.JPanel {
                         .addComponent(editBahanRacikan, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(30, 30, 30)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
+<<<<<<< HEAD
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnNextBahanRacikan)
@@ -471,6 +479,11 @@ public class ProdukContentPanel extends javax.swing.JPanel {
                     .addComponent(btnPreviousBahanRacikan)
                     .addComponent(lblShowDataBahanRacikan))
                 .addGap(30, 30, 30)
+=======
+                .addGap(18, 18, 18)
+                .addComponent(lblShowDataBahanRacikan)
+                .addGap(34, 34, 34)
+>>>>>>> 0ce9a0c084ebcea576ba9e3de21249ac04b1e934
                 .addGroup(contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(contentPanelLayout.createSequentialGroup()
                         .addComponent(lblTitleNonObat, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -482,12 +495,8 @@ public class ProdukContentPanel extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblShowDataBahanRacikan1)
-                    .addComponent(btnNextNonObat)
-                    .addComponent(lblHalamanNonObat)
-                    .addComponent(btnPreviousNonObat))
-                .addGap(0, 207, Short.MAX_VALUE))
+                .addComponent(lblShowDataBahanRacikan1)
+                .addGap(0, 211, Short.MAX_VALUE))
         );
 
         contentScrollPane.setViewportView(contentPanel);
@@ -496,15 +505,23 @@ public class ProdukContentPanel extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+<<<<<<< HEAD
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(contentScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 923, Short.MAX_VALUE)
                 .addContainerGap())
+=======
+            .addComponent(contentScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 1101, Short.MAX_VALUE)
+>>>>>>> 0ce9a0c084ebcea576ba9e3de21249ac04b1e934
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+<<<<<<< HEAD
                 .addComponent(contentScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 1059, javax.swing.GroupLayout.PREFERRED_SIZE)
+=======
+                .addComponent(contentScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 1403, javax.swing.GroupLayout.PREFERRED_SIZE)
+>>>>>>> 0ce9a0c084ebcea576ba9e3de21249ac04b1e934
                 .addGap(0, 0, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -607,12 +624,6 @@ public class ProdukContentPanel extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnNextBahanRacikan;
-    private javax.swing.JButton btnNextNonObat;
-    private javax.swing.JButton btnNextObatOTC;
-    private javax.swing.JButton btnPreviousBahanRacikan;
-    private javax.swing.JButton btnPreviousNonObat;
-    private javax.swing.JButton btnPreviousObatOTC;
     private javax.swing.JButton btnTambahBahanRacikan;
     private javax.swing.JButton btnTambahNonObat;
     private javax.swing.JButton btnTambahObatOTC;
@@ -629,9 +640,6 @@ public class ProdukContentPanel extends javax.swing.JPanel {
     private javax.swing.JLabel lblDescriptionBahanRacikan;
     private javax.swing.JLabel lblDescriptionNonObat;
     private javax.swing.JLabel lblDescriptionObatOTC;
-    private javax.swing.JLabel lblHalamanBahanRacikan;
-    private javax.swing.JLabel lblHalamanNonObat;
-    private javax.swing.JLabel lblHalamanObatOTC;
     private javax.swing.JLabel lblShowDataBahanRacikan;
     private javax.swing.JLabel lblShowDataBahanRacikan1;
     private javax.swing.JLabel lblShowDataObatOTC;

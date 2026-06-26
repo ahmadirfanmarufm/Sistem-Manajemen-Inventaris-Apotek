@@ -1,10 +1,11 @@
 package com.apotek.ui;
 
+import com.apotek.observer.DashboardObserver;
+import com.apotek.model.Transaksi;
 import java.awt.BorderLayout;
 import java.text.NumberFormat;
-import java.util.HashMap;
+import java.time.LocalDate;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Set;
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
@@ -14,16 +15,34 @@ import javafx.scene.chart.*;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.StackPane;
 import javafx.util.StringConverter;
+import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
 
 
 /**
  *
  * @author himorii
  */
-public class PenjualanPanel extends javax.swing.JPanel {
+public class PenjualanPanel extends javax.swing.JPanel implements DashboardObserver {
+    private XYChart.Series<String, Number> pendapatanSeries;
+    private XYChart.Data<String, Number>[] pendapatanData;
+    private int[] transaksiBulanan;
+    
+    private String formatRupiah(int nominal){
+        NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("id","ID"));
+
+        return format.format(nominal);
+    }
+    
+    private String formatRupiah(double nominal){
+        NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("id","ID"));
+
+        format.setMaximumFractionDigits(0);
+
+        return format.format(nominal);
+    }
     
     private String formatCurrency(double value) {
-
         String[] units = {
             "",
             "Rb",
@@ -83,8 +102,7 @@ public class PenjualanPanel extends javax.swing.JPanel {
             xAxis.setLabel("Bulan");
             yAxis.setLabel("Pendapatan");
 
-            LineChart<String, Number> lineChart =
-                    new LineChart<>(xAxis, yAxis);
+            LineChart<String, Number> lineChart = new LineChart<>(xAxis, yAxis);
 
             lineChart.setAnimated(true);
             lineChart.setLegendVisible(false);
@@ -93,70 +111,68 @@ public class PenjualanPanel extends javax.swing.JPanel {
             lineChart.setVerticalGridLinesVisible(false);
             lineChart.setAlternativeColumnFillVisible(false);
             lineChart.setAlternativeRowFillVisible(false);
-
-            XYChart.Series<String, Number> pendapatanSeries = new XYChart.Series<>();
+            
+            
+            pendapatanSeries = new XYChart.Series<>();
 
             pendapatanSeries.setName("Pendapatan");
 
-            pendapatanSeries.getData().add(
-                    new XYChart.Data<>("Jan", 18500000));
+            int tahun = LocalDate.now().getYear();
 
-            pendapatanSeries.getData().add(
-                    new XYChart.Data<>("Feb", 16800000));
+            int[] omzet = MainApp.transaksiService
+                    .hitungOmzetPerBulan(tahun);
 
-            pendapatanSeries.getData().add(
-                    new XYChart.Data<>("Mar", 2240000));
+            transaksiBulanan = MainApp.transaksiService.hitungTransaksiPerBulan(tahun);
 
-            pendapatanSeries.getData().add(
-                    new XYChart.Data<>("Apr", 2470000));
+            String[] bulan = {
+                "Jan","Feb","Mar","Apr","Mei","Jun",
+                "Jul","Agu","Sep","Okt","Nov","Des"
+            };
 
-            pendapatanSeries.getData().add(
-                    new XYChart.Data<>("Mei", 2810000));
+            pendapatanData = new XYChart.Data[12];
 
-            pendapatanSeries.getData().add(
-                    new XYChart.Data<>("Jun", 240000));
-            
-            Map<String, Integer> transaksiBulanan = new HashMap<>();
-            transaksiBulanan.put("Jan", 145);
-            transaksiBulanan.put("Feb", 132);
-            transaksiBulanan.put("Mar", 178);
-            transaksiBulanan.put("Apr", 195);
-            transaksiBulanan.put("Mei", 220);
-            transaksiBulanan.put("Jun", 189);
+            for(int i= 0 ; i < 12; i++){
+
+                pendapatanData[i] =
+                        new XYChart.Data<>(
+                                bulan[i],
+                                omzet[i]
+                        );
+
+                pendapatanSeries.getData().add(pendapatanData[i]);
+            }
 
             lineChart.getData().add(pendapatanSeries);
             Platform.runLater(() -> {
-                for (XYChart.Data<String, Number> data
-                        : pendapatanSeries.getData()) {
+                for (XYChart.Data<String, Number> data : pendapatanSeries.getData()) {
 
-                    Node node = data.getNode();
+                Node node = data.getNode();
 
-                    if (node != null) {
-                        int totalTransaksi = transaksiBulanan.getOrDefault(data.getXValue(), 0);
-                        Locale indonesiaRupiah = new Locale("id", "ID");
-                        NumberFormat formatRupiah = NumberFormat.getCurrencyInstance(indonesiaRupiah);
-                        Tooltip tooltip = new Tooltip(
-                                "Bulan : " + data.getXValue()
-                                + "\nPendapatan : " + formatRupiah.format(data.getYValue().doubleValue())
-                                + "\nTotal Transaksi : " + totalTransaksi
-                        );
+                if(node != null){
 
-                        tooltip.setShowDelay(
-                                javafx.util.Duration.millis(100)
-                        );
-                        
-                        tooltip.setStyle(
-                            "-fx-background-color: white;"
-                            + "-fx-text-fill: #111827;"
-                            + "-fx-border-color: #149142;"
-                            + "-fx-border-radius: 6;"
-                            + "-fx-background-radius: 6;"
-                            + "-fx-font-size: 12px;"
-                        );
+                    int index = pendapatanSeries.getData().indexOf(data);
 
-                        Tooltip.install(node, tooltip);
-                    }
+                    Tooltip tooltip =
+                            new Tooltip(
+                                    "Bulan : "
+                                    + data.getXValue()
+                                    + "\nPendapatan : "
+                                    + formatCurrency(
+                                            data.getYValue().doubleValue())
+                                    + "\nTotal Transaksi : "
+                                    + transaksiBulanan[index]
+                            );
+
+                    tooltip.setStyle(
+                            "-fx-background-color:white;"
+                            + "-fx-text-fill:#111827;"
+                            + "-fx-border-color:#149142;"
+                            + "-fx-font-size:12px;"
+                    );
+
+                    Tooltip.install(node, tooltip);
                 }
+            }
             });
             
 
@@ -278,12 +294,73 @@ public class PenjualanPanel extends javax.swing.JPanel {
         grafikPenjualanBulananPanel.repaint();
     }
     
+    private void refreshLineChart(){
+
+        Platform.runLater(() -> {
+
+            int tahun = LocalDate.now().getYear();
+
+            int[] omzet = MainApp.transaksiService.hitungOmzetPerBulan(tahun);
+
+            transaksiBulanan = MainApp.transaksiService.hitungTransaksiPerBulan(tahun);
+
+            for(int i = 0; i < 12; i++){
+
+                pendapatanData[i].setYValue(omzet[i]);
+            }
+        });
+    }
+    
+    @Override
+    public void updateDashboard(){
+        SwingUtilities.invokeLater(() -> {
+            refreshLineChart();
+            updateCards();
+            updateTable();
+        });
+    }
+    
+    private void updateCards(){
+        int pendapatan = MainApp.transaksiService.hitungTotalPendapatan();
+
+        int transaksi = MainApp.transaksiService.getTotalTransaksi();
+
+        double rata = MainApp.transaksiService.hitungRataRataTransaksi();
+
+        totalPendapatan.setText(formatRupiah(pendapatan));
+        totalTransaksi.setText(String.valueOf(transaksi));
+        rataRataPenjualan.setText(formatRupiah(rata));
+    }
+    
+    private void updateTable() {
+        DefaultTableModel model = (DefaultTableModel) tableStokRendah.getModel();
+
+        model.setRowCount(0);
+
+        for (Transaksi t : MainApp.transaksiService.getRiwayatTransaksi()) {
+
+            model.addRow(new Object[]{
+                t.getIdTransaksi(),
+                t.getTanggalTransaksi(),
+                t.getCatatanTransaksi(),
+                formatRupiah(t.getNominalTransaksi())
+
+            });
+
+        }
+
+    }
+    
     /**
      * Creates new form RingkasanPanel
      */
     public PenjualanPanel() {
         initComponents();
         initLineChart();
+        updateCards();
+        updateTable();
+        
+        MainApp.dashboardManager.addObserver(this);
     }
 
     /**
@@ -297,30 +374,21 @@ public class PenjualanPanel extends javax.swing.JPanel {
 
         grafikPenjualanBulananPanel = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tableStokRendah = new javax.swing.JTable();
         rataRataPenjualanPanel = new javax.swing.JPanel();
         labelTotalProduk2 = new javax.swing.JLabel();
         rataRataPenjualan = new javax.swing.JLabel();
-        labelKenaikanDanKeturunanRataRataPenjualan = new javax.swing.JLabel();
         totalTransaksiPanel = new javax.swing.JPanel();
         labelTotalTransaksi = new javax.swing.JLabel();
         totalTransaksi = new javax.swing.JLabel();
-        labelKenaikanDanKeturunanTotalTransaksi = new javax.swing.JLabel();
         totalPendapatanPanel = new javax.swing.JPanel();
         labelTotalPendapatan = new javax.swing.JLabel();
         totalPendapatan = new javax.swing.JLabel();
-        labelKenaikanDanKeturunanTotalPendapatan = new javax.swing.JLabel();
-        periodeTotalPendapatan = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        labelDataRiwayatTransaksi = new javax.swing.JLabel();
-        btnPrevious = new javax.swing.JButton();
-        labelPageDataRiwayatTransaksi = new javax.swing.JLabel();
-        btnNext1 = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
-        setMaximumSize(new java.awt.Dimension(746, 455));
+        setMaximumSize(new java.awt.Dimension(1019, 810));
         setMinimumSize(new java.awt.Dimension(100, 100));
         setPreferredSize(new java.awt.Dimension(746, 455));
 
@@ -342,22 +410,27 @@ public class PenjualanPanel extends javax.swing.JPanel {
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel2.setText("Riwayat Transaksi");
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel4.setText("5 Jan s/d 15 Jan 2026");
-
         jScrollPane2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(20, 145, 66), 1, true));
 
         tableStokRendah.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Nama Produk", "Stok", "Status"
+                "ID", "Tanggal", "Produk", "Nominal"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
         jScrollPane2.setViewportView(tableStokRendah);
 
         rataRataPenjualanPanel.setBackground(new java.awt.Color(255, 255, 255));
@@ -372,9 +445,6 @@ public class PenjualanPanel extends javax.swing.JPanel {
         rataRataPenjualan.setForeground(new java.awt.Color(42, 137, 79));
         rataRataPenjualan.setText("0");
 
-        labelKenaikanDanKeturunanRataRataPenjualan.setForeground(new java.awt.Color(42, 137, 79));
-        labelKenaikanDanKeturunanRataRataPenjualan.setText("+0%");
-
         javax.swing.GroupLayout rataRataPenjualanPanelLayout = new javax.swing.GroupLayout(rataRataPenjualanPanel);
         rataRataPenjualanPanel.setLayout(rataRataPenjualanPanelLayout);
         rataRataPenjualanPanelLayout.setHorizontalGroup(
@@ -383,8 +453,7 @@ public class PenjualanPanel extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(rataRataPenjualanPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(labelTotalProduk2, javax.swing.GroupLayout.DEFAULT_SIZE, 221, Short.MAX_VALUE)
-                    .addComponent(rataRataPenjualan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(labelKenaikanDanKeturunanRataRataPenjualan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(rataRataPenjualan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         rataRataPenjualanPanelLayout.setVerticalGroup(
@@ -394,9 +463,7 @@ public class PenjualanPanel extends javax.swing.JPanel {
                 .addComponent(labelTotalProduk2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(rataRataPenjualan, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(labelKenaikanDanKeturunanRataRataPenjualan)
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         totalTransaksiPanel.setBackground(new java.awt.Color(255, 255, 255));
@@ -411,9 +478,6 @@ public class PenjualanPanel extends javax.swing.JPanel {
         totalTransaksi.setForeground(new java.awt.Color(42, 137, 79));
         totalTransaksi.setText("0");
 
-        labelKenaikanDanKeturunanTotalTransaksi.setForeground(new java.awt.Color(250, 0, 0));
-        labelKenaikanDanKeturunanTotalTransaksi.setText("-0%");
-
         javax.swing.GroupLayout totalTransaksiPanelLayout = new javax.swing.GroupLayout(totalTransaksiPanel);
         totalTransaksiPanel.setLayout(totalTransaksiPanelLayout);
         totalTransaksiPanelLayout.setHorizontalGroup(
@@ -422,8 +486,7 @@ public class PenjualanPanel extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(totalTransaksiPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(labelTotalTransaksi, javax.swing.GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE)
-                    .addComponent(totalTransaksi, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(labelKenaikanDanKeturunanTotalTransaksi, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(totalTransaksi, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         totalTransaksiPanelLayout.setVerticalGroup(
@@ -433,9 +496,7 @@ public class PenjualanPanel extends javax.swing.JPanel {
                 .addComponent(labelTotalTransaksi)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(totalTransaksi, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(labelKenaikanDanKeturunanTotalTransaksi)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         totalPendapatanPanel.setBackground(new java.awt.Color(255, 255, 255));
@@ -450,12 +511,6 @@ public class PenjualanPanel extends javax.swing.JPanel {
         totalPendapatan.setForeground(new java.awt.Color(42, 137, 79));
         totalPendapatan.setText("0");
 
-        labelKenaikanDanKeturunanTotalPendapatan.setForeground(new java.awt.Color(42, 137, 79));
-        labelKenaikanDanKeturunanTotalPendapatan.setText("+0%");
-
-        periodeTotalPendapatan.setForeground(new java.awt.Color(42, 137, 79));
-        periodeTotalPendapatan.setText("5 Jan s/d 15 Jan 2026");
-
         javax.swing.GroupLayout totalPendapatanPanelLayout = new javax.swing.GroupLayout(totalPendapatanPanel);
         totalPendapatanPanel.setLayout(totalPendapatanPanelLayout);
         totalPendapatanPanelLayout.setHorizontalGroup(
@@ -463,13 +518,8 @@ public class PenjualanPanel extends javax.swing.JPanel {
             .addGroup(totalPendapatanPanelLayout.createSequentialGroup()
                 .addGap(5, 5, 5)
                 .addGroup(totalPendapatanPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(labelTotalPendapatan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(totalPendapatan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(totalPendapatanPanelLayout.createSequentialGroup()
-                        .addComponent(labelKenaikanDanKeturunanTotalPendapatan, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(periodeTotalPendapatan, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 10, Short.MAX_VALUE))))
+                    .addComponent(labelTotalPendapatan, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
+                    .addComponent(totalPendapatan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         totalPendapatanPanelLayout.setVerticalGroup(
             totalPendapatanPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -478,33 +528,11 @@ public class PenjualanPanel extends javax.swing.JPanel {
                 .addComponent(labelTotalPendapatan)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(totalPendapatan, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(totalPendapatanPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelKenaikanDanKeturunanTotalPendapatan)
-                    .addComponent(periodeTotalPendapatan))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel3.setText("Grafik Penjualan Bulanan");
-
-        labelDataRiwayatTransaksi.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        labelDataRiwayatTransaksi.setForeground(new java.awt.Color(42, 137, 79));
-        labelDataRiwayatTransaksi.setText("Menampilkan 0 dari 0 transaksi");
-
-        btnPrevious.setBackground(new java.awt.Color(20, 145, 66));
-        btnPrevious.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnPrevious.setForeground(new java.awt.Color(255, 255, 255));
-        btnPrevious.setText("Sebelumnya");
-
-        labelPageDataRiwayatTransaksi.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        labelPageDataRiwayatTransaksi.setForeground(new java.awt.Color(42, 137, 79));
-        labelPageDataRiwayatTransaksi.setText("Halaman 0 dari 0");
-
-        btnNext1.setBackground(new java.awt.Color(20, 145, 66));
-        btnNext1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnNext1.setForeground(new java.awt.Color(255, 255, 255));
-        btnNext1.setText("Selanjutnya");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -517,7 +545,7 @@ public class PenjualanPanel extends javax.swing.JPanel {
                 .addComponent(totalTransaksiPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(rataRataPenjualanPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 129, Short.MAX_VALUE))
+                .addGap(0, 26, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(41, 41, 41)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -526,69 +554,43 @@ public class PenjualanPanel extends javax.swing.JPanel {
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(labelDataRiwayatTransaksi)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnPrevious)
-                                .addGap(18, 18, 18)
-                                .addComponent(labelPageDataRiwayatTransaksi)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnNext1))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel4))
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(grafikPenjualanBulananPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 808, Short.MAX_VALUE))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(grafikPenjualanBulananPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 834, Short.MAX_VALUE)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING))
                         .addGap(41, 41, 41))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(26, 26, 26)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(totalTransaksiPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(totalPendapatanPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(rataRataPenjualanPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(rataRataPenjualanPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(totalTransaksiPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(totalPendapatanPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGap(39, 39, 39)
                 .addComponent(jLabel3)
                 .addGap(18, 18, 18)
                 .addComponent(grafikPenjualanBulananPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel4))
+                .addComponent(jLabel2)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnPrevious, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(labelPageDataRiwayatTransaksi)
-                        .addComponent(btnNext1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(labelDataRiwayatTransaksi))
-                .addGap(16, 16, 16))
+                .addGap(41, 41, 41))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnNext1;
-    private javax.swing.JButton btnPrevious;
     private javax.swing.JPanel grafikPenjualanBulananPanel;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JLabel labelDataRiwayatTransaksi;
-    private javax.swing.JLabel labelKenaikanDanKeturunanRataRataPenjualan;
-    private javax.swing.JLabel labelKenaikanDanKeturunanTotalPendapatan;
-    private javax.swing.JLabel labelKenaikanDanKeturunanTotalTransaksi;
-    private javax.swing.JLabel labelPageDataRiwayatTransaksi;
     private javax.swing.JLabel labelTotalPendapatan;
     private javax.swing.JLabel labelTotalProduk2;
     private javax.swing.JLabel labelTotalTransaksi;
-    private javax.swing.JLabel periodeTotalPendapatan;
     private javax.swing.JLabel rataRataPenjualan;
     private javax.swing.JPanel rataRataPenjualanPanel;
     private javax.swing.JTable tableStokRendah;

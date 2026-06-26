@@ -42,10 +42,6 @@ public class StokMasukPanel extends javax.swing.JPanel {
         dateFrom = new org.jdatepicker.JDatePicker();
         lblSampaiDengan = new javax.swing.JLabel();
         dateTo = new org.jdatepicker.JDatePicker();
-        jLabel1 = new javax.swing.JLabel();
-        btnPrevious = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
-        btnNext1 = new javax.swing.JButton();
 
         jRadioButton1.setText("jRadioButton1");
 
@@ -117,24 +113,6 @@ public class StokMasukPanel extends javax.swing.JPanel {
         lblSampaiDengan.setForeground(new java.awt.Color(42, 137, 79));
         lblSampaiDengan.setText("s/d");
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(42, 137, 79));
-        jLabel1.setText("Menampilkan 0 dari 0 transaksi");
-
-        btnPrevious.setBackground(new java.awt.Color(20, 145, 66));
-        btnPrevious.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnPrevious.setForeground(new java.awt.Color(255, 255, 255));
-        btnPrevious.setText("Sebelumnya");
-
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(42, 137, 79));
-        jLabel2.setText("Halaman 0 dari 0");
-
-        btnNext1.setBackground(new java.awt.Color(20, 145, 66));
-        btnNext1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnNext1.setForeground(new java.awt.Color(255, 255, 255));
-        btnNext1.setText("Selanjutnya");
-
         javax.swing.GroupLayout contentPanelLayout = new javax.swing.GroupLayout(contentPanel);
         contentPanel.setLayout(contentPanelLayout);
         contentPanelLayout.setHorizontalGroup(
@@ -154,14 +132,6 @@ public class StokMasukPanel extends javax.swing.JPanel {
                         .addContainerGap(210, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, contentPanelLayout.createSequentialGroup()
                         .addGroup(contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(contentPanelLayout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnPrevious)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel2)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnNext1))
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(contentPanelLayout.createSequentialGroup()
                                 .addGroup(contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -191,16 +161,7 @@ public class StokMasukPanel extends javax.swing.JPanel {
                         .addComponent(dateTo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(21, 21, 21)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 495, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addGroup(contentPanelLayout.createSequentialGroup()
-                        .addGroup(contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnPrevious, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel2)
-                            .addComponent(btnNext1, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE))
-                        .addGap(3, 3, 3)))
-                .addGap(812, 812, 812))
+                .addContainerGap(76, Short.MAX_VALUE))
         );
 
         contentScrollPane.setViewportView(contentPanel);
@@ -244,16 +205,12 @@ public class StokMasukPanel extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnNext1;
-    private javax.swing.JButton btnPrevious;
     private javax.swing.JButton buttonTambahStok;
     private javax.swing.JPanel contentPanel;
     private javax.swing.JScrollPane contentScrollPane;
     private org.jdatepicker.JDatePicker dateFrom;
     private org.jdatepicker.JDatePicker dateTo;
     private javax.swing.JPanel headerContainer;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblDescriptionObatOTC;

@@ -8,8 +8,14 @@ public abstract class Item {
     protected int stokMinimum;
     protected LocalDate expiredDate;
     protected String deskripsi;
+<<<<<<< HEAD
     
     // Constructor
+=======
+    private boolean notifikasiKritisAktif;
+    private boolean notifikasiExpiredAktif;
+
+>>>>>>> 0ce9a0c084ebcea576ba9e3de21249ac04b1e934
     public Item(String idItem, String namaItem, int quantity, int stokMinimum, LocalDate expiredDate, String deskripsi) {
         this.idItem = idItem;
         this.namaItem = namaItem;
@@ -17,6 +23,8 @@ public abstract class Item {
         this.stokMinimum = stokMinimum;
         this.expiredDate = expiredDate;
         this.deskripsi = deskripsi;
+        this.notifikasiKritisAktif = false;
+        this.notifikasiExpiredAktif = false;
     }
     
     // Mengambil atribut idItem
@@ -69,5 +77,24 @@ public abstract class Item {
         return expiredDate.isBefore(LocalDate.now());
     }
     
+<<<<<<< HEAD
+=======
+    public boolean isNotifikasiKritisAktif() {
+        return notifikasiKritisAktif;
+    }
+
+    public void setNotifikasiKritisAktif(boolean notifikasiKritisAktif) {
+        this.notifikasiKritisAktif = notifikasiKritisAktif;
+    }
+    
+    public boolean isNotifikasiExpiredAktif() {
+        return notifikasiExpiredAktif;
+    }
+
+    public void setNotifikasiExpiredAktif(boolean notifikasiExpiredAktif) {
+        this.notifikasiExpiredAktif = notifikasiExpiredAktif;
+    }
+
+>>>>>>> 0ce9a0c084ebcea576ba9e3de21249ac04b1e934
     public abstract String displayDetail();
 }

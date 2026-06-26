@@ -2,6 +2,7 @@ package com.apotek.ui;
 
 import com.apotek.model.Apoteker;
 import com.apotek.model.User;
+import com.apotek.observer.NotifikasiObserver;
 import com.apotek.service.LoginSession;
 import com.apotek.service.StokService;
 import com.apotek.service.UserService;
@@ -14,8 +15,7 @@ import java.util.Locale;
  *
  * @author Kelompok Kipli
  */
-public class HeaderPanel extends javax.swing.JPanel {
-    
+public class HeaderPanel extends javax.swing.JPanel implements NotifikasiObserver {
     private StokService stokService;
     private UserService userService;
     private Timer refreshTimer;
@@ -40,15 +40,15 @@ public class HeaderPanel extends javax.swing.JPanel {
         }
     }
     
-    private void startRealtimeUpdate() {
-        refreshTimer = new Timer(1000, e -> {
-            int jumlahAktif = stokService.getJumlahNotifikasiBelumDibaca();
-            int stokMenipis = stokService.getJumlahStokMenipis();
-            
-            lblNotification.setText(jumlahAktif + " Notifikasi");
-            lblStock.setText(stokMenipis + " Stok Menipis");
-        });
-        refreshTimer.start();
+    
+    @Override
+    public void updateNotifikasi() {
+
+        int jumlahAktif = MainApp.notifikasiManager.getJumlahBelumDibaca();
+        int stokMenipis = stokService.getJumlahStokMenipis();
+
+        lblNotification.setText(jumlahAktif + " Notifikasi");
+        lblStock.setText(stokMenipis + " Stok Menipis");
     }
         
 
@@ -60,10 +60,11 @@ public class HeaderPanel extends javax.swing.JPanel {
         
         this.stokService = stokService;
         
+        MainApp.notifikasiManager.addObserver(this);
+        
         loadTanggal();
         loadShift();
-        
-        startRealtimeUpdate();
+        updateNotifikasi();
     }
 
     /**

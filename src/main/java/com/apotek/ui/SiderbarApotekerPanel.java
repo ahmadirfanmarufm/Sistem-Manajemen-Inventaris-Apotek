@@ -49,9 +49,8 @@ public class SiderbarApotekerPanel extends javax.swing.JPanel {
         JButton[] buttons = {
             btnDashboardPanel,
             btnProdukPanel,
-            btnStokMasukPanel,
-            btnStokKeluarPanel,
             btnAuditStokPanel,
+            btnNotifikasiPanel,
             btnLogout
         };
         
@@ -77,9 +76,8 @@ public class SiderbarApotekerPanel extends javax.swing.JPanel {
         JButton[] buttons = {
             btnDashboardPanel,
             btnProdukPanel,
-            btnStokMasukPanel,
-            btnStokKeluarPanel,
             btnAuditStokPanel,
+            btnNotifikasiPanel,
             btnLogout
         };
 
@@ -172,8 +170,6 @@ public class SiderbarApotekerPanel extends javax.swing.JPanel {
 
         btnDashboardPanel = new javax.swing.JButton();
         btnProdukPanel = new javax.swing.JButton();
-        btnStokMasukPanel = new javax.swing.JButton();
-        btnStokKeluarPanel = new javax.swing.JButton();
         btnAuditStokPanel = new javax.swing.JButton();
         btnLogout = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
@@ -182,6 +178,7 @@ public class SiderbarApotekerPanel extends javax.swing.JPanel {
         username = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
+        btnNotifikasiPanel = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(0, 155, 54));
         setMinimumSize(new java.awt.Dimension(240, 700));
@@ -199,18 +196,6 @@ public class SiderbarApotekerPanel extends javax.swing.JPanel {
         btnProdukPanel.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btnProdukPanel.setPreferredSize(new java.awt.Dimension(210, 50));
         btnProdukPanel.addActionListener(this::btnProdukPanelActionPerformed);
-
-        btnStokMasukPanel.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
-        btnStokMasukPanel.setText("Stok Masuk");
-        btnStokMasukPanel.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        btnStokMasukPanel.setPreferredSize(new java.awt.Dimension(210, 50));
-        btnStokMasukPanel.addActionListener(this::btnStokMasukPanelActionPerformed);
-
-        btnStokKeluarPanel.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
-        btnStokKeluarPanel.setText("Stok Keluar");
-        btnStokKeluarPanel.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        btnStokKeluarPanel.setPreferredSize(new java.awt.Dimension(210, 50));
-        btnStokKeluarPanel.addActionListener(this::btnStokKeluarPanelActionPerformed);
 
         btnAuditStokPanel.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
         btnAuditStokPanel.setText("Audit Stok");
@@ -241,6 +226,13 @@ public class SiderbarApotekerPanel extends javax.swing.JPanel {
         username.setForeground(new java.awt.Color(255, 255, 255));
         username.setText("ADMIN");
 
+        btnNotifikasiPanel.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        btnNotifikasiPanel.setText("Notifikasi");
+        btnNotifikasiPanel.setHideActionText(true);
+        btnNotifikasiPanel.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnNotifikasiPanel.setPreferredSize(new java.awt.Dimension(210, 50));
+        btnNotifikasiPanel.addActionListener(this::btnNotifikasiPanelActionPerformed);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -253,8 +245,6 @@ public class SiderbarApotekerPanel extends javax.swing.JPanel {
                             .addComponent(btnDashboardPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnProdukPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnStokMasukPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnStokKeluarPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnAuditStokPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 24, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
@@ -273,8 +263,11 @@ public class SiderbarApotekerPanel extends javax.swing.JPanel {
                         .addComponent(jLabel2))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(57, 57, 57)
-                        .addComponent(jLabel1)))
-                .addGap(0, 32, Short.MAX_VALUE))
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(btnNotifikasiPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -296,14 +289,12 @@ public class SiderbarApotekerPanel extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnProdukPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnStokMasukPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnStokKeluarPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnAuditStokPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnNotifikasiPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(137, Short.MAX_VALUE))
+                .addContainerGap(199, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -316,21 +307,6 @@ public class SiderbarApotekerPanel extends javax.swing.JPanel {
         setActiveMenu(btnProdukPanel);
         parentFrame.showPage("produk");
     }//GEN-LAST:event_btnProdukPanelActionPerformed
-
-    private void btnStokMasukPanelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStokMasukPanelActionPerformed
-        setActiveMenu(btnStokMasukPanel);
-        parentFrame.showPage("stokMasuk");
-    }//GEN-LAST:event_btnStokMasukPanelActionPerformed
-
-    private void btnStokKeluarPanelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStokKeluarPanelActionPerformed
-        setActiveMenu(btnStokKeluarPanel);
-        parentFrame.showPage("stokKeluar");
-    }//GEN-LAST:event_btnStokKeluarPanelActionPerformed
-
-    private void btnAuditStokPanelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAuditStokPanelActionPerformed
-        setActiveMenu(btnAuditStokPanel);
-        parentFrame.showPage("auditStok");
-    }//GEN-LAST:event_btnAuditStokPanelActionPerformed
 
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
         Window parent = getWindowAncestor(this);
@@ -352,14 +328,23 @@ public class SiderbarApotekerPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnLogoutActionPerformed
 
+    private void btnNotifikasiPanelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNotifikasiPanelActionPerformed
+        setActiveMenu(btnNotifikasiPanel);
+        parentFrame.showPage("notifikasi");
+    }//GEN-LAST:event_btnNotifikasiPanelActionPerformed
+
+    private void btnAuditStokPanelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAuditStokPanelActionPerformed
+        setActiveMenu(btnAuditStokPanel);
+        parentFrame.showPage("auditStok");
+    }//GEN-LAST:event_btnAuditStokPanelActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAuditStokPanel;
     private javax.swing.JButton btnDashboardPanel;
     private javax.swing.JButton btnLogout;
+    private javax.swing.JButton btnNotifikasiPanel;
     private javax.swing.JButton btnProdukPanel;
-    private javax.swing.JButton btnStokKeluarPanel;
-    private javax.swing.JButton btnStokMasukPanel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JSeparator jSeparator1;

@@ -1,8 +1,11 @@
 package com.apotek.ui;
 
+import com.apotek.manager.DashboardManager;
+import com.apotek.manager.NotifikasiManager;
 import com.apotek.model.Apoteker;
 import com.apotek.model.PJApoteker;
 import com.apotek.repository.UserRepository;
+import com.apotek.service.AuditService;
 import com.apotek.service.StokService;
 import com.apotek.stok.StokBahanRacikan;
 import com.apotek.stok.StokNonObat;
@@ -15,15 +18,17 @@ import javax.swing.SwingUtilities;
  * @author Kelompok Kipli
  */
 public class MainApp extends javax.swing.JFrame {
-
+    public static NotifikasiManager notifikasiManager = new NotifikasiManager();
+    public static DashboardManager dashboardManager = new DashboardManager();
     public static UserRepository userRepository = new UserRepository();
 
     // Stok global
     public static StokObatOTC stokObatOTC = new StokObatOTC(5);
     public static StokBahanRacikan stokBahanRacikan = new StokBahanRacikan(10);
     public static StokNonObat stokNonObat = new StokNonObat(5);
-    public static StokService stokService = new StokService(stokObatOTC, stokBahanRacikan, stokNonObat);
-    public static TransaksiService transaksiService = new TransaksiService();
+    public static StokService stokService = new StokService(stokObatOTC, stokBahanRacikan, stokNonObat, dashboardManager);
+    public static AuditService auditService = new AuditService();
+    public static TransaksiService transaksiService = new TransaksiService(dashboardManager);
 
     /**
      * Creates new form MainApp

@@ -39,6 +39,22 @@ public class TransaksiRepository {
         return new ArrayList<>(dataTransaksi.values());
     }
     
+    public ArrayList<Transaksi> findAllDesc() {
+        ArrayList<Transaksi> list = findAll();
+        
+        list.sort((a,b)->{
+            int hasil =
+                b.getTanggalTransaksi().compareTo(a.getTanggalTransaksi());
+
+            if(hasil != 0)
+                return hasil;
+
+            return b.getIdTransaksi().compareTo(a.getIdTransaksi());
+        });
+
+        return list;
+    }
+    
     public boolean exists(String idTransaksi) {
         return dataTransaksi.containsKey(idTransaksi);
     }
