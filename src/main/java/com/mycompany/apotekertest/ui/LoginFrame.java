@@ -182,7 +182,7 @@ public class LoginFrame extends javax.swing.JFrame {
 
             JOptionPane.showMessageDialog(this, user.getName() + " kamu berhasil Login sebagai " + role);
 
-            if(role.equalsIgnoreCase("PJApoteker")) {
+            if(role.equalsIgnoreCase("Apoteker PJ")) {
                 new DashboardPJApotekerFrame().setVisible(true);
             } else if(role.equalsIgnoreCase("Apoteker")) {
                 new DashboardApotekerFrame().setVisible(true);

@@ -388,7 +388,7 @@ public class AuditStokPanel extends javax.swing.JPanel {
 
         for (int i = 0; i < semuaBarang.size(); i++) {
             Item item = semuaBarang.get(i);
-            AuditService.HasilAudit hasil = AuditService.getHasilAudit(item.getIdItem());
+            AuditService.HasilAudit hasil = MainApp.auditService.getHasilAudit(item.getIdItem());
 
             data[i][0] = item.getIdItem();
             data[i][1] = item.getNamaItem();

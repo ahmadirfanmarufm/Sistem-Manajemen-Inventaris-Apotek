@@ -370,11 +370,11 @@ public class TambahStokMasuk extends javax.swing.JPanel {
             itemDipilih.setQuantity(stokBaru);
 
             if (itemDipilih instanceof com.mycompany.apotekertest.model.ObatOTC) {
-                MainApp.stokService.updateObat((com.mycompany.apotekertest.model.ObatOTC) itemDipilih);
+                MainApp.stokService.tambahStok((com.mycompany.apotekertest.model.ObatOTC) itemDipilih, jumlahMasuk, pemasok);
             } else if (itemDipilih instanceof com.mycompany.apotekertest.model.BahanRacikan) {
-                MainApp.stokService.updateBahanRacikan((com.mycompany.apotekertest.model.BahanRacikan) itemDipilih);
+                MainApp.stokService.tambahStok((com.mycompany.apotekertest.model.BahanRacikan) itemDipilih, jumlahMasuk, pemasok);
             } else if (itemDipilih instanceof com.mycompany.apotekertest.model.NonObat) {
-                MainApp.stokService.updateNonObat((com.mycompany.apotekertest.model.NonObat) itemDipilih);
+                MainApp.stokService.tambahStok((com.mycompany.apotekertest.model.NonObat) itemDipilih, jumlahMasuk, pemasok);
             }
         } catch (com.mycompany.apotekertest.exception.ItemNotFoundException e) {
             JOptionPane.showMessageDialog(this, "Gagal update stok: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);

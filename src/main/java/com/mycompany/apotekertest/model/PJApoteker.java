@@ -9,8 +9,11 @@ package com.mycompany.apotekertest.model;
  * @author Kelompok Kipli
  */
 public class PJApoteker extends User {
+    private String shift;
+    
     public PJApoteker(String userId, String name, String password) {
         super(userId, name, password);
+        this.shift = "Bebas";
     }
 
     public void melihatLaporan() {

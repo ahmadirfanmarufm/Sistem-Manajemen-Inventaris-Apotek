@@ -162,7 +162,7 @@ public class AuditInput extends javax.swing.JPanel {
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(0, 145, 55));
-        jLabel9.setText("Tambah Stok Masuk");
+        jLabel9.setText("Audit Input ");
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 145, 55));
@@ -344,9 +344,7 @@ public class AuditInput extends javax.swing.JPanel {
         String statusAudit = (selisih == 0) ? "Sesuai" : "Selisih";
 
         // Simpan hasil audit ke memory (AuditService), supaya AuditStokPanel bisa nampilinnya
-        com.mycompany.apotekertest.service.AuditService.simpanHasilAudit(
-            idBarang, stokFisik, stokSistem, selisih, statusAudit, tanggal, auditor
-        );
+        MainApp.auditService.prosesAudit(itemDipilih, stokFisik, tanggal);
 
         javax.swing.SwingUtilities.getWindowAncestor(this).dispose();
     }//GEN-LAST:event_buttonSimpanActionPerformed

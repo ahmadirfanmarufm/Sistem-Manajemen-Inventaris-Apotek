@@ -4,7 +4,10 @@ import com.mycompany.apotekertest.exception.DuplicateItemException;
 import com.mycompany.apotekertest.exception.ItemNotFoundException;
 import com.mycompany.apotekertest.exception.StockNotEnoughException;
 import com.mycompany.apotekertest.model.Item;
-import com.mycompany.apotekertest.model.NotifikasiStok;
+import com.mycompany.apotekertest.model.Notifikasi;
+import com.mycompany.apotekertest.ui.MainApp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -13,23 +16,17 @@ public abstract class Stok implements Manageable {
     protected int minimumStok;
     protected ArrayList<Item> listItem;
     protected HashMap<String, Item> mapItem;
-    protected ArrayList<NotifikasiStok> listNotifikasi;
-    protected HashMap<String, NotifikasiStok> mapNotifikasi;
 
     public Stok(int minimumStok) {
         this.minimumStok = minimumStok;
         this.listItem = new ArrayList<>();
         this.mapItem = new LinkedHashMap<>();
-        this.listNotifikasi = new ArrayList<>();
-        this.mapNotifikasi = new HashMap<>();
     }
     
     public Stok() {
         this.minimumStok = minimumStok;
         this.listItem = new ArrayList<>();
         this.mapItem = new LinkedHashMap<>();
-        this.listNotifikasi = new ArrayList<>();
-        this.mapNotifikasi = new HashMap<>();
     }
     
     protected void validasiDuplikat(String id) throws DuplicateItemException {
@@ -44,26 +41,67 @@ public abstract class Stok implements Manageable {
         }
     }
     
-    protected void cekDanBuatNotifikasi(Item item) {
+    protected void cekDanBuatNotifikasiStok(Item item) {
         int batasMinimum = item.getStokMinimum();
-        String idNotif = "NOTIF-" + item.getIdItem();
-
+        
         if (item.getQuantity() <= batasMinimum) {
-            StockNotEnoughException ex = new StockNotEnoughException(
-                    item.getNamaItem(), item.getQuantity(), batasMinimum);
+            if(!item.isNotifikasiKritisAktif()) {
+                StockNotEnoughException ex = new StockNotEnoughException(item.getNamaItem(), item.getQuantity(), batasMinimum);
 
-            if (mapNotifikasi.containsKey(idNotif)) {
-                mapNotifikasi.get(idNotif).buatNotifikasi(ex.getMessage());
-            } else {
-                NotifikasiStok notif = new NotifikasiStok(idNotif, ex.getMessage());
-                mapNotifikasi.put(idNotif, notif);
-                listNotifikasi.add(notif);
+                MainApp.notifikasiManager.kirimNotifikasi(
+                        "CRITICAL",
+                        "Stok Kritis",
+                        ex.getMessage(),
+                        "Tinggi"
+                );
+                item.setNotifikasiKritisAktif(true);
             }
         } else {
-            NotifikasiStok lama = mapNotifikasi.remove(idNotif);
-            if (lama != null) {
-                listNotifikasi.remove(lama);
+            if(item.isNotifikasiKritisAktif()) {
+                MainApp.notifikasiManager.kirimNotifikasi(
+                    "INFO",
+                    "Stok kembali normal",
+                    item.getNamaItem() + " kini memiliki stok " + item.getQuantity(),
+                    "Rendah"
+                );
             }
+            item.setNotifikasiKritisAktif(false);
+        }
+    }
+    
+    protected void cekDanBuatNotifikasiExpired(Item item) {
+        LocalDate sekarang = LocalDate.now();
+        LocalDate expired = item.getExpiredDate();
+        
+        long sisaHari = expired.toEpochDay() - sekarang.toEpochDay();
+        
+        if(sisaHari < 0) {
+            if(!item.isNotifikasiExpiredAktif()) {
+                MainApp.notifikasiManager.kirimNotifikasi(
+                    "CRITICAL",
+                    "Barang Expired",
+                    item.getNamaItem() + " telah expired",
+                    "Tinggi"
+                );
+                
+                item.setNotifikasiExpiredAktif(true);
+            }
+            return;
+        } 
+        
+        if(sisaHari <= 30) {
+            if(!item.isNotifikasiExpiredAktif()) {
+                MainApp.notifikasiManager.kirimNotifikasi(
+                    "WARNING",
+                    "Barang akan expired",
+                    item.getNamaItem() + " akan expired dalam " + sisaHari + " hari",
+                    "Sedang"
+                );
+                
+                item.setNotifikasiExpiredAktif(true);
+            }
+        } else {
+            item.setNotifikasiExpiredAktif(false);
         }
     }
     
@@ -102,14 +140,6 @@ public abstract class Stok implements Manageable {
         
     public HashMap<String, Item> getMapItem() {
         return mapItem;
-    }
-    
-    public ArrayList<NotifikasiStok> getListNotifikasi() {
-        return listNotifikasi;
-    }
-    
-    public HashMap<String, NotifikasiStok> getMapNotifikasi() {
-        return mapNotifikasi;
     }
 
     public boolean itemAda(String id) {

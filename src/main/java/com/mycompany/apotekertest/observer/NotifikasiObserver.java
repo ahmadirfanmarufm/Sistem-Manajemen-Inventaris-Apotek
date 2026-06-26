@@ -1,0 +1,13 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package com.mycompany.apotekertest.observer;
+
+/**
+ *
+ * @author himorii
+ */
+public interface NotifikasiObserver {
+    public void updateNotifikasi();
+}

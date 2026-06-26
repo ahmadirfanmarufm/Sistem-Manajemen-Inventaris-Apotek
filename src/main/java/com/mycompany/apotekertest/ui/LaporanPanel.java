@@ -8,9 +8,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import com.mycompany.apotekertest.model.ObatOTC;
-import com.mycompany.apotekertest.model.BahanRacikan;
-import com.mycompany.apotekertest.model.NonObat;
 
 /**
  *
@@ -18,7 +15,6 @@ import com.mycompany.apotekertest.model.NonObat;
  */
 public class LaporanPanel extends JPanel {
 
-    private RingkasanPanel ringkasanPanel;
     private PenjualanPanel penjualanPanel;
     private InventarisPanel inventarisPanel;
 
@@ -41,7 +37,6 @@ public class LaporanPanel extends JPanel {
     private void setActiveMenu(JButton activeButton) {
 
         JButton[] buttons = {
-            btnRingkasanPanel,
             btnPenjualanPanel,
             btnInventarisPanel
         };
@@ -67,12 +62,10 @@ public class LaporanPanel extends JPanel {
         headerContainer.setLayout(new BorderLayout());
         headerContainer.add(new HeaderPanel(MainApp.stokService), BorderLayout.CENTER);
 
-        ringkasanPanel = new RingkasanPanel();
         penjualanPanel = new PenjualanPanel();
         inventarisPanel = new InventarisPanel();
 
-        showPanel(ringkasanPanel);
-        setActiveMenu(btnRingkasanPanel);
+        setActiveMenu(btnInventarisPanel);
         contentScrollPane.getVerticalScrollBar().setUnitIncrement(16);
     }
 
@@ -103,7 +96,7 @@ public class LaporanPanel extends JPanel {
 
         contentScrollPane = new javax.swing.JScrollPane();
         contentContainer = new javax.swing.JPanel();
-        btnRingkasanPanel = new javax.swing.JButton();
+        btnInventarisPanel = new javax.swing.JButton();
         headerContainer = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -128,19 +121,18 @@ public class LaporanPanel extends JPanel {
         totalProduk = new javax.swing.JLabel();
         labelKenaikanDanKeturunanTotalProduk = new javax.swing.JLabel();
         btnPenjualanPanel = new javax.swing.JButton();
-        btnInventarisPanel = new javax.swing.JButton();
         tabPanel = new javax.swing.JPanel();
 
         setBackground(new java.awt.Color(240, 252, 245));
 
         contentContainer.setBackground(new java.awt.Color(240, 252, 245));
 
-        btnRingkasanPanel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnRingkasanPanel.setForeground(new java.awt.Color(0, 155, 54));
-        btnRingkasanPanel.setText("Ringkasan");
-        btnRingkasanPanel.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        btnRingkasanPanel.setPreferredSize(new java.awt.Dimension(210, 50));
-        btnRingkasanPanel.addActionListener(this::btnRingkasanPanelActionPerformed);
+        btnInventarisPanel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnInventarisPanel.setForeground(new java.awt.Color(0, 155, 54));
+        btnInventarisPanel.setText("Inventaris");
+        btnInventarisPanel.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnInventarisPanel.setPreferredSize(new java.awt.Dimension(210, 50));
+        btnInventarisPanel.addActionListener(this::btnInventarisPanelActionPerformed);
 
         headerContainer.setMinimumSize(new java.awt.Dimension(100, 80));
         headerContainer.setPreferredSize(new java.awt.Dimension(0, 80));
@@ -366,13 +358,6 @@ public class LaporanPanel extends JPanel {
         btnPenjualanPanel.setPreferredSize(new java.awt.Dimension(210, 50));
         btnPenjualanPanel.addActionListener(this::btnPenjualanPanelActionPerformed);
 
-        btnInventarisPanel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnInventarisPanel.setForeground(new java.awt.Color(0, 155, 54));
-        btnInventarisPanel.setText("Inventaris");
-        btnInventarisPanel.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        btnInventarisPanel.setPreferredSize(new java.awt.Dimension(210, 50));
-        btnInventarisPanel.addActionListener(this::btnInventarisPanelActionPerformed);
-
         tabPanel.setMaximumSize(new java.awt.Dimension(1019, 810));
         tabPanel.setPreferredSize(new java.awt.Dimension(1019, 810));
 
@@ -400,11 +385,9 @@ public class LaporanPanel extends JPanel {
                         .addGroup(contentContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(tabPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(contentContainerLayout.createSequentialGroup()
-                                .addComponent(btnRingkasanPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnInventarisPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnPenjualanPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnInventarisPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(btnPenjualanPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jLabel1)
                             .addGroup(contentContainerLayout.createSequentialGroup()
                                 .addGap(149, 149, 149)
@@ -437,9 +420,8 @@ public class LaporanPanel extends JPanel {
                     .addComponent(totalObatOTCPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(contentContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnRingkasanPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnPenjualanPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnInventarisPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnInventarisPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnPenjualanPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(tabPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(103, Short.MAX_VALUE))
@@ -459,26 +441,20 @@ public class LaporanPanel extends JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnRingkasanPanelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRingkasanPanelActionPerformed
-        setActiveMenu(btnRingkasanPanel);
-        showPanel(ringkasanPanel);
-    }//GEN-LAST:event_btnRingkasanPanelActionPerformed
+    private void btnInventarisPanelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInventarisPanelActionPerformed
+        setActiveMenu(btnInventarisPanel);
+        showPanel(inventarisPanel);
+    }//GEN-LAST:event_btnInventarisPanelActionPerformed
 
     private void btnPenjualanPanelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPenjualanPanelActionPerformed
         setActiveMenu(btnPenjualanPanel);
         showPanel(penjualanPanel);
     }//GEN-LAST:event_btnPenjualanPanelActionPerformed
 
-    private void btnInventarisPanelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInventarisPanelActionPerformed
-        setActiveMenu(btnInventarisPanel);
-        showPanel(inventarisPanel);
-    }//GEN-LAST:event_btnInventarisPanelActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnInventarisPanel;
     private javax.swing.JButton btnPenjualanPanel;
-    private javax.swing.JButton btnRingkasanPanel;
     private javax.swing.JPanel contentContainer;
     private javax.swing.JScrollPane contentScrollPane;
     private javax.swing.JPanel headerContainer;

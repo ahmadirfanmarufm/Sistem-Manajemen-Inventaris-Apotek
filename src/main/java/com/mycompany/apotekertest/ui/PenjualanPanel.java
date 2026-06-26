@@ -4,8 +4,10 @@
  */
 package com.mycompany.apotekertest.ui;
 
+import com.mycompany.apotekertest.observer.DashboardObserver;
 import java.awt.BorderLayout;
 import java.text.NumberFormat;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -18,13 +20,17 @@ import javafx.scene.chart.*;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.StackPane;
 import javafx.util.StringConverter;
+import javax.swing.SwingUtilities;
 
 
 /**
  *
  * @author himorii
  */
-public class PenjualanPanel extends javax.swing.JPanel {
+public class PenjualanPanel extends javax.swing.JPanel implements DashboardObserver {
+    private XYChart.Series<String, Number> pendapatanSeries;
+    private XYChart.Data<String, Number>[] pendapatanData;
+    private int[] transaksiBulanan;
     
     private String formatCurrency(double value) {
 
@@ -87,8 +93,7 @@ public class PenjualanPanel extends javax.swing.JPanel {
             xAxis.setLabel("Bulan");
             yAxis.setLabel("Pendapatan");
 
-            LineChart<String, Number> lineChart =
-                    new LineChart<>(xAxis, yAxis);
+            LineChart<String, Number> lineChart = new LineChart<>(xAxis, yAxis);
 
             lineChart.setAnimated(true);
             lineChart.setLegendVisible(false);
@@ -97,70 +102,68 @@ public class PenjualanPanel extends javax.swing.JPanel {
             lineChart.setVerticalGridLinesVisible(false);
             lineChart.setAlternativeColumnFillVisible(false);
             lineChart.setAlternativeRowFillVisible(false);
-
-            XYChart.Series<String, Number> pendapatanSeries = new XYChart.Series<>();
+            
+            
+            pendapatanSeries = new XYChart.Series<>();
 
             pendapatanSeries.setName("Pendapatan");
 
-            pendapatanSeries.getData().add(
-                    new XYChart.Data<>("Jan", 18500000));
+            int tahun = LocalDate.now().getYear();
 
-            pendapatanSeries.getData().add(
-                    new XYChart.Data<>("Feb", 16800000));
+            int[] omzet = MainApp.transaksiService
+                    .hitungOmzetPerBulan(tahun);
 
-            pendapatanSeries.getData().add(
-                    new XYChart.Data<>("Mar", 2240000));
+            transaksiBulanan = MainApp.transaksiService.hitungTransaksiPerBulan(tahun);
 
-            pendapatanSeries.getData().add(
-                    new XYChart.Data<>("Apr", 2470000));
+            String[] bulan = {
+                "Jan","Feb","Mar","Apr","Mei","Jun",
+                "Jul","Agu","Sep","Okt","Nov","Des"
+            };
 
-            pendapatanSeries.getData().add(
-                    new XYChart.Data<>("Mei", 2810000));
+            pendapatanData = new XYChart.Data[12];
 
-            pendapatanSeries.getData().add(
-                    new XYChart.Data<>("Jun", 240000));
-            
-            Map<String, Integer> transaksiBulanan = new HashMap<>();
-            transaksiBulanan.put("Jan", 145);
-            transaksiBulanan.put("Feb", 132);
-            transaksiBulanan.put("Mar", 178);
-            transaksiBulanan.put("Apr", 195);
-            transaksiBulanan.put("Mei", 220);
-            transaksiBulanan.put("Jun", 189);
+            for(int i= 0 ; i < 12; i++){
+
+                pendapatanData[i] =
+                        new XYChart.Data<>(
+                                bulan[i],
+                                omzet[i]
+                        );
+
+                pendapatanSeries.getData().add(pendapatanData[i]);
+            }
 
             lineChart.getData().add(pendapatanSeries);
             Platform.runLater(() -> {
-                for (XYChart.Data<String, Number> data
-                        : pendapatanSeries.getData()) {
+                for (XYChart.Data<String, Number> data : pendapatanSeries.getData()) {
 
-                    Node node = data.getNode();
+                Node node = data.getNode();
 
-                    if (node != null) {
-                        int totalTransaksi = transaksiBulanan.getOrDefault(data.getXValue(), 0);
-                        Locale indonesiaRupiah = new Locale("id", "ID");
-                        NumberFormat formatRupiah = NumberFormat.getCurrencyInstance(indonesiaRupiah);
-                        Tooltip tooltip = new Tooltip(
-                                "Bulan : " + data.getXValue()
-                                + "\nPendapatan : " + formatRupiah.format(data.getYValue().doubleValue())
-                                + "\nTotal Transaksi : " + totalTransaksi
-                        );
+                if(node != null){
 
-                        tooltip.setShowDelay(
-                                javafx.util.Duration.millis(100)
-                        );
-                        
-                        tooltip.setStyle(
-                            "-fx-background-color: white;"
-                            + "-fx-text-fill: #111827;"
-                            + "-fx-border-color: #149142;"
-                            + "-fx-border-radius: 6;"
-                            + "-fx-background-radius: 6;"
-                            + "-fx-font-size: 12px;"
-                        );
+                    int index = pendapatanSeries.getData().indexOf(data);
 
-                        Tooltip.install(node, tooltip);
-                    }
+                    Tooltip tooltip =
+                            new Tooltip(
+                                    "Bulan : "
+                                    + data.getXValue()
+                                    + "\nPendapatan : "
+                                    + formatCurrency(
+                                            data.getYValue().doubleValue())
+                                    + "\nTotal Transaksi : "
+                                    + transaksiBulanan[index]
+                            );
+
+                    tooltip.setStyle(
+                            "-fx-background-color:white;"
+                            + "-fx-text-fill:#111827;"
+                            + "-fx-border-color:#149142;"
+                            + "-fx-font-size:12px;"
+                    );
+
+                    Tooltip.install(node, tooltip);
                 }
+            }
             });
             
 
@@ -282,12 +285,38 @@ public class PenjualanPanel extends javax.swing.JPanel {
         grafikPenjualanBulananPanel.repaint();
     }
     
+    private void refreshLineChart(){
+
+        Platform.runLater(() -> {
+
+            int tahun = LocalDate.now().getYear();
+
+            int[] omzet = MainApp.transaksiService.hitungOmzetPerBulan(tahun);
+
+            transaksiBulanan = MainApp.transaksiService.hitungTransaksiPerBulan(tahun);
+
+            for(int i = 0; i < 12; i++){
+
+                pendapatanData[i].setYValue(omzet[i]);
+            }
+        });
+    }
+    
+    @Override
+    public void updateDashboard(){
+        SwingUtilities.invokeLater(() -> {
+            refreshLineChart();
+        });
+    }
+    
     /**
      * Creates new form RingkasanPanel
      */
     public PenjualanPanel() {
         initComponents();
         initLineChart();
+        
+        MainApp.dashboardManager.addObserver(this);
     }
 
     /**

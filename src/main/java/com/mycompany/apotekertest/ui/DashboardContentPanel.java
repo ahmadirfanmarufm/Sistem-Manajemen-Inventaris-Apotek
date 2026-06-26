@@ -22,14 +22,25 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import javax.swing.table.DefaultTableModel;
 import com.mycompany.apotekertest.model.Item;
+import com.mycompany.apotekertest.observer.DashboardObserver;
+import javafx.scene.Node;
+import javafx.scene.layout.StackPane;
+import javax.swing.SwingUtilities;
 
 /**
  *
  * @author himorii
  */
-public class DashboardContentPanel extends JPanel {
+public class DashboardContentPanel extends JPanel implements DashboardObserver {
 
     private boolean initialized = false;
+    private PieChart pieChart;
+
+    private PieChart.Data otcData;
+    private PieChart.Data bahanRacikanData;
+    private PieChart.Data nonObatData;
+    
+    private XYChart.Data<String, Number>[] dataBar;
 
     public void refreshTotalKategori() {
         int jumlahOTC = MainApp.stokService.getSemuaObat().size();
@@ -142,87 +153,205 @@ public class DashboardContentPanel extends JPanel {
             return;
         }
         initialized = true;
+        
+        int obatOtcTotal = MainApp.stokService.getSemuaObat().size();
+        int bahanRacikanTotal = MainApp.stokService.getSemuaBahanRacikan().size();
+        int nonObatTotal = MainApp.stokService.getSemuaNonObat().size();
 
         JFXPanel fxPie = new JFXPanel();
         pieChartDistribusiInventarisPanel.setLayout(new BorderLayout());
         pieChartDistribusiInventarisPanel.add(fxPie);
-
+        
         Platform.runLater(() -> {
 
             PieChart pieChart = new PieChart();
-            pieChart.getData().add(new PieChart.Data("Obat OTC", 40));
-            pieChart.getData().add(new PieChart.Data("Bahan Racikan", 25));
-            pieChart.getData().add(new PieChart.Data("Non Obat", 35));
-
-            pieChart.setAnimated(false);
+            
             pieChart.setTitle("Distribusi Inventaris");
-            pieChart.setStyle("-fx-background-color: white;");
 
-            BorderPane root = new BorderPane(pieChart);
-            Scene scene = new Scene(root);
-            scene.setFill(Color.WHITE);
+            otcData = new PieChart.Data("Obat OTC", obatOtcTotal);
+
+            bahanRacikanData = new PieChart.Data("Bahan Racikan", bahanRacikanTotal);
+
+            nonObatData = new PieChart.Data("Non Obat", nonObatTotal);
+
+            pieChart.getData().addAll(otcData, bahanRacikanData, nonObatData);
+
+            pieChart.setLegendVisible(true);
+            pieChart.setLabelsVisible(true);
+            pieChart.setAnimated(true);
+
+            Scene scene = new Scene(new StackPane(pieChart));
 
             fxPie.setScene(scene);
 
             Platform.runLater(() -> {
-                for (PieChart.Data data : pieChart.getData()) {
-                    data.nodeProperty().addListener((obs, oldNode, node) -> {
-                        if (node != null) {
-                            Tooltip tooltip = new Tooltip(
-                                    data.getName() + "\n"
-                                    + (int) data.getPieValue()
-                            );
+                PieChart.Data[] dataList = {
+                    otcData,
+                    bahanRacikanData,
+                    nonObatData
+                };
 
-                            Tooltip.install(node, tooltip);
-                        }
-                    });
+                String[] colors = {
+                    "#149142",
+                    "#2EAE5E",
+                    "#6CCF8A"
+                };
+
+                double total = otcData.getPieValue() + bahanRacikanData.getPieValue() + nonObatData.getPieValue();
+
+                for (int i = 0; i < dataList.length; i++) {
+
+                    PieChart.Data data = dataList[i];
+
+                    Node node = data.getNode();
+
+                    if (node != null) {
+
+                        node.setStyle("-fx-pie-color:" + colors[i] + ";");
+
+                        double persen = (data.getPieValue() * 100) / total;
+
+                        Tooltip tooltip =
+                                new Tooltip(
+                                        "Kategori : "
+                                        + data.getName()
+                                        + "\nJumlah : "
+                                        + (int) data.getPieValue()
+                                        + " item"
+                                        + "\nPersentase : "
+                                        + String.format("%.1f%%", persen)
+                                );
+
+                        tooltip.setStyle(
+                                "-fx-background-color:white;"
+                                + "-fx-text-fill:#111827;"
+                                + "-fx-border-color:#149142;"
+                                + "-fx-border-radius:6;"
+                                + "-fx-background-radius:6;"
+                                + "-fx-font-size:12px;"
+                        );
+
+                        Tooltip.install(node, tooltip);
+                    }
                 }
             });
         });
 
-        JFXPanel fxBar = new JFXPanel();
+        JFXPanel fxPanel = new JFXPanel();
+
         barChartTransaksiBulananPanel.setLayout(new BorderLayout());
-        barChartTransaksiBulananPanel.add(fxBar);
+        barChartTransaksiBulananPanel.add(fxPanel, BorderLayout.CENTER);
 
         Platform.runLater(() -> {
 
             CategoryAxis xAxis = new CategoryAxis();
             NumberAxis yAxis = new NumberAxis();
 
+            xAxis.setLabel("Bulan");
+            yAxis.setLabel("Omzet (Juta Rupiah)");
+
             BarChart<String, Number> barChart = new BarChart<>(xAxis, yAxis);
-            barChart.setTitle("Transaksi Bulanan");
-            barChart.setStyle("-fx-background-color: white;");
+            
+            barChart.setAnimated(true);
+            barChart.setLegendVisible(true);
+            
+            int tahunSekarang = LocalDate.now().getYear();
 
-            XYChart.Series<String, Number> series = new XYChart.Series<>();
-            series.setName("2026");
+            barChart.setTitle("Omzet Penjualan Tahun " + tahunSekarang);
 
-            series.getData().add(new XYChart.Data<>("Jan", 30));
-            series.getData().add(new XYChart.Data<>("Feb", 50));
-            series.getData().add(new XYChart.Data<>("Mar", 40));
-            series.getData().add(new XYChart.Data<>("Apr", 70));
+            XYChart.Series<String, Number> omzet = new XYChart.Series<>();
 
-            barChart.getData().add(series);
-            barChart.setAnimated(false);
+            omzet.setName("Penjualan");
 
-            BorderPane root = new BorderPane(barChart);
-            Scene scene = new Scene(root);
-            scene.setFill(Color.WHITE);
+            String[] namaBulan = {
+                "Jan","Feb","Mar","Apr","Mei","Jun",
+                "Jul","Ags","Sep","Okt","Nov","Des"
+            };
 
-            fxBar.setScene(scene);
+            int[] dataOmzet = MainApp.transaksiService.hitungOmzetPerBulan(tahunSekarang);
+            int[] dataTransaksi = MainApp.transaksiService.hitungTransaksiPerBulan(tahunSekarang);
+            
+            dataBar = new XYChart.Data[12];
+
+            for(int x = 0; x < 12; x++){
+                dataBar[x] = new XYChart.Data<>(namaBulan[x], dataOmzet[x]);
+                omzet.getData().add(dataBar[x]);
+            }
+            
+            barChart.getData().addAll(omzet);
+            
             Platform.runLater(() -> {
-                for (XYChart.Data<String, Number> data : series.getData()) {
-                    data.nodeProperty().addListener((obs, oldNode, node) -> {
-                        if (node != null) {
-                            Tooltip tooltip = new Tooltip(
-                                    "Bulan: " + data.getXValue() + "\n"
-                                    + "Jumlah: " + data.getYValue()
-                            );
+                for (Node node : barChart.lookupAll(".chart-bar")) {
+                    node.setStyle(
+                        "-fx-bar-fill:#149142;"
+                        + "-fx-background-radius:5;"
+                    );
+                }
+                
+                for (Node node : barChart.lookupAll(".default-color0.chart-bar")) {
+                    node.setStyle("-fx-bar-fill:#149142;");
+                }
 
-                            Tooltip.install(node, tooltip);
-                        }
-                    });
+                for (Node node : barChart.lookupAll(".default-color1.chart-bar")) {
+
+                    node.setStyle("-fx-bar-fill:#81C784;");
                 }
             });
+
+            Scene scene = new Scene(new StackPane(barChart));
+
+            fxPanel.setScene(scene);
+            
+            Platform.runLater(() -> {
+                for (int x = 0; x < omzet.getData().size(); x++) {
+                    XYChart.Data<String, Number> data = omzet.getData().get(x);
+                    if(data.getNode() != null) {
+                        
+                        Tooltip tooltip = new Tooltip(
+                            "Bulan : " + data.getXValue()
+                            + "\nOmzet : Rp "
+                            + String.format("%,d", data.getYValue().intValue())
+                            + "\nJumlah Transaksi : "
+                            + dataTransaksi[x]
+                        );
+
+                        Tooltip.install(data.getNode(), tooltip);
+                    }
+                }
+            });
+        });
+    }
+    
+    private void refreshPieChart(){
+        Platform.runLater(() -> {
+            otcData.setPieValue(MainApp.stokService.getSemuaObat().size());
+            bahanRacikanData.setPieValue(MainApp.stokService.getSemuaBahanRacikan().size());
+            nonObatData.setPieValue(MainApp.stokService.getSemuaNonObat().size());
+        });
+    }
+    
+    private void refreshBarChart() {
+        Platform.runLater(() -> {
+            int tahun = LocalDate.now().getYear();
+            int[] omzet = MainApp.transaksiService.hitungOmzetPerBulan(tahun);
+
+            for (int i = 0; i < 12; i++) {
+                dataBar[i].setYValue(omzet[i]);
+            }
+        });
+    }
+    
+    private void refreshDashboard(){
+        refreshTotalKategori();
+        refreshPieChart();
+        refreshBarChart();
+        refreshAlert();
+    }
+    
+    @Override
+    public void updateDashboard(){
+        SwingUtilities.invokeLater(() -> {
+            refreshDashboard();
         });
     }
 
@@ -236,6 +365,9 @@ public class DashboardContentPanel extends JPanel {
         initCharts();
 
         refreshTotalKategori();
+        refreshDashboard();
+        
+        MainApp.dashboardManager.addObserver(this);
     }
 
     /**

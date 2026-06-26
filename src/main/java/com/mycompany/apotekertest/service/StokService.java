@@ -3,9 +3,12 @@ package com.mycompany.apotekertest.service;
 import com.mycompany.apotekertest.exception.DuplicateItemException;
 import com.mycompany.apotekertest.exception.InvalidInputException;
 import com.mycompany.apotekertest.exception.ItemNotFoundException;
+import com.mycompany.apotekertest.manager.DashboardManager;
 import com.mycompany.apotekertest.model.*;
 import com.mycompany.apotekertest.stok.*;
+import com.mycompany.apotekertest.ui.MainApp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 
@@ -13,12 +16,16 @@ public class StokService {
     private final StokObatOTC stokObatOTC;
     private final StokBahanRacikan stokBahanRacikan;
     private final StokNonObat stokNonObat;
+    private final DashboardManager dashboardManager;
+    private final ArrayList<Notifikasi> daftarNotifikasi = new ArrayList<>();
+    private ArrayList<RiwayatStok> riwayatStok = new ArrayList<>();
     
     // ================= CONSTRUCTOR =================
-    public StokService(StokObatOTC stokObatOTC, StokBahanRacikan stokBahanRacikan, StokNonObat stokNonObat) {
+    public StokService(StokObatOTC stokObatOTC, StokBahanRacikan stokBahanRacikan, StokNonObat stokNonObat, DashboardManager dashboardManager) {
         this.stokObatOTC = stokObatOTC;
         this.stokBahanRacikan = stokBahanRacikan;
         this.stokNonObat = stokNonObat;
+        this.dashboardManager = dashboardManager;
     }
 
     // ================= OBAT OTC =====================
@@ -33,6 +40,7 @@ public class StokService {
         try {
             stokObatOTC.tambah(new ObatOTC(kategori, hargaBeli, hargaJual,
                 id, nama, qty, stokMin, LocalDate.parse(expStr), deskripsi));
+            MainApp.dashboardManager.notifyDashboardObservers();
         } catch (DateTimeParseException e) {
             throw new InvalidInputException("Tgl Expired", "format harus yyyy-MM-dd");
         }
@@ -40,10 +48,12 @@ public class StokService {
 
     public void hapusObat(String id) throws ItemNotFoundException {
         stokObatOTC.hapus(id);
+        dashboardManager.notifyDashboardObservers();
     }
     
     public void updateObat(ObatOTC obat) throws ItemNotFoundException {
         stokObatOTC.update(obat);
+        dashboardManager.notifyDashboardObservers();
     }
  
     public ObatOTC getObatById(String id) throws ItemNotFoundException {
@@ -68,6 +78,7 @@ public class StokService {
         try {
             stokBahanRacikan.tambah(new BahanRacikan(id, nama, satuan, qty, stokMin,
                 LocalDate.parse(expStr), deskripsi));
+            dashboardManager.notifyDashboardObservers();
         } catch (DateTimeParseException e) {
             throw new InvalidInputException("Tgl Expired", "format harus yyyy-MM-dd");
         }
@@ -75,10 +86,12 @@ public class StokService {
 
     public void hapusBahanRacikan(String id) throws ItemNotFoundException {
         stokBahanRacikan.hapus(id);
+        dashboardManager.notifyDashboardObservers();
     }
     
     public void updateBahanRacikan(BahanRacikan b) throws ItemNotFoundException {
         stokBahanRacikan.update(b);
+        dashboardManager.notifyDashboardObservers();
     }
     
     public BahanRacikan getBahanById(String id) throws ItemNotFoundException {
@@ -105,6 +118,7 @@ public class StokService {
         try {
             stokNonObat.tambah(new NonObat(kategori, hargaBeli, hargaJual,
                 id, nama, qty, stokMin, LocalDate.parse(expStr), deskripsi));
+            dashboardManager.notifyDashboardObservers();
         } catch (DateTimeParseException e) {
             throw new InvalidInputException("Tgl Expired", "format harus yyyy-MM-dd");
         }
@@ -112,10 +126,12 @@ public class StokService {
 
     public void hapusNonObat(String id) throws ItemNotFoundException { 
         stokNonObat.hapus(id); 
+        dashboardManager.notifyDashboardObservers();
     }
     
     public void updateNonObat(NonObat n) throws ItemNotFoundException { 
-        stokNonObat.update(n); 
+        stokNonObat.update(n);
+        dashboardManager.notifyDashboardObservers();
     }
     
     public NonObat getNonObatById(String id) throws ItemNotFoundException { 
@@ -130,27 +146,197 @@ public class StokService {
         return stokNonObat; 
     }
     
+    // ================ STOK ====================
+    public void kurangiStok(Item item, int jumlahKeluar, String alasan) throws ItemNotFoundException {
+        item.setQuantity(item.getQuantity() - jumlahKeluar);
+
+        if(item instanceof ObatOTC) {
+            updateObat((ObatOTC) item);
+        }
+        else if(item instanceof BahanRacikan) {
+            updateBahanRacikan((BahanRacikan) item);
+        }
+        else if(item instanceof NonObat) {
+            updateNonObat((NonObat) item);
+        }
+        
+        User user = LoginSession.getCurrentUser();
+        
+        String pelaku;
+        String role;
+        String judul;
+        String prioritas;
+        
+        
+        if(user == null) {
+            pelaku = "Sistem";
+            return;
+        }
+       
+        if(user.getClass().getSimpleName().equalsIgnoreCase("PJApoteker")) {
+            role = "PJ Apoteker";
+        } else {
+            role = "Apoteker";
+        }
+        
+        pelaku = user.getName() + " (" + role + ")";
+
+        switch(alasan) {
+
+            case "Terjual":
+                judul = "Penjualan Produk";
+                prioritas = "Rendah";
+                break;
+
+            case "Produk Rusak":
+                judul = "Produk Rusak";
+                prioritas = "Sedang";
+                break;
+
+            case "Produk Kadaluarsa":
+                judul = "Produk Kadaluarsa";
+                prioritas = "Tinggi";
+                break;
+
+            case "Retur ke Pemasok":
+                judul = "Retur Produk";
+                prioritas = "Sedang";
+                break;
+
+            default:
+                judul = "Stok Keluar";
+                prioritas = "Rendah";
+        }
+
+        MainApp.notifikasiManager.kirimNotifikasi(
+            "INFO",
+            judul,
+            item.getNamaItem()
+                + " keluar sebanyak "
+                + jumlahKeluar
+                + " unit karena "
+                + alasan
+                + ". Sisa stok: "
+                + item.getQuantity()
+                + " unit. Dilakukan oleh "
+                + pelaku,
+            prioritas
+        );
+        
+        riwayatStok.add(
+            new RiwayatStok(
+                    item.getIdItem(),
+                    item.getNamaItem(),
+                    "KELUAR",
+                    jumlahKeluar,
+                    LocalDateTime.now()
+            )
+        );
+        
+        dashboardManager.notifyDashboardObservers();
+    }
+    
+    public void tambahStok(Item item, int jumlahMasuk, String pemasok) throws ItemNotFoundException {
+
+        int stokLama = item.getQuantity();
+        item.setQuantity(stokLama + jumlahMasuk);
+
+        if (item instanceof ObatOTC) {
+            updateObat((ObatOTC) item);
+        }
+        else if (item instanceof BahanRacikan) {
+            updateBahanRacikan((BahanRacikan) item);
+        }
+        else if (item instanceof NonObat) {
+            updateNonObat((NonObat) item);
+        }
+
+        User user = LoginSession.getCurrentUser();
+
+        String pelaku;
+        String role;
+
+        if(user == null){
+            pelaku = "Sistem";
+        }else{
+            role = user.getClass().getSimpleName().equals("PJApoteker")
+                    ? "PJ Apoteker"
+                    : "Apoteker";
+
+            pelaku = user.getName() + " (" + role + ")";
+        }
+
+        MainApp.notifikasiManager.kirimNotifikasi(
+            "SUCCESS",
+            "Stok Masuk",
+            item.getNamaItem()
+            + " menerima stok sebanyak "
+            + jumlahMasuk
+            + " unit dari pemasok "
+            + pemasok
+            + ". Stok sekarang "
+            + item.getQuantity()
+            + " unit. Diproses oleh "
+            + pelaku,
+            "Rendah"
+        );
+        
+        riwayatStok.add(
+            new RiwayatStok(
+                    item.getIdItem(),
+                    item.getNamaItem(),
+                    "MASUK",
+                    jumlahMasuk,
+                    LocalDateTime.now()
+            )
+        );
+        
+        dashboardManager.notifyDashboardObservers();
+    }
+    
+    public ArrayList<RiwayatStok> getRiwayatStok(){
+        return riwayatStok;
+    }
+    
     // ================= NOTIFIKASI =================
-    public ArrayList<NotifikasiStok> getAllNotifikasi() {
-        ArrayList<NotifikasiStok> all = new ArrayList<>();
-        all.addAll(stokObatOTC.getListNotifikasi());
-        all.addAll(stokBahanRacikan.getListNotifikasi());
-        all.addAll(stokNonObat.getListNotifikasi());
-        return all;
+    public ArrayList<Notifikasi> getAllNotifikasi() {
+        return MainApp.notifikasiManager.getAllNotifikasi();
     }
     
     public int getJumlahNotifikasiBelumDibaca() {
-        int total = 0;
-        for(NotifikasiStok notif : getAllNotifikasi()) {
-            if(!notif.isStatusBaca()) {
-                total++;
-            }
-        }
-        return total;
+        return MainApp.notifikasiManager.getJumlahBelumDibaca();
     }
     
     public int getJumlahStokMenipis() {
-        return getAllNotifikasi().size();
+        int total = 0;
+        
+        for(ObatOTC obat : stokObatOTC.getListObat()) {
+            if(obat.getQuantity() <= obat.getStokMinimum()) {
+                total++;
+            }
+        }
+        
+        for(BahanRacikan bahanRacikan : stokBahanRacikan.getListBahanRacikan()) {
+            if(bahanRacikan.getQuantity() <= bahanRacikan.getStokMinimum()) {
+                total++;
+            }
+        }
+        
+        for(NonObat nonObat : stokNonObat.getListNonObat()) {
+            if(nonObat.getQuantity() <= nonObat.getStokMinimum()) {
+                total++;
+            }
+        }
+        
+        return total;
+    }
+    
+    public void tambahNotifikasi(String tipe, String judul, String pesan, String prioritas, LocalDateTime tanggal) {
+        MainApp.notifikasiManager.kirimNotifikasi(tipe,judul,pesan,prioritas);
+    }
+    
+    public ArrayList<Notifikasi> getNotifikasi() {
+        return daftarNotifikasi;
     }
 
     // ================= VALIDATOR =================
@@ -164,5 +350,9 @@ public class StokService {
     
     private void validateExp(String exp) throws InvalidInputException {
         if (exp == null || exp.isBlank()) throw new InvalidInputException("Tgl Expired", "tidak boleh kosong");
+    }
+
+    private void cekDanBuatNotifikasiStok(ObatOTC obat) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

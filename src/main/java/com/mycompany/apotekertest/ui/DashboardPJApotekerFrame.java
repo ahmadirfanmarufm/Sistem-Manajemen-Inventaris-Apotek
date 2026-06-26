@@ -4,6 +4,10 @@
  */
 package com.mycompany.apotekertest.ui;
 
+import com.mycompany.apotekertest.service.StokService;
+import com.mycompany.apotekertest.stok.StokBahanRacikan;
+import com.mycompany.apotekertest.stok.StokNonObat;
+import com.mycompany.apotekertest.stok.StokObatOTC;
 import java.awt.CardLayout;
 import java.awt.BorderLayout;
 import javax.swing.JFrame;
@@ -23,7 +27,8 @@ public class DashboardPJApotekerFrame extends JFrame {
     private DashboardContentPanel dashboardPanel;
     private AuditStokPanel auditStokPanel;
     private ProdukContentPanel produkPanel;
-    private LaporanPanel laporanPanel;   
+    private LaporanPanel laporanPanel;
+    private StokService stokService;
 
     /**
      * Creates new form DashboardApotekerFrame
@@ -68,14 +73,19 @@ public class DashboardPJApotekerFrame extends JFrame {
 
         laporanPanel = new LaporanPanel();
         contentContainer.add(laporanPanel, "laporan");
-       
+
         contentContainer.add(dashboardScrollPane, "dashboard");
         contentContainer.add(new StokMasukPanel(), "stokMasuk");
         contentContainer.add(new StokKeluarPanel(), "stokKeluar");
         auditStokPanel = new AuditStokPanel();
         contentContainer.add(auditStokPanel, "auditStok");
         
-
+        stokService = new StokService(
+                new StokObatOTC(),
+                new StokBahanRacikan(),
+                new StokNonObat(),
+                MainApp.dashboardManager
+        );
         contentContainer.add(new NotifikasiPanel(), "notifikasi");
 
         getContentPane().add(sidebar, BorderLayout.WEST);

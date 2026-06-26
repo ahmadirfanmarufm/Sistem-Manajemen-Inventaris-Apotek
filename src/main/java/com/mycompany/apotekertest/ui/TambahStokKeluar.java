@@ -8,6 +8,7 @@ import javax.swing.JTable;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import com.mycompany.apotekertest.model.Item;
+import java.time.LocalDate;
 import javax.swing.DefaultComboBoxModel;
 import java.util.ArrayList;
 import javax.swing.JTextField;
@@ -105,7 +106,7 @@ public class TambahStokKeluar extends javax.swing.JPanel {
         jLabel7 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
         jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnSimpan = new javax.swing.JButton();
         jComboBox2 = new javax.swing.JComboBox<>();
         NamaItem = new javax.swing.JComboBox<>();
 
@@ -180,11 +181,11 @@ public class TambahStokKeluar extends javax.swing.JPanel {
         jButton2.setText("Batal");
         jButton2.addActionListener(this::jButton2ActionPerformed);
 
-        jButton3.setBackground(new java.awt.Color(0, 145, 55));
-        jButton3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jButton3.setText("Simpan");
-        jButton3.addActionListener(this::jButton3ActionPerformed);
+        btnSimpan.setBackground(new java.awt.Color(0, 145, 55));
+        btnSimpan.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnSimpan.setForeground(new java.awt.Color(255, 255, 255));
+        btnSimpan.setText("Simpan");
+        btnSimpan.addActionListener(this::btnSimpanActionPerformed);
 
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pilih...", "Produk Rusak", "Produk Kadaluarsa", "Pemakaian Internal", "Retur ke Pemasok", "Terjual" }));
         jComboBox2.addActionListener(this::jComboBox2ActionPerformed);
@@ -220,7 +221,7 @@ public class TambahStokKeluar extends javax.swing.JPanel {
                 .addGap(59, 59, 59))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnSimpan, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(14, 14, 14))
             .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
@@ -263,7 +264,7 @@ public class TambahStokKeluar extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jComboBox2)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 211, Short.MAX_VALUE)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnSimpan, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(23, 23, 23))
             .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
@@ -304,7 +305,7 @@ public class TambahStokKeluar extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanActionPerformed
         String tanggal = "";
         if (jDatePicker1.getModel().getValue() != null) {
             java.util.Calendar cal = (java.util.Calendar) jDatePicker1.getModel().getValue();
@@ -366,16 +367,16 @@ public class TambahStokKeluar extends javax.swing.JPanel {
         itemDipilih.setQuantity(sisaStok);
         
         if(itemDipilih instanceof com.mycompany.apotekertest.model.ObatOTC){
-            MainApp.stokService.updateObat((com.mycompany.apotekertest.model.ObatOTC) itemDipilih);
+            MainApp.stokService.kurangiStok((com.mycompany.apotekertest.model.ObatOTC) itemDipilih, jumlahKeluar, alasan);
         }
         
         else if(itemDipilih instanceof com.mycompany.apotekertest.model.BahanRacikan){
-            MainApp.stokService.updateBahanRacikan((com.mycompany.apotekertest.model.BahanRacikan) itemDipilih);
+            MainApp.stokService.kurangiStok((com.mycompany.apotekertest.model.BahanRacikan) itemDipilih, jumlahKeluar, alasan);
         }
         
         
         else if(itemDipilih instanceof com.mycompany.apotekertest.model.NonObat){
-            MainApp.stokService.updateNonObat((com.mycompany.apotekertest.model.NonObat) itemDipilih);
+            MainApp.stokService.kurangiStok((com.mycompany.apotekertest.model.NonObat) itemDipilih, jumlahKeluar, alasan);
         }
         
     } catch (com.mycompany.apotekertest.exception.ItemNotFoundException e) {
@@ -396,7 +397,7 @@ public class TambahStokKeluar extends javax.swing.JPanel {
         String idTransaksi = "TRX-" + System.currentTimeMillis();
 
         try {
-            MainApp.transaksiService.tambahTransaksi(idTransaksi, (int) totalNominal, "Penjualan " + namaBarang);
+            MainApp.transaksiService.tambahTransaksi(idTransaksi, (int) totalNominal, "Penjualan " + namaBarang, LocalDate.of(LocalDate.now().getYear(), 1, 5));
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Gagal mencatat transaksi: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -432,7 +433,7 @@ public class TambahStokKeluar extends javax.swing.JPanel {
     JOptionPane.showMessageDialog(this, "Stok keluar berhasil disimpan");
     javax.swing.SwingUtilities.getWindowAncestor(this).dispose();
         }
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_btnSimpanActionPerformed
 
     private void NamaItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NamaItemActionPerformed
         String selected = (String) NamaItem.getSelectedItem();
@@ -469,8 +470,8 @@ public class TambahStokKeluar extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField ItemID2;
     private javax.swing.JComboBox<String> NamaItem;
+    private javax.swing.JButton btnSimpan;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private org.jdatepicker.JDatePicker jDatePicker1;

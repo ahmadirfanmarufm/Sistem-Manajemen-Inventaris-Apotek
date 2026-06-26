@@ -4,9 +4,12 @@
  */
 package com.mycompany.apotekertest.ui;
 
+import com.mycompany.apotekertest.manager.DashboardManager;
+import com.mycompany.apotekertest.manager.NotifikasiManager;
 import com.mycompany.apotekertest.model.Apoteker;
 import com.mycompany.apotekertest.model.PJApoteker;
 import com.mycompany.apotekertest.repository.UserRepository;
+import com.mycompany.apotekertest.service.AuditService;
 import com.mycompany.apotekertest.service.StokService;
 import com.mycompany.apotekertest.stok.StokBahanRacikan;
 import com.mycompany.apotekertest.stok.StokNonObat;
@@ -19,15 +22,17 @@ import javax.swing.SwingUtilities;
  * @author Kelompok Kipli
  */
 public class MainApp extends javax.swing.JFrame {
-
+    public static NotifikasiManager notifikasiManager = new NotifikasiManager();
+    public static DashboardManager dashboardManager = new DashboardManager();
     public static UserRepository userRepository = new UserRepository();
 
     // Stok global
     public static StokObatOTC stokObatOTC = new StokObatOTC(5);
     public static StokBahanRacikan stokBahanRacikan = new StokBahanRacikan(10);
     public static StokNonObat stokNonObat = new StokNonObat(5);
-    public static StokService stokService = new StokService(stokObatOTC, stokBahanRacikan, stokNonObat);
-    public static TransaksiService transaksiService = new TransaksiService();
+    public static StokService stokService = new StokService(stokObatOTC, stokBahanRacikan, stokNonObat, dashboardManager);
+    public static AuditService auditService = new AuditService();
+    public static TransaksiService transaksiService = new TransaksiService(dashboardManager);
 
     /**
      * Creates new form MainApp
