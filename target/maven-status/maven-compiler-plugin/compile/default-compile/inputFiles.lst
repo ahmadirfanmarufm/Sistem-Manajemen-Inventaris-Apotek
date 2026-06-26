@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 C:\Users\Pongo\Documents\NetBeansProjects\ApotekerTest\src\main\java\com\mycompany\apotekertest\exception\ApotekException.java
 C:\Users\Pongo\Documents\NetBeansProjects\ApotekerTest\src\main\java\com\mycompany\apotekertest\exception\DuplicateItemException.java
 C:\Users\Pongo\Documents\NetBeansProjects\ApotekerTest\src\main\java\com\mycompany\apotekertest\exception\InvalidInputException.java
@@ -61,3 +62,63 @@ C:\Users\Pongo\Documents\NetBeansProjects\ApotekerTest\src\main\java\com\mycompa
 C:\Users\Pongo\Documents\NetBeansProjects\ApotekerTest\src\main\java\com\mycompany\apotekertest\ui\TambahItem.java
 C:\Users\Pongo\Documents\NetBeansProjects\ApotekerTest\src\main\java\com\mycompany\apotekertest\ui\TambahStokKeluar.java
 C:\Users\Pongo\Documents\NetBeansProjects\ApotekerTest\src\main\java\com\mycompany\apotekertest\ui\TambahStokMasuk.java
+=======
+C:\Rafly\Data Rafly\Semester 2\DPBO\Tubes\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\apotek\exception\ApotekException.java
+C:\Rafly\Data Rafly\Semester 2\DPBO\Tubes\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\apotek\exception\DuplicateItemException.java
+C:\Rafly\Data Rafly\Semester 2\DPBO\Tubes\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\apotek\exception\InvalidInputException.java
+C:\Rafly\Data Rafly\Semester 2\DPBO\Tubes\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\apotek\exception\ItemNotFoundException.java
+C:\Rafly\Data Rafly\Semester 2\DPBO\Tubes\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\apotek\exception\StockNotEnoughException.java
+C:\Rafly\Data Rafly\Semester 2\DPBO\Tubes\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\apotek\exception\UserNotFoundException.java
+C:\Rafly\Data Rafly\Semester 2\DPBO\Tubes\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\apotek\laporan\Laporan.java
+C:\Rafly\Data Rafly\Semester 2\DPBO\Tubes\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\apotek\laporan\LaporanPenjualan.java
+C:\Rafly\Data Rafly\Semester 2\DPBO\Tubes\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\apotek\laporan\LaporanStok.java
+C:\Rafly\Data Rafly\Semester 2\DPBO\Tubes\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\apotek\model\Apoteker.java
+C:\Rafly\Data Rafly\Semester 2\DPBO\Tubes\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\apotek\model\BahanRacikan.java
+C:\Rafly\Data Rafly\Semester 2\DPBO\Tubes\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\apotek\model\HasilAudit.java
+C:\Rafly\Data Rafly\Semester 2\DPBO\Tubes\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\apotek\model\Item.java
+C:\Rafly\Data Rafly\Semester 2\DPBO\Tubes\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\apotek\model\NonObat.java
+C:\Rafly\Data Rafly\Semester 2\DPBO\Tubes\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\apotek\model\NotifikasiStok.java
+C:\Rafly\Data Rafly\Semester 2\DPBO\Tubes\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\apotek\model\ObatOTC.java
+C:\Rafly\Data Rafly\Semester 2\DPBO\Tubes\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\apotek\model\PJApoteker.java
+C:\Rafly\Data Rafly\Semester 2\DPBO\Tubes\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\apotek\model\RekapanTransaksi.java
+C:\Rafly\Data Rafly\Semester 2\DPBO\Tubes\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\apotek\model\StokMasuk.java
+C:\Rafly\Data Rafly\Semester 2\DPBO\Tubes\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\apotek\model\Transaksi.java
+C:\Rafly\Data Rafly\Semester 2\DPBO\Tubes\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\apotek\model\User.java
+C:\Rafly\Data Rafly\Semester 2\DPBO\Tubes\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\apotek\repository\TransaksiRepository.java
+C:\Rafly\Data Rafly\Semester 2\DPBO\Tubes\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\apotek\repository\UserRepository.java
+C:\Rafly\Data Rafly\Semester 2\DPBO\Tubes\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\apotek\service\AuditService.java
+C:\Rafly\Data Rafly\Semester 2\DPBO\Tubes\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\apotek\service\LoginSession.java
+C:\Rafly\Data Rafly\Semester 2\DPBO\Tubes\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\apotek\service\StokService.java
+C:\Rafly\Data Rafly\Semester 2\DPBO\Tubes\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\apotek\service\TransaksiService.java
+C:\Rafly\Data Rafly\Semester 2\DPBO\Tubes\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\apotek\service\UserService.java
+C:\Rafly\Data Rafly\Semester 2\DPBO\Tubes\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\apotek\stok\Manageable.java
+C:\Rafly\Data Rafly\Semester 2\DPBO\Tubes\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\apotek\stok\Stok.java
+C:\Rafly\Data Rafly\Semester 2\DPBO\Tubes\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\apotek\stok\StokBahanRacikan.java
+C:\Rafly\Data Rafly\Semester 2\DPBO\Tubes\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\apotek\stok\StokNonObat.java
+C:\Rafly\Data Rafly\Semester 2\DPBO\Tubes\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\apotek\stok\StokObatOTC.java
+C:\Rafly\Data Rafly\Semester 2\DPBO\Tubes\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\apotek\ui\AuditInput.java
+C:\Rafly\Data Rafly\Semester 2\DPBO\Tubes\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\apotek\ui\AuditStokPanel.java
+C:\Rafly\Data Rafly\Semester 2\DPBO\Tubes\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\apotek\ui\DashboardApotekerFrame.java
+C:\Rafly\Data Rafly\Semester 2\DPBO\Tubes\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\apotek\ui\DashboardApotekerPanel.java
+C:\Rafly\Data Rafly\Semester 2\DPBO\Tubes\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\apotek\ui\DashboardContentPanel.java
+C:\Rafly\Data Rafly\Semester 2\DPBO\Tubes\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\apotek\ui\DashboardPJApoteker.java
+C:\Rafly\Data Rafly\Semester 2\DPBO\Tubes\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\apotek\ui\DashboardPJApotekerFrame.java
+C:\Rafly\Data Rafly\Semester 2\DPBO\Tubes\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\apotek\ui\HeaderLayout.java
+C:\Rafly\Data Rafly\Semester 2\DPBO\Tubes\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\apotek\ui\HeaderPanel.java
+C:\Rafly\Data Rafly\Semester 2\DPBO\Tubes\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\apotek\ui\InventarisPanel.java
+C:\Rafly\Data Rafly\Semester 2\DPBO\Tubes\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\apotek\ui\LaporanPanel.java
+C:\Rafly\Data Rafly\Semester 2\DPBO\Tubes\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\apotek\ui\LoginFrame.java
+C:\Rafly\Data Rafly\Semester 2\DPBO\Tubes\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\apotek\ui\MainApp.java
+C:\Rafly\Data Rafly\Semester 2\DPBO\Tubes\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\apotek\ui\NotifikasiPanel.java
+C:\Rafly\Data Rafly\Semester 2\DPBO\Tubes\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\apotek\ui\PenjualanPanel.java
+C:\Rafly\Data Rafly\Semester 2\DPBO\Tubes\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\apotek\ui\ProdukContentPanel.java
+C:\Rafly\Data Rafly\Semester 2\DPBO\Tubes\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\apotek\ui\RingkasanPanel.java
+C:\Rafly\Data Rafly\Semester 2\DPBO\Tubes\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\apotek\ui\SiderbarApotekerPanel.java
+C:\Rafly\Data Rafly\Semester 2\DPBO\Tubes\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\apotek\ui\SiderbarPJApotekerPanel.java
+C:\Rafly\Data Rafly\Semester 2\DPBO\Tubes\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\apotek\ui\StokKeluarPanel.java
+C:\Rafly\Data Rafly\Semester 2\DPBO\Tubes\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\apotek\ui\StokMasuk.java
+C:\Rafly\Data Rafly\Semester 2\DPBO\Tubes\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\apotek\ui\StokMasukPanel.java
+C:\Rafly\Data Rafly\Semester 2\DPBO\Tubes\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\apotek\ui\TambahItem.java
+C:\Rafly\Data Rafly\Semester 2\DPBO\Tubes\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\apotek\ui\TambahStokKeluar.java
+C:\Rafly\Data Rafly\Semester 2\DPBO\Tubes\Sistem-Manajemen-Inventaris-Apotek\src\main\java\com\apotek\ui\TambahStokMasuk.java
+>>>>>>> 132a3624d3e562b443f84c9745d08e1958992022

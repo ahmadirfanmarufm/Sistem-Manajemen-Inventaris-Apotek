@@ -1,0 +1,37 @@
+package com.apotek.model;
+
+/**
+ *
+ * @author Kelompok Kipli
+ */
+public class User {
+    protected String userId;
+    protected String name;
+    protected String password;
+    
+    public User(String userId, String name, String password) {
+        this.userId = userId;
+        this.name = name;
+        this.password = password;
+    }
+    
+    public boolean login(String inputUser, String inputPass) {
+        return userId.equals(inputUser) && password.equals(inputPass);
+    }
+    
+    public void logout() {
+        System.out.println("Logout success");
+    }
+    
+    public String getUserId() {
+        return userId;
+    }
+    
+    public String getName() {
+        return name;
+    }
+    
+    public String getPassword() {
+        return password;
+    }
+ }
