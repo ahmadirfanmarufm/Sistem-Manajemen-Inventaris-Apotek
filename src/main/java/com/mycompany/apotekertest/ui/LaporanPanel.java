@@ -66,6 +66,7 @@ public class LaporanPanel extends JPanel {
         inventarisPanel = new InventarisPanel();
 
         setActiveMenu(btnInventarisPanel);
+        showPanel(inventarisPanel);
         contentScrollPane.getVerticalScrollBar().setUnitIncrement(16);
     }
 

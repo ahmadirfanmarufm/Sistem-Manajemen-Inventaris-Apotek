@@ -27,7 +27,6 @@ com\mycompany\apotekertest\ui\SiderbarPJApotekerPanel.class
 com\mycompany\apotekertest\ui\DashboardApoteker$1.class
 com\mycompany\apotekertest\service\StokService.class
 com\mycompany\apotekertest\stok\Stok.class
-com\mycompany\apotekertest\model\NotifikasiStok.class
 com\mycompany\apotekertest\ui\DashboardContentPanel$3.class
 com\mycompany\apotekertest\ui\DashboardContentPanel.class
 com\mycompany\apotekertest\laporan\LaporanPenjualan.class
@@ -64,7 +63,6 @@ com\mycompany\apotekertest\ui\SiderbarApotekerPanel.class
 com\mycompany\apotekertest\ui\StokMasukPanel$1.class
 com\mycompany\apotekertest\ui\DashboardApoteker.class
 com\mycompany\apotekertest\model\Item.class
-com\mycompany\apotekertest\ui\RingkasanPanel.class
 com\mycompany\apotekertest\service\TransaksiService.class
 com\mycompany\apotekertest\exception\InvalidInputException.class
 com\mycompany\apotekertest\ui\DashboardApotekerFrame.class
