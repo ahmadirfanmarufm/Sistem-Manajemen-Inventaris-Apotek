@@ -347,7 +347,7 @@ public class AuditInput extends javax.swing.JPanel {
         int selisih = stokFisik - stokSistem;
         String statusAudit = (selisih == 0) ? "Sesuai" : "Selisih";
 
-        // Simpan hasil audit ke memory (AuditService), supaya AuditStokPanel bisa nampilinnya
+        // Mengisi data lewat parameter simpanHasilAudit (Sudah disesuaikan di AuditService)
         com.apotek.service.AuditService.simpanHasilAudit(
             idBarang, stokFisik, stokSistem, selisih, statusAudit, tanggal, auditor
         );

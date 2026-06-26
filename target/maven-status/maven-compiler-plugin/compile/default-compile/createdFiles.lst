@@ -73,6 +73,6 @@ com\apotek\laporan\Laporan.class
 com\apotek\ui\TambahStokKeluar$1.class
 com\apotek\ui\SiderbarPJApotekerPanel.class
 com\apotek\model\PJApoteker.class
+com\apotek\model\HasilAudit.class
 com\apotek\service\AuditService.class
-com\apotek\service\AuditService$HasilAudit.class
 com\apotek\ui\InventarisPanel.class

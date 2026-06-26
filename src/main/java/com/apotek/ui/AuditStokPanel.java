@@ -384,8 +384,7 @@ public class AuditStokPanel extends javax.swing.JPanel {
 
         for (int i = 0; i < semuaBarang.size(); i++) {
             Item item = semuaBarang.get(i);
-            AuditService.HasilAudit hasil = AuditService.getHasilAudit(item.getIdItem());
-
+            com.apotek.model.HasilAudit hasil = AuditService.getHasilAudit(item.getIdItem());   
             data[i][0] = item.getIdItem();
             data[i][1] = item.getNamaItem();
             data[i][2] = item.getQuantity();
@@ -399,12 +398,12 @@ public class AuditStokPanel extends javax.swing.JPanel {
                 data[i][8] = "Catat Fisik";
                 totalPending++;
             } else {
-                data[i][3] = hasil.stokFisik;
-                data[i][4] = hasil.selisih;
-                data[i][5] = hasil.status;
-                data[i][6] = hasil.auditor;
-                data[i][7] = hasil.tanggal;
-                if (hasil.selisih == 0) {
+                data[i][3] = hasil.getStokFisik();
+                data[i][4] = hasil.getSelisih();
+                data[i][5] = hasil.getStatus();
+                data[i][6] = hasil.getAuditor();
+                data[i][7] = hasil.getTanggal();
+                if (hasil.getSelisih() == 0) {
                     data[i][8] = "—";
                     totalSesuai++;
                 } else {
