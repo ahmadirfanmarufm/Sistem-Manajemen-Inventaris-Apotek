@@ -313,6 +313,11 @@ public class TambahStokKeluar extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        if (jDatePicker1.getModel().getValue() == null) {
+            JOptionPane.showMessageDialog(this, "Mohon pilih tanggal terlebih dahulu!");
+            return;
+        }
+        
         String tanggal = "";
         if (jDatePicker1.getModel().getValue() != null) {
             java.util.Calendar cal = (java.util.Calendar) jDatePicker1.getModel().getValue();

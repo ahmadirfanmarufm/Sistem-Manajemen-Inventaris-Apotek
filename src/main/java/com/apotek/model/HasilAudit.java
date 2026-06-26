@@ -5,7 +5,7 @@ public class HasilAudit {
     private int stokFisik;
     private int stokSistem;
     private int selisih;
-    private String status;    
+    private String status;     // "Sesuai" atau "Selisih"
     private String tanggal;
     private String auditor;
 

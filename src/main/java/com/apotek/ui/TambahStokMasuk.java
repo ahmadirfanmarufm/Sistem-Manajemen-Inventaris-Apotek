@@ -327,7 +327,12 @@ public class TambahStokMasuk extends javax.swing.JPanel {
     }//GEN-LAST:event_buttonBatalActionPerformed
 
     private void buttonSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSimpanActionPerformed
-        // TODO add your handling code here:
+
+        if (jDatePicker1.getModel().getValue() == null) {
+            JOptionPane.showMessageDialog(this, "Mohon pilih tanggal terlebih dahulu!");
+            return;
+        }
+        
         String tanggal = "";
         if (jDatePicker1.getModel().getValue() != null) {
             java.util.Calendar cal = (java.util.Calendar) jDatePicker1.getModel().getValue();

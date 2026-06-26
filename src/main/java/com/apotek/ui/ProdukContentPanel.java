@@ -154,6 +154,9 @@ public class ProdukContentPanel extends javax.swing.JPanel {
         btnNextNonObat = new javax.swing.JButton();
         lblHalamanNonObat = new javax.swing.JLabel();
         btnPreviousNonObat = new javax.swing.JButton();
+        editObatOTC = new javax.swing.JButton();
+        editBahanRacikan = new javax.swing.JButton();
+        editNonObat = new javax.swing.JButton();
 
         jRadioButton1.setText("jRadioButton1");
 
@@ -347,6 +350,24 @@ public class ProdukContentPanel extends javax.swing.JPanel {
         btnPreviousNonObat.setForeground(new java.awt.Color(255, 255, 255));
         btnPreviousNonObat.setText("Sebelumnya");
 
+        editObatOTC.setBackground(new java.awt.Color(128, 128, 128));
+        editObatOTC.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        editObatOTC.setForeground(new java.awt.Color(255, 255, 255));
+        editObatOTC.setText("Edit Obat");
+        editObatOTC.addActionListener(this::editObatOTCActionPerformed);
+
+        editBahanRacikan.setBackground(new java.awt.Color(128, 128, 128));
+        editBahanRacikan.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        editBahanRacikan.setForeground(new java.awt.Color(255, 255, 255));
+        editBahanRacikan.setText("Edit Bahan Racikan");
+        editBahanRacikan.addActionListener(this::editBahanRacikanActionPerformed);
+
+        editNonObat.setBackground(new java.awt.Color(128, 128, 128));
+        editNonObat.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        editNonObat.setForeground(new java.awt.Color(255, 255, 255));
+        editNonObat.setText("Edit Non Obat");
+        editNonObat.addActionListener(this::editNonObatActionPerformed);
+
         javax.swing.GroupLayout contentPanelLayout = new javax.swing.GroupLayout(contentPanel);
         contentPanel.setLayout(contentPanelLayout);
         contentPanelLayout.setHorizontalGroup(
@@ -361,6 +382,8 @@ public class ProdukContentPanel extends javax.swing.JPanel {
                             .addComponent(lblTitleObatOTC)
                             .addComponent(lblDescriptionObatOTC))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(editObatOTC)
+                        .addGap(18, 18, 18)
                         .addComponent(btnTambahObatOTC, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, contentPanelLayout.createSequentialGroup()
                         .addComponent(lblShowDataBahanRacikan1)
@@ -392,12 +415,16 @@ public class ProdukContentPanel extends javax.swing.JPanel {
                             .addComponent(lblTitleBahanRacikan)
                             .addComponent(lblDescriptionBahanRacikan))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(editBahanRacikan)
+                        .addGap(18, 18, 18)
                         .addComponent(btnTambahBahanRacikan, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, contentPanelLayout.createSequentialGroup()
                         .addGroup(contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblDescriptionNonObat)
                             .addComponent(lblTitleNonObat))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(editNonObat)
+                        .addGap(18, 18, 18)
                         .addComponent(btnTambahNonObat, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane4))
                 .addGap(41, 41, 41))
@@ -406,7 +433,7 @@ public class ProdukContentPanel extends javax.swing.JPanel {
             contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(contentPanelLayout.createSequentialGroup()
                 .addComponent(headerContainer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(24, 24, 24)
+                .addGap(21, 21, 21)
                 .addGroup(contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(contentPanelLayout.createSequentialGroup()
                         .addComponent(lblTitleObatOTC, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -414,8 +441,10 @@ public class ProdukContentPanel extends javax.swing.JPanel {
                         .addComponent(lblDescriptionObatOTC))
                     .addGroup(contentPanelLayout.createSequentialGroup()
                         .addGap(9, 9, 9)
-                        .addComponent(btnTambahObatOTC, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
+                        .addGroup(contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnTambahObatOTC, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(editObatOTC, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(21, 21, 21)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -430,10 +459,12 @@ public class ProdukContentPanel extends javax.swing.JPanel {
                         .addComponent(lblTitleBahanRacikan, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblDescriptionBahanRacikan))
-                    .addComponent(btnTambahBahanRacikan, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                    .addGroup(contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnTambahBahanRacikan, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(editBahanRacikan, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(30, 30, 30)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnNextBahanRacikan)
                     .addComponent(lblHalamanBahanRacikan)
@@ -445,7 +476,9 @@ public class ProdukContentPanel extends javax.swing.JPanel {
                         .addComponent(lblTitleNonObat, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblDescriptionNonObat))
-                    .addComponent(btnTambahNonObat, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnTambahNonObat, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(editNonObat, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -463,13 +496,16 @@ public class ProdukContentPanel extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(contentScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 794, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(contentScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 923, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(contentScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 982, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(contentScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 1059, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -483,7 +519,7 @@ public class ProdukContentPanel extends javax.swing.JPanel {
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
 
-        // refresh semua tabel karena gak tahu pasti jenis item mana yang baru ditambahkan
+        // Refresh semua tabel karena gak tahu pasti jenis item mana yang baru ditambahkan
         loadObatOTCTable();
         loadBahanRacikanTable();
         loadNonObatTable();
@@ -499,7 +535,7 @@ public class ProdukContentPanel extends javax.swing.JPanel {
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
 
-        //Refresh semua tabel karena gak tahu pasti jenis item mana yang baru ditambahkan
+        // Refresh semua tabel karena gak tahu pasti jenis item mana yang baru ditambahkan
         loadObatOTCTable();
         loadBahanRacikanTable();
         loadNonObatTable();
@@ -515,11 +551,59 @@ public class ProdukContentPanel extends javax.swing.JPanel {
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
 
-        // refresh semua tabel karena gak tahu pasti jenis item mana yang baru ditambahkan
+        // Refresh semua tabel karena gak tahu pasti jenis item mana yang baru ditambahkan
         loadObatOTCTable();
         loadBahanRacikanTable();
         loadNonObatTable();
     }//GEN-LAST:event_btnTambahNonObatActionPerformed
+
+    private void editObatOTCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editObatOTCActionPerformed
+        JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), "Edit Data Obat", true);
+        EditItem panel = new EditItem();
+        panel.setJenisItem("Obat OTC");
+        
+        dialog.setContentPane(panel);
+        dialog.pack();
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+
+        // Refresh semua tabel karena gak tahu pasti jenis item mana yang baru ditambahkan
+        loadObatOTCTable();
+        loadBahanRacikanTable();
+        loadNonObatTable();
+    }//GEN-LAST:event_editObatOTCActionPerformed
+
+    private void editBahanRacikanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editBahanRacikanActionPerformed
+        JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), "Edit Data Obat", true);
+        EditItem panel = new EditItem();
+        panel.setJenisItem("Bahan Racikan");
+        
+        dialog.setContentPane(panel);
+        dialog.pack();
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+
+        // Refresh semua tabel karena gak tahu pasti jenis item mana yang baru ditambahkan
+        loadObatOTCTable();
+        loadBahanRacikanTable();
+        loadNonObatTable();
+    }//GEN-LAST:event_editBahanRacikanActionPerformed
+
+    private void editNonObatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editNonObatActionPerformed
+        JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), "Edit Data Obat", true);
+        EditItem panel = new EditItem();
+        panel.setJenisItem("Non Obat");
+        
+        dialog.setContentPane(panel);
+        dialog.pack();
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+
+        // Refresh semua tabel karena gak tahu pasti jenis item mana yang baru ditambahkan
+        loadObatOTCTable();
+        loadBahanRacikanTable();
+        loadNonObatTable();
+    }//GEN-LAST:event_editNonObatActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -534,6 +618,9 @@ public class ProdukContentPanel extends javax.swing.JPanel {
     private javax.swing.JButton btnTambahObatOTC;
     private javax.swing.JPanel contentPanel;
     private javax.swing.JScrollPane contentScrollPane;
+    private javax.swing.JButton editBahanRacikan;
+    private javax.swing.JButton editNonObat;
+    private javax.swing.JButton editObatOTC;
     private javax.swing.JPanel headerContainer;
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JScrollPane jScrollPane2;

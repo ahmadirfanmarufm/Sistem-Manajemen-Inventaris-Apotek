@@ -169,6 +169,8 @@ public class AuditInput extends javax.swing.JPanel {
         jLabel1.setForeground(new java.awt.Color(0, 145, 55));
         jLabel1.setText("Tanggal");
 
+        InputTanggal.addActionListener(this::InputTanggalActionPerformed);
+
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 145, 55));
         jLabel2.setText("Nama Barang");
@@ -378,6 +380,10 @@ public class AuditInput extends javax.swing.JPanel {
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void InputTanggalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InputTanggalActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_InputTanggalActionPerformed
 
      
 

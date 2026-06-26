@@ -2,16 +2,18 @@ package com.apotek.ui;
 
 import com.apotek.exception.DuplicateItemException;
 import com.apotek.exception.InvalidInputException;
-import java.util.Date;
-import java.time.*;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import com.apotek.exception.ItemNotFoundException;
+import com.apotek.model.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import javax.swing.*;
 
-public class TambahItem extends javax.swing.JPanel {
-
-    public TambahItem() {
+public class EditItem extends javax.swing.JPanel {
+    
+    private ArrayList<Item> daftarItem = new ArrayList<>();
+    private Item selectedItem; // item yang sedang aktif diedit
+    
+    public EditItem() {
         initComponents();
         //Menyembunyikan semua field khusus di awal
         kategoriObatInput.setVisible(false);
@@ -23,10 +25,69 @@ public class TambahItem extends javax.swing.JPanel {
         satuanInput.setVisible(false);
         kategoriInput.setVisible(false);
         lblKategori.setVisible(false);
-
+        loadNamaItem();
+        NamaItem.setEditable(true); // Buka kunci ketikan
+        searchFilter(); // Pasang logika filter
         //Agar posisi field tidak bergeser saat component dihide 
         ((javax.swing.GroupLayout) this.getLayout()).setHonorsVisibility(false);
 
+    }
+    
+    // Fitur search dan filter item
+    public void searchFilter() {
+        JTextField editor = (JTextField) NamaItem.getEditor().getEditorComponent();
+        
+        // Membaca input klik dari mouse 
+        editor.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            // Apabila mouse memencet combo box, text langsug kosong agar pengguna dapat langsung mengetik
+            public void mousePressed(java.awt.event.MouseEvent e) {
+                if (editor.getText().equals("Pilih Item...")) {
+                    editor.setText("");
+                }
+            }
+        });
+        
+        editor.addKeyListener(new java.awt.event.KeyAdapter() { // Membaca input keyboard
+            @Override
+            public void keyReleased(java.awt.event.KeyEvent e) { 
+                javax.swing.SwingUtilities.invokeLater(() -> { // Multithreading Swing (memastikan aplikasi tidak macet / freeze saat mengetik)
+                    //Mengambil input pengguna dari JTextField editor
+                    String input = editor.getText(); 
+                    DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(); // Membuat component ComboBoxModel yang menyimpan list barang / selection
+                    model.addElement("Pilih Item...");
+
+                    // Filter pencarian item berdasarkan input
+                    for (Item item : daftarItem) {
+                        if (item.getNamaItem().toLowerCase().contains(input.toLowerCase())) {
+                            model.addElement(item.getNamaItem()); //Menambahkan item yang sesuai input ke selection / pilihan
+                        }
+                    }
+                    
+                    //Mengset model JComboBox NamaItem sesuai model baru yang dihasilkan setelah filter
+                    NamaItem.setModel(model);
+                    editor.setText(input); // Kembalikan teks yang sedang diketik
+                    if (!input.isEmpty()) NamaItem.showPopup(); // Tampilkan dropdown otomatis
+                });
+            }
+        });
+    }
+    
+    public void loadNamaItem(){
+    
+        daftarItem.clear();
+        daftarItem.addAll(MainApp.stokService.getSemuaObat());
+        daftarItem.addAll(MainApp.stokService.getSemuaBahanRacikan());
+        daftarItem.addAll(MainApp.stokService.getSemuaNonObat());
+        
+        DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
+        model.addElement("Pilih Item...");
+        
+        for (Item item : daftarItem){
+            model.addElement(item.getNamaItem());
+        }
+        
+        NamaItem.setModel(model);
     }
 
     public void setJenisItem(String jenis) {
@@ -92,10 +153,10 @@ public class TambahItem extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        itemIdInput = new javax.swing.JTextField();
+        itemIdField = new javax.swing.JTextField();
         jPanel4 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        namaItemInput = new javax.swing.JTextField();
+        NamaItem = new javax.swing.JComboBox<>();
         jPanel6 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jPanel10 = new javax.swing.JPanel();
@@ -122,6 +183,7 @@ public class TambahItem extends javax.swing.JPanel {
         hargaJualInput = new javax.swing.JTextField();
         hargaBeliInput = new javax.swing.JTextField();
         expiredDateInput = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
 
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -198,9 +260,9 @@ public class TambahItem extends javax.swing.JPanel {
         jLabel2.setText("Item ID");
         jPanel3.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 0, -1, -1));
 
-        itemIdInput.addActionListener(this::itemIdInputActionPerformed);
-        jPanel3.add(itemIdInput, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 38, 198, -1));
-        itemIdInput.getAccessibleContext().setAccessibleName("ItemID");
+        itemIdField.addActionListener(this::itemIdFieldActionPerformed);
+        jPanel3.add(itemIdField, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 38, 198, -1));
+        itemIdField.getAccessibleContext().setAccessibleName("ItemID");
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -209,8 +271,9 @@ public class TambahItem extends javax.swing.JPanel {
         jLabel3.setText("Nama Item");
         jPanel4.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 0, -1, -1));
 
-        namaItemInput.addActionListener(this::namaItemInputActionPerformed);
-        jPanel4.add(namaItemInput, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 38, 238, -1));
+        NamaItem.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        NamaItem.addActionListener(this::NamaItemActionPerformed);
+        jPanel4.add(NamaItem, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 32, 220, 30));
 
         jPanel6.setBackground(new java.awt.Color(255, 255, 255));
         jPanel6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -251,7 +314,7 @@ public class TambahItem extends javax.swing.JPanel {
         deskripsiInput.setRows(5);
         jScrollPane1.setViewportView(deskripsiInput);
 
-        jPanel9.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 26, 466, 162));
+        jPanel9.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 26, 480, 162));
 
         satuanInput.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Satuan", "Kg", "Gram", "mg", "L", "mL" }));
         satuanInput.addActionListener(this::satuanInputActionPerformed);
@@ -281,10 +344,16 @@ public class TambahItem extends javax.swing.JPanel {
         simpanButton.setBackground(new java.awt.Color(0, 145, 55));
         simpanButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         simpanButton.setForeground(new java.awt.Color(255, 255, 255));
-        simpanButton.setText("TAMBAH");
+        simpanButton.setText("SIMPAN");
         simpanButton.addActionListener(this::simpanButtonActionPerformed);
 
         expiredDateInput.addActionListener(this::expiredDateInputActionPerformed);
+
+        jButton1.setBackground(new java.awt.Color(255, 0, 0));
+        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
+        jButton1.setText("HAPUS ITEM");
+        jButton1.addActionListener(this::jButton1ActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -298,47 +367,47 @@ public class TambahItem extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE)
-                                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, 494, Short.MAX_VALUE)
                                 .addGap(75, 75, 75)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(kategoriInput, javax.swing.GroupLayout.PREFERRED_SIZE, 535, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lblKategori)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 232, Short.MAX_VALUE)
+                                            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addGap(18, 18, 18)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(expiredDateInput, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                            .addGap(6, 6, 6)
+                                            .addComponent(jLabel7))))
+                                .addGap(75, 75, 75)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(satuanInput, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(lblKategoriObat, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(kategoriObatInput)
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addGap(0, 0, Short.MAX_VALUE)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(lblHargaJual)
                                             .addComponent(hargaJualInput, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(58, 58, 58)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(lblHargaBeli)
-                                            .addComponent(hargaBeliInput, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblKategori)
-                                    .addComponent(satuanInput, javax.swing.GroupLayout.PREFERRED_SIZE, 529, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(kategoriInput, javax.swing.GroupLayout.PREFERRED_SIZE, 529, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(expiredDateInput, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                        .addGap(6, 6, 6)
-                                        .addComponent(jLabel7)))
-                                .addGap(0, 0, Short.MAX_VALUE)))
+                                            .addComponent(hargaBeliInput, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                         .addGap(6, 6, 6)))
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
-                .addGap(416, 416, 416)
-                .addComponent(simpanButton, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(350, 350, 350)
+                .addComponent(simpanButton, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(39, 39, 39)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -348,16 +417,16 @@ public class TambahItem extends javax.swing.JPanel {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(JenisItem1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGap(24, 24, 24)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lblKategoriObat)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(kategoriObatInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(24, 24, 24)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGap(22, 22, 22)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -371,32 +440,28 @@ public class TambahItem extends javax.swing.JPanel {
                     .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addComponent(satuanInput, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblKategori)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(kategoriInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(expiredDateInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(43, 43, 43))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addComponent(satuanInput, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblKategori)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(kategoriInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
-                .addComponent(simpanButton, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(simpanButton, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void namaItemInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_namaItemInputActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_namaItemInputActionPerformed
 
     private void ItemID2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ItemID2ActionPerformed
         // TODO add your handling code here:
@@ -460,79 +525,76 @@ public class TambahItem extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_kategoriObatInputActionPerformed
 
-    private void itemIdInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemIdInputActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_itemIdInputActionPerformed
-
     private void simpanButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_simpanButtonActionPerformed
 
-        String jenis = JenisItem1.getSelectedItem().toString().trim();
-        //Menyesuaikan dengan jenis item
-        if (jenis.equals("Jenis Item")) {
-            //Warning untuk mengisi field jenis item
-            JOptionPane.showMessageDialog(this, "Pilih Jenis Item terlebih dahulu.", "Input Tidak Lengkap", JOptionPane.WARNING_MESSAGE);
+        if (selectedItem == null) {
+            JOptionPane.showMessageDialog(this, "Pilih item yang ingin diedit terlebih dahulu.",
+                    "Item Belum Dipilih", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
+        String jenis = JenisItem1.getSelectedItem().toString().trim();
+
         try {
-            //Deklarasi variabel
-            String idItem = getRequiredText(itemIdInput, "Item ID");
-            String namaItem = getRequiredText(namaItemInput, "Nama Item");
+            String idItem = selectedItem.getIdItem(); // ID tidak diubah saat edit
+
+            JTextField editor = (JTextField) NamaItem.getEditor().getEditorComponent();
+            String namaItem = editor.getText().trim();
+            if (namaItem.isEmpty()) {
+                throw new InvalidInputException("Nama Item", "tidak boleh kosong");
+            }
+
             int quantity = parseIntField(quantityInput, "Kuantitas");
             int stokMinimum = parseIntField(stokMinimumInput, "Stok Minimum");
             String expiredDate = getRequiredText(expiredDateInput, "Tanggal Kadaluarsa");
             String deskripsi = deskripsiInput.getText().trim();
+            LocalDate tglExpired = LocalDate.parse(expiredDate);
 
-            //Sesuai dengan jenis item yang dipilih
             switch (jenis) {
-                case "Obat OTC": {
+                case "Obat OTC" -> {
                     String kategoriObat = getRequiredText(kategoriObatInput, "Kategori Obat");
                     double hargaBeli = parseDoubleField(hargaBeliInput, "Harga Beli");
                     double hargaJual = parseDoubleField(hargaJualInput, "Harga Jual");
-                    //Penyimpanan item ke dalam sistem
-                    MainApp.stokService.tambahObat(kategoriObat, hargaBeli, hargaJual, idItem, namaItem, quantity, stokMinimum, expiredDate, deskripsi);
-                    break;
+                    MainApp.stokService.updateObat(new ObatOTC(kategoriObat, hargaBeli, hargaJual,
+                            idItem, namaItem, quantity, stokMinimum, tglExpired, deskripsi));
                 }
-
-                case "Bahan Racikan": {
+                case "Bahan Racikan" -> {
                     String satuan = satuanInput.getSelectedItem().toString().trim();
                     if (satuan.equals("Satuan")) {
-                        //Exception apabila tidak ada satuan yang dipilih
                         throw new InvalidInputException("Satuan", "harus dipilih");
                     }
-                    //Penyimpanan item ke dalam sistem
-                    MainApp.stokService.tambahBahanRacikan(idItem, namaItem, satuan, quantity, stokMinimum, expiredDate, deskripsi);
-                    break;
+                    MainApp.stokService.updateBahanRacikan(new BahanRacikan(idItem, namaItem, satuan,
+                            quantity, stokMinimum, tglExpired, deskripsi));
                 }
-
-                case "Non Obat": {
+                case "Non Obat" -> {
                     String kategori = getRequiredText(kategoriInput, "Kategori");
                     double hargaBeli = parseDoubleField(hargaBeliInput, "Harga Beli");
                     double hargaJual = parseDoubleField(hargaJualInput, "Harga Jual");
-                    //Penyimpanan item ke dalam sistem
-                    MainApp.stokService.tambahNonObat(kategori, hargaBeli, hargaJual, idItem, namaItem, quantity, stokMinimum, expiredDate, deskripsi);
-                    break;
+                    MainApp.stokService.updateNonObat(new NonObat(kategori, hargaBeli, hargaJual,
+                            idItem, namaItem, quantity, stokMinimum, tglExpired, deskripsi));
                 }
             }
 
-            //Notifikasi keberhasilan
-            JOptionPane.showMessageDialog(this, "Item berhasil ditambahkan.");
+            JOptionPane.showMessageDialog(this, "Item berhasil diubah.");
+            loadNamaItem();
             resetForm();
             tutupPanel();
 
-            //Menampilkan notifikasi apabila item duplikat atau terdapat input yang invalid
-        } catch (DuplicateItemException | InvalidInputException ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "Gagal Menambah Item", JOptionPane.ERROR_MESSAGE);
+        } catch (InvalidInputException | ItemNotFoundException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Gagal Mengubah Item", JOptionPane.ERROR_MESSAGE);
+        } catch (java.time.format.DateTimeParseException ex) {
+            JOptionPane.showMessageDialog(this, "Format tanggal harus yyyy-MM-dd",
+                    "Gagal Mengubah Item", JOptionPane.ERROR_MESSAGE);
         }
 
     }//GEN-LAST:event_simpanButtonActionPerformed
 
     private void resetForm() {
-        //Mengembalikan panel TambahItem ke awal
+        //Mengembalikan panel EditItem ke awal
         JenisItem1.setSelectedIndex(0);
-        itemIdInput.setText("");
-        namaItemInput.setText("");
-        quantityInput.setText("");
+        itemIdField.setText("");
+        NamaItem.setSelectedIndex(0);
+        selectedItem = null;
         hargaBeliInput.setText("");
         hargaJualInput.setText("");
         deskripsiInput.setText("");
@@ -555,15 +617,94 @@ public class TambahItem extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_expiredDateInputActionPerformed
 
+    private void NamaItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NamaItemActionPerformed
+
+        String selected = (String) NamaItem.getSelectedItem();
+
+        if (selected == null || selected.equals("Pilih Item...")) {
+            selectedItem = null;
+           itemIdField.setText("");
+            return;
+        }
+
+        for (Item item : daftarItem) {
+            if (item.getNamaItem().equals(selected)) {
+                selectedItem = item;
+                populateForm(item);
+                break;
+            }
+        }
+    }//GEN-LAST:event_NamaItemActionPerformed
+
+    // Berfungsi mengisi form dengan atribut yang dimiliki Item
+    private void populateForm(Item item) {
+        itemIdField.setText(item.getIdItem());
+        quantityInput.setText(String.valueOf(item.getQuantity()));
+        stokMinimumInput.setText(String.valueOf(item.getStokMinimum()));
+        expiredDateInput.setText(item.getExpiredDate().toString());
+        deskripsiInput.setText(item.getDeskripsi());
+
+        if (item instanceof ObatOTC obat) {
+            JenisItem1.setSelectedItem("Obat OTC");
+            kategoriObatInput.setText(obat.getKategori());
+            hargaBeliInput.setText(String.valueOf(obat.getHargaBeli()));
+            hargaJualInput.setText(String.valueOf(obat.getHargaJual()));
+        } else if (item instanceof BahanRacikan bahan) {
+            JenisItem1.setSelectedItem("Bahan Racikan");
+            satuanInput.setSelectedItem(bahan.getSatuan());
+        } else if (item instanceof NonObat non) {
+            JenisItem1.setSelectedItem("Non Obat");
+            kategoriInput.setText(non.getKategori());
+            hargaBeliInput.setText(String.valueOf(non.getHargaBeli()));
+            hargaJualInput.setText(String.valueOf(non.getHargaJual()));
+        }
+    }
+    
+    private void itemIdFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemIdFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_itemIdFieldActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        if (selectedItem == null) {
+            JOptionPane.showMessageDialog(this, "Pilih item yang ingin dihapus terlebih dahulu.",
+                    "Item Belum Dipilih", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        int confirm = JOptionPane.showConfirmDialog(this,
+                "Yakin ingin menghapus item \"" + selectedItem.getNamaItem() + "\"?",
+                "Konfirmasi Hapus", JOptionPane.YES_NO_OPTION);
+        if (confirm != JOptionPane.YES_OPTION) return;
+
+        try {
+            String idItem = selectedItem.getIdItem();
+            if (selectedItem instanceof ObatOTC) {
+                MainApp.stokService.hapusObat(idItem);
+            } else if (selectedItem instanceof BahanRacikan) {
+                MainApp.stokService.hapusBahanRacikan(idItem);
+            } else if (selectedItem instanceof NonObat) {
+                MainApp.stokService.hapusNonObat(idItem);
+            }
+            JOptionPane.showMessageDialog(this, "Item berhasil dihapus.");
+            loadNamaItem();
+            resetForm();
+            tutupPanel();
+        } catch (ItemNotFoundException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Gagal Menghapus Item", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField ItemID2;
     private javax.swing.JComboBox<String> JenisItem1;
+    private javax.swing.JComboBox<String> NamaItem;
     private javax.swing.JTextArea deskripsiInput;
     private javax.swing.JTextField expiredDateInput;
     private javax.swing.JTextField hargaBeliInput;
     private javax.swing.JTextField hargaJualInput;
-    private javax.swing.JTextField itemIdInput;
+    private javax.swing.JTextField itemIdField;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -590,7 +731,6 @@ public class TambahItem extends javax.swing.JPanel {
     private javax.swing.JLabel lblHargaJual;
     private javax.swing.JLabel lblKategori;
     private javax.swing.JLabel lblKategoriObat;
-    private javax.swing.JTextField namaItemInput;
     private javax.swing.JTextField quantityInput;
     private javax.swing.JComboBox<String> satuanInput;
     private javax.swing.JButton simpanButton;

@@ -22,6 +22,7 @@ com\apotek\ui\DashboardApotekerFrame.class
 com\apotek\model\RekapanTransaksi.class
 com\apotek\service\TransaksiService$DuplicateTransaksiException.class
 com\apotek\ui\DashboardContentPanel$1.class
+com\apotek\ui\EditItem.class
 com\apotek\ui\PenjualanPanel$1.class
 com\apotek\repository\TransaksiRepository.class
 com\apotek\exception\DuplicateItemException.class
@@ -40,11 +41,13 @@ com\apotek\ui\DashboardApotekerPanel.class
 com\apotek\ui\ProdukContentPanel$1.class
 com\apotek\exception\ApotekException.class
 com\apotek\stok\StokNonObat.class
+com\apotek\ui\EditItem$1.class
 com\apotek\ui\StokMasuk$1.class
 com\apotek\ui\HeaderPanel.class
 com\apotek\ui\LoginFrame.class
 com\apotek\model\Item.class
 com\apotek\exception\ItemNotFoundException.class
+com\apotek\ui\EditItem$2.class
 com\apotek\service\TransaksiService.class
 com\apotek\ui\PenjualanPanel.class
 com\apotek\service\UserService.class

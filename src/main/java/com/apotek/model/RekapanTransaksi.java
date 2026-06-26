@@ -9,14 +9,17 @@ import java.util.ArrayList;
 public class RekapanTransaksi {
     private ArrayList<Transaksi> rekapanTransaksi;
     
+    // Construcor
     public RekapanTransaksi() {
         this.rekapanTransaksi = new ArrayList<>();
     }
     
+    // menambahkan transaksi ke dalam rekapan transaksi (grouping)
     public void tambahTransaksi(Transaksi transaksi) {
         rekapanTransaksi.add(transaksi);
     }
     
+    // Menghitung total laba/nominal transaksi
     public int hitungTotalNominal() {
         int total = 0;
         for(Transaksi t : rekapanTransaksi) {
