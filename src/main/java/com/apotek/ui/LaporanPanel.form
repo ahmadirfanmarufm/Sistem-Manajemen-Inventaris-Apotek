@@ -88,14 +88,14 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jLabel1" min="-2" pref="20" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="totalObatOTCPanel4" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                          <Component id="totalObatOTCPanel1" alignment="0" max="32767" attributes="0"/>
+                          <Component id="totalObatOTCPanel4" alignment="0" max="32767" attributes="0"/>
                           <Component id="totalObatOTCPanel3" alignment="0" max="32767" attributes="0"/>
                           <Component id="totalObatOTCPanel2" alignment="0" max="32767" attributes="0"/>
-                          <Component id="totalObatOTCPanel1" alignment="0" max="32767" attributes="0"/>
-                          <Component id="totalObatOTCPanel" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="totalObatOTCPanel" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="btnInventarisPanel" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                           <Component id="btnPenjualanPanel" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
@@ -196,7 +196,6 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="labelTotalProduk4" alignment="0" pref="113" max="32767" attributes="0"/>
                               <Component id="totalTransaksi" alignment="0" max="32767" attributes="0"/>
-                              <Component id="labelKenaikanDanKeturunanTotalTransaksi" alignment="0" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
@@ -209,8 +208,6 @@
                           <Component id="labelTotalProduk4" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="totalTransaksi" min="-2" pref="24" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="labelKenaikanDanKeturunanTotalTransaksi" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="32767" attributes="0"/>
                       </Group>
                   </Group>
@@ -237,14 +234,6 @@
                       <Color blue="4f" green="89" red="2a" type="rgb"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="0"/>
-                  </Properties>
-                </Component>
-                <Component class="javax.swing.JLabel" name="labelKenaikanDanKeturunanTotalTransaksi">
-                  <Properties>
-                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                      <Color blue="4f" green="89" red="2a" type="rgb"/>
-                    </Property>
-                    <Property name="text" type="java.lang.String" value="+0%"/>
                   </Properties>
                 </Component>
               </SubComponents>
@@ -274,7 +263,6 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="labelTotalProduk3" alignment="0" pref="125" max="32767" attributes="0"/>
                               <Component id="totalNonObat" alignment="0" max="32767" attributes="0"/>
-                              <Component id="labelKenaikanDanKeturunanTotalNonObat" alignment="0" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
@@ -287,8 +275,6 @@
                           <Component id="labelTotalProduk3" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="totalNonObat" min="-2" pref="24" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="labelKenaikanDanKeturunanTotalNonObat" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="32767" attributes="0"/>
                       </Group>
                   </Group>
@@ -315,14 +301,6 @@
                       <Color blue="4f" green="89" red="2a" type="rgb"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="0"/>
-                  </Properties>
-                </Component>
-                <Component class="javax.swing.JLabel" name="labelKenaikanDanKeturunanTotalNonObat">
-                  <Properties>
-                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                      <Color blue="3a" green="0" red="ff" type="rgb"/>
-                    </Property>
-                    <Property name="text" type="java.lang.String" value="-0%"/>
                   </Properties>
                 </Component>
               </SubComponents>
@@ -352,7 +330,6 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="labelTotalProduk2" alignment="0" max="32767" attributes="0"/>
                               <Component id="totalBahanRacikan" alignment="0" max="32767" attributes="0"/>
-                              <Component id="labelKenaikanDanKeturunanTotalBahanRacikan" alignment="0" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
@@ -365,8 +342,6 @@
                           <Component id="labelTotalProduk2" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="totalBahanRacikan" min="-2" pref="24" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="labelKenaikanDanKeturunanTotalBahanRacikan" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="32767" attributes="0"/>
                       </Group>
                   </Group>
@@ -393,14 +368,6 @@
                       <Color blue="4f" green="89" red="2a" type="rgb"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="0"/>
-                  </Properties>
-                </Component>
-                <Component class="javax.swing.JLabel" name="labelKenaikanDanKeturunanTotalBahanRacikan">
-                  <Properties>
-                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                      <Color blue="4f" green="89" red="2a" type="rgb"/>
-                    </Property>
-                    <Property name="text" type="java.lang.String" value="+0%"/>
                   </Properties>
                 </Component>
               </SubComponents>
@@ -430,7 +397,6 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="labelTotalProduk1" alignment="0" pref="125" max="32767" attributes="0"/>
                               <Component id="totalObatOTC" alignment="0" max="32767" attributes="0"/>
-                              <Component id="labelKenaikanDanKeturunanTotalObatOTC" alignment="0" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
@@ -443,9 +409,7 @@
                           <Component id="labelTotalProduk1" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="totalObatOTC" min="-2" pref="24" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="labelKenaikanDanKeturunanTotalObatOTC" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="32767" attributes="0"/>
+                          <EmptySpace pref="16" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -471,14 +435,6 @@
                       <Color blue="4f" green="89" red="2a" type="rgb"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="0"/>
-                  </Properties>
-                </Component>
-                <Component class="javax.swing.JLabel" name="labelKenaikanDanKeturunanTotalObatOTC">
-                  <Properties>
-                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                      <Color blue="4f" green="89" red="2a" type="rgb"/>
-                    </Property>
-                    <Property name="text" type="java.lang.String" value="+0%"/>
                   </Properties>
                 </Component>
               </SubComponents>
@@ -508,7 +464,6 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="labelTotalProduk" pref="125" max="32767" attributes="0"/>
                               <Component id="totalProduk" max="32767" attributes="0"/>
-                              <Component id="labelKenaikanDanKeturunanTotalProduk" alignment="0" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
@@ -521,8 +476,6 @@
                           <Component id="labelTotalProduk" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="totalProduk" min="-2" pref="24" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="labelKenaikanDanKeturunanTotalProduk" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="32767" attributes="0"/>
                       </Group>
                   </Group>
@@ -549,14 +502,6 @@
                       <Color blue="4f" green="89" red="2a" type="rgb"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="0"/>
-                  </Properties>
-                </Component>
-                <Component class="javax.swing.JLabel" name="labelKenaikanDanKeturunanTotalProduk">
-                  <Properties>
-                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                      <Color blue="4f" green="89" red="2a" type="rgb"/>
-                    </Property>
-                    <Property name="text" type="java.lang.String" value="+0%"/>
                   </Properties>
                 </Component>
               </SubComponents>

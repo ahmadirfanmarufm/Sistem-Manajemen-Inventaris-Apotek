@@ -56,10 +56,6 @@ public class AuditStokPanel extends javax.swing.JPanel {
         txtSearch = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabelAuditStok = new javax.swing.JTable();
-        jLabel1 = new javax.swing.JLabel();
-        btnPrevious = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
-        btnNext1 = new javax.swing.JButton();
 
         jRadioButton1.setText("jRadioButton1");
 
@@ -266,24 +262,6 @@ public class AuditStokPanel extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(tabelAuditStok);
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(42, 137, 79));
-        jLabel1.setText("Menampilkan 0 dari 0 transaksi");
-
-        btnPrevious.setBackground(new java.awt.Color(20, 145, 66));
-        btnPrevious.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnPrevious.setForeground(new java.awt.Color(255, 255, 255));
-        btnPrevious.setText("Sebelumnya");
-
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(42, 137, 79));
-        jLabel2.setText("Halaman 0 dari 0");
-
-        btnNext1.setBackground(new java.awt.Color(20, 145, 66));
-        btnNext1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnNext1.setForeground(new java.awt.Color(255, 255, 255));
-        btnNext1.setText("Selanjutnya");
-
         javax.swing.GroupLayout contentPanelLayout = new javax.swing.GroupLayout(contentPanel);
         contentPanel.setLayout(contentPanelLayout);
         contentPanelLayout.setHorizontalGroup(
@@ -294,15 +272,7 @@ public class AuditStokPanel extends javax.swing.JPanel {
                 .addGroup(contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, contentPanelLayout.createSequentialGroup()
                         .addGroup(contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(contentPanelLayout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnPrevious)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel2)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnNext1))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 1021, Short.MAX_VALUE)
                             .addGroup(contentPanelLayout.createSequentialGroup()
                                 .addGroup(contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(lblDescriptionObatOTC, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -345,16 +315,7 @@ public class AuditStokPanel extends javax.swing.JPanel {
                 .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 415, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addGroup(contentPanelLayout.createSequentialGroup()
-                        .addGroup(contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnPrevious, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel2)
-                            .addComponent(btnNext1, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE))
-                        .addGap(3, 3, 3)))
-                .addGap(812, 812, 812))
+                .addContainerGap(75, Short.MAX_VALUE))
         );
 
         contentScrollPane.setViewportView(contentPanel);
@@ -425,8 +386,6 @@ public class AuditStokPanel extends javax.swing.JPanel {
         totalItemSesuai.setText(String.valueOf(totalSesuai));
         totalItemSelisih.setText(String.valueOf(totalSelisih));
         totalItemPending.setText(String.valueOf(totalPending));
-
-        jLabel1.setText("Menampilkan " + semuaBarang.size() + " dari " + semuaBarang.size() + " transaksi");
     }
   
     private void txtSearchFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtSearchFocusGained
@@ -458,13 +417,9 @@ public class AuditStokPanel extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuatAudit;
-    private javax.swing.JButton btnNext1;
-    private javax.swing.JButton btnPrevious;
     private javax.swing.JPanel contentPanel;
     private javax.swing.JScrollPane contentScrollPane;
     private javax.swing.JPanel headerContainer;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel labelTotalItemAudit;

@@ -15,7 +15,6 @@ import java.util.List;
 public class TransaksiService {
     private final TransaksiRepository repository;
     private final DashboardManager dashboardManager;
-    private List<Runnable> listeners = new ArrayList<>();
     
     public TransaksiService(DashboardManager dashboardManager) {
         this.dashboardManager = dashboardManager;
@@ -182,7 +181,7 @@ public class TransaksiService {
         return repository.cariById(id);
     }
     
-    public int hitungTotal() {
+    public int hitungTotalPendapatan() {
         int total = 0;
         for (Transaksi t : repository.findAll()) {
             total += t.getNominalTransaksi();
@@ -237,5 +236,20 @@ public class TransaksiService {
     
     public int getTotalTransaksi() {
         return repository.findAll().size();
+    }
+    
+    public List<Transaksi> getRiwayatTransaksi() {
+        return repository.findAllDesc();
+    }
+    
+    public double hitungRataRataTransaksi() {
+        int totalPendapatan = hitungTotalPendapatan();
+        int totalTransaksi = getTotalTransaksi();
+
+        if(totalTransaksi == 0){
+            return 0;
+        }
+
+        return (double) totalPendapatan / totalTransaksi;
     }
 }

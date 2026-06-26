@@ -41,10 +41,6 @@ public class StokKeluarPanel extends javax.swing.JPanel {
         dateFrom = new org.jdatepicker.JDatePicker();
         lblSampaiDengan = new javax.swing.JLabel();
         dateTo = new org.jdatepicker.JDatePicker();
-        jLabel1 = new javax.swing.JLabel();
-        btnPrevious = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
-        btnNext1 = new javax.swing.JButton();
         comboBoxAlasan = new javax.swing.JComboBox<>();
 
         jRadioButton1.setText("jRadioButton1");
@@ -116,24 +112,6 @@ public class StokKeluarPanel extends javax.swing.JPanel {
         lblSampaiDengan.setForeground(new java.awt.Color(42, 137, 79));
         lblSampaiDengan.setText("s/d");
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(42, 137, 79));
-        jLabel1.setText("Menampilkan 0 dari 0 transaksi");
-
-        btnPrevious.setBackground(new java.awt.Color(20, 145, 66));
-        btnPrevious.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnPrevious.setForeground(new java.awt.Color(255, 255, 255));
-        btnPrevious.setText("Sebelumnya");
-
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(42, 137, 79));
-        jLabel2.setText("Halaman 0 dari 0");
-
-        btnNext1.setBackground(new java.awt.Color(20, 145, 66));
-        btnNext1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnNext1.setForeground(new java.awt.Color(255, 255, 255));
-        btnNext1.setText("Selanjutnya");
-
         comboBoxAlasan.setForeground(new java.awt.Color(42, 137, 79));
         comboBoxAlasan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Semua Alasan", "Produk Rusak", "Produk Kadaluarsa", "Pemakaian Internal", "Retur ke Supplier" }));
 
@@ -148,21 +126,13 @@ public class StokKeluarPanel extends javax.swing.JPanel {
                     .addGroup(contentPanelLayout.createSequentialGroup()
                         .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(comboBoxAlasan, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(comboBoxAlasan, 0, 151, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
                         .addComponent(dateFrom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(lblSampaiDengan)
                         .addGap(18, 18, 18)
                         .addComponent(dateTo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, contentPanelLayout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 447, Short.MAX_VALUE)
-                        .addComponent(btnPrevious)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel2)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnNext1))
                     .addComponent(jScrollPane1)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, contentPanelLayout.createSequentialGroup()
                         .addGroup(contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -193,16 +163,7 @@ public class StokKeluarPanel extends javax.swing.JPanel {
                     .addComponent(comboBoxAlasan))
                 .addGap(21, 21, 21)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 495, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addGroup(contentPanelLayout.createSequentialGroup()
-                        .addGroup(contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnPrevious, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel2)
-                            .addComponent(btnNext1, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE))
-                        .addGap(3, 3, 3)))
-                .addGap(812, 812, 812))
+                .addContainerGap(76, Short.MAX_VALUE))
         );
 
         contentScrollPane.setViewportView(contentPanel);
@@ -211,7 +172,7 @@ public class StokKeluarPanel extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(contentScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 934, Short.MAX_VALUE)
+            .addComponent(contentScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 962, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -241,8 +202,6 @@ public class StokKeluarPanel extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnNext1;
-    private javax.swing.JButton btnPrevious;
     private javax.swing.JComboBox<String> comboBoxAlasan;
     private javax.swing.JPanel contentPanel;
     private javax.swing.JScrollPane contentScrollPane;
@@ -250,8 +209,6 @@ public class StokKeluarPanel extends javax.swing.JPanel {
     private org.jdatepicker.JDatePicker dateTo;
     private javax.swing.JPanel headerContainer;
     private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblDescriptionObatOTC;

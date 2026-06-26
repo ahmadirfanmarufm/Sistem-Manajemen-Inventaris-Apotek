@@ -1,8 +1,13 @@
 package com.apotek.ui;
 
+import com.apotek.model.Item;
+import com.apotek.model.NonObat;
+import com.apotek.model.ObatOTC;
 import com.apotek.model.RiwayatStok;
 import com.apotek.observer.DashboardObserver;
 import java.awt.BorderLayout;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Node;
@@ -11,6 +16,7 @@ import javafx.scene.chart.*;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.StackPane;
 import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
 
 
 /**
@@ -247,6 +253,7 @@ public class InventarisPanel extends javax.swing.JPanel implements DashboardObse
     private void refreshRingkasan(){
         refreshPieChart();
         refreshBarChart();
+        refreshAlert();
     }
     
     @Override
@@ -254,6 +261,107 @@ public class InventarisPanel extends javax.swing.JPanel implements DashboardObse
         SwingUtilities.invokeLater(() -> {
             refreshRingkasan();
         });
+    }
+    
+    public void refreshAlert() {
+        ArrayList<Item> semuaItem = new ArrayList<>();
+        semuaItem.addAll(MainApp.stokService.getSemuaObat());
+        semuaItem.addAll(MainApp.stokService.getSemuaBahanRacikan());
+        semuaItem.addAll(MainApp.stokService.getSemuaNonObat());
+        
+        int totalKritis = 0;
+        int totalExpired = 0;
+        
+        LocalDate hariIni = LocalDate.now();
+
+        DefaultTableModel modelStok = new DefaultTableModel(
+                new String[]{"Nama Produk", "Kategori", "Stok saat ini", "Minimum stok", "Status"}, 0
+        ) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+
+        for (Item item : semuaItem) {
+            long sisaHari = item.getExpiredDate().toEpochDay() - LocalDate.now().toEpochDay();
+            
+            if(sisaHari < 0) {
+                totalExpired++;
+            }
+            
+            if (item.getQuantity() <= item.getStokMinimum()) {
+                totalKritis++;
+                // Tentukan nama kategori berdasarkan tipe item
+                String kategori;
+                if (item instanceof ObatOTC) {
+                    kategori = ((ObatOTC) item).getKategori();
+                } else if (item instanceof NonObat) {
+                    kategori = ((NonObat) item).getKategori();
+                } else {
+                    kategori = "Bahan Racikan";
+                }
+
+                // Tentukan status: Habis atau Stok Rendah
+                String status;
+                if (item.getQuantity() == 0) {
+                    status = "Habis";
+                } else {
+                    status = "Stok Rendah";
+                }
+                // Tambahkan baris ke tabel
+                modelStok.addRow(new Object[]{
+                    item.getNamaItem(),
+                    kategori,
+                    item.getQuantity(),
+                    item.getStokMinimum(),
+                    status
+                });
+            }
+        }
+        
+        lblKritis.setText(totalKritis + " Kritis");
+        lblExpired.setText(totalExpired + " Expired");
+
+        tableStokRendah.setModel(modelStok);
+    
+        DefaultTableModel modelExpired = new DefaultTableModel(
+                new String[]{"ID", "Nama Barang", "Tanggal Expired", "Sisa Hari", "Status"}, 0
+        ) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+
+        for (Item item : semuaItem) {
+
+            // Hitung selisih hari antara hari ini dan tanggal expired
+            long sisaHari = item.getExpiredDate().toEpochDay() - LocalDate.now().toEpochDay();
+
+            // Hanya tampilkan jika sisa hari antara 0 sampai 5
+            if (sisaHari >= 0 && sisaHari <= 5) {
+
+                // Kritis jika <= 2 hari lagi, selainnya Mendekati Expired
+                String status;
+                if(sisaHari <= 2){
+                    status = "Kritis";
+                }else{
+                    status = "Mendekati Expired";
+                }
+
+                // Tambahkan baris ke tabel
+                modelExpired.addRow(new Object[]{
+                    item.getIdItem(),
+                    item.getNamaItem(),
+                    item.getExpiredDate().toString(),
+                    sisaHari + " hari",
+                    status
+                });
+            }
+        }
+
+        tabelStokMendekatiExpired.setModel(modelExpired); // tampilkan ke tabel UI
     }
     
     /**
@@ -266,6 +374,8 @@ public class InventarisPanel extends javax.swing.JPanel implements DashboardObse
         
         initPieChart();
         initBarChart();
+        
+        updateDashboard();
     }
 
     /**
@@ -279,22 +389,14 @@ public class InventarisPanel extends javax.swing.JPanel implements DashboardObse
 
         aktivitasStokBulananPanel = new javax.swing.JPanel();
         distribusiInventarisPanel = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        lblExpired = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabelStokMendekatiExpired = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
+        lblKritis = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tableStokRendah = new javax.swing.JTable();
-        pageStokRendah = new javax.swing.JLabel();
-        labelTotalStokRendah = new javax.swing.JLabel();
-        btnPreviousStokRendah = new javax.swing.JButton();
-        btnNextStokRendah = new javax.swing.JButton();
-        labelTotalProdukExpired = new javax.swing.JLabel();
-        btnPreviousProdukExpired = new javax.swing.JButton();
-        pageProdukExpired = new javax.swing.JLabel();
-        btnNextProdukExpired = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setMaximumSize(new java.awt.Dimension(746, 455));
@@ -331,9 +433,9 @@ public class InventarisPanel extends javax.swing.JPanel implements DashboardObse
             .addGap(0, 243, Short.MAX_VALUE)
         );
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 0, 0));
-        jLabel1.setText("0 Expired");
+        lblExpired.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblExpired.setForeground(new java.awt.Color(255, 0, 0));
+        lblExpired.setText("0 Expired");
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel2.setText("Peringatan Stok Rendah");
@@ -356,60 +458,32 @@ public class InventarisPanel extends javax.swing.JPanel implements DashboardObse
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel3.setText("Produk Mendekati Expired");
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(255, 0, 0));
-        jLabel4.setText("0 Kritis");
+        lblKritis.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblKritis.setForeground(new java.awt.Color(255, 0, 0));
+        lblKritis.setText("0 Kritis");
 
         jScrollPane2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(20, 145, 66), 1, true));
 
         tableStokRendah.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Nama Produk", "Stok", "Status"
+                "Nama Produk", "Kategori", "Stok saat ini", "Minimum stok", "Status"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
         jScrollPane2.setViewportView(tableStokRendah);
-
-        pageStokRendah.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        pageStokRendah.setForeground(new java.awt.Color(42, 137, 79));
-        pageStokRendah.setText("Halaman 0 dari 0");
-
-        labelTotalStokRendah.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        labelTotalStokRendah.setForeground(new java.awt.Color(42, 137, 79));
-        labelTotalStokRendah.setText("0 dari 0 data");
-
-        btnPreviousStokRendah.setBackground(new java.awt.Color(20, 145, 66));
-        btnPreviousStokRendah.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnPreviousStokRendah.setForeground(new java.awt.Color(255, 255, 255));
-        btnPreviousStokRendah.setText("Sebelumnya");
-
-        btnNextStokRendah.setBackground(new java.awt.Color(20, 145, 66));
-        btnNextStokRendah.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnNextStokRendah.setForeground(new java.awt.Color(255, 255, 255));
-        btnNextStokRendah.setText("Selanjutnya");
-
-        labelTotalProdukExpired.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        labelTotalProdukExpired.setForeground(new java.awt.Color(42, 137, 79));
-        labelTotalProdukExpired.setText("0 dari 0 data");
-
-        btnPreviousProdukExpired.setBackground(new java.awt.Color(20, 145, 66));
-        btnPreviousProdukExpired.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnPreviousProdukExpired.setForeground(new java.awt.Color(255, 255, 255));
-        btnPreviousProdukExpired.setText("Sebelumnya");
-
-        pageProdukExpired.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        pageProdukExpired.setForeground(new java.awt.Color(42, 137, 79));
-        pageProdukExpired.setText("Halaman 0 dari 0");
-
-        btnNextProdukExpired.setBackground(new java.awt.Color(20, 145, 66));
-        btnNextProdukExpired.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnNextProdukExpired.setForeground(new java.awt.Color(255, 255, 255));
-        btnNextProdukExpired.setText("Selanjutnya");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -423,16 +497,8 @@ public class InventarisPanel extends javax.swing.JPanel implements DashboardObse
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(jLabel2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel4))
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 440, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(labelTotalStokRendah)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnPreviousStokRendah)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(pageStokRendah)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnNextStokRendah)))
+                                .addComponent(lblKritis))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 440, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addContainerGap()
@@ -442,17 +508,9 @@ public class InventarisPanel extends javax.swing.JPanel implements DashboardObse
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel1))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(labelTotalProdukExpired)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnPreviousProdukExpired)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(pageProdukExpired)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnNextProdukExpired))
-                    .addComponent(aktivitasStokBulananPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 428, Short.MAX_VALUE))
+                        .addComponent(lblExpired))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 391, Short.MAX_VALUE)
+                    .addComponent(aktivitasStokBulananPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 391, Short.MAX_VALUE))
                 .addGap(41, 41, 41))
         );
         layout.setVerticalGroup(
@@ -464,48 +522,28 @@ public class InventarisPanel extends javax.swing.JPanel implements DashboardObse
                     .addComponent(distribusiInventarisPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
+                    .addComponent(lblExpired)
                     .addComponent(jLabel2)
                     .addComponent(jLabel3)
-                    .addComponent(jLabel4))
+                    .addComponent(lblKritis))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 381, Short.MAX_VALUE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnPreviousStokRendah)
-                    .addComponent(btnPreviousProdukExpired)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnNextProdukExpired)
-                        .addComponent(labelTotalProdukExpired)
-                        .addComponent(pageProdukExpired))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnNextStokRendah)
-                        .addComponent(labelTotalStokRendah)
-                        .addComponent(pageStokRendah)))
-                .addContainerGap(60, Short.MAX_VALUE))
+                .addContainerGap(81, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel aktivitasStokBulananPanel;
-    private javax.swing.JButton btnNextProdukExpired;
-    private javax.swing.JButton btnNextStokRendah;
-    private javax.swing.JButton btnPreviousProdukExpired;
-    private javax.swing.JButton btnPreviousStokRendah;
     private javax.swing.JPanel distribusiInventarisPanel;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JLabel labelTotalProdukExpired;
-    private javax.swing.JLabel labelTotalStokRendah;
-    private javax.swing.JLabel pageProdukExpired;
-    private javax.swing.JLabel pageStokRendah;
+    private javax.swing.JLabel lblExpired;
+    private javax.swing.JLabel lblKritis;
     private javax.swing.JTable tabelStokMendekatiExpired;
     private javax.swing.JTable tableStokRendah;
     // End of variables declaration//GEN-END:variables
