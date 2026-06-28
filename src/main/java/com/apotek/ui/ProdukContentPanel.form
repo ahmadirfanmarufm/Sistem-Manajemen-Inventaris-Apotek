@@ -28,26 +28,19 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-<<<<<<< HEAD
-          <Group type="102" alignment="0" attributes="0">
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="contentScrollPane" pref="923" max="32767" attributes="0"/>
+          <Group type="102" alignment="1" attributes="0">
+              <EmptySpace max="32767" attributes="0"/>
+              <Component id="contentScrollPane" min="-2" pref="930" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
-=======
-          <Component id="contentScrollPane" alignment="0" pref="1101" max="32767" attributes="0"/>
->>>>>>> 0ce9a0c084ebcea576ba9e3de21249ac04b1e934
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
-<<<<<<< HEAD
+          <Group type="102" alignment="1" attributes="0">
+              <EmptySpace max="32767" attributes="0"/>
               <Component id="contentScrollPane" min="-2" pref="1059" max="-2" attributes="0"/>
-=======
-              <Component id="contentScrollPane" min="-2" pref="1403" max="-2" attributes="0"/>
->>>>>>> 0ce9a0c084ebcea576ba9e3de21249ac04b1e934
-              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -64,175 +57,7 @@
             </Property>
           </Properties>
 
-          <Layout>
-            <DimensionLayout dim="0">
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="headerContainer" alignment="0" pref="1089" max="32767" attributes="0"/>
-                  <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace min="41" pref="41" max="-2" attributes="0"/>
-<<<<<<< HEAD
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="jScrollPane3" alignment="0" max="32767" attributes="0"/>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Group type="103" groupAlignment="1" attributes="0">
-                                  <Component id="lblTitleObatOTC" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lblDescriptionObatOTC" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace max="32767" attributes="0"/>
-                              <Component id="editObatOTC" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="btnTambahObatOTC" min="-2" pref="182" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="lblShowDataBahanRacikan1" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
-                              <Component id="btnPreviousNonObat" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="lblHalamanNonObat" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="btnNextNonObat" min="-2" max="-2" attributes="0"/>
-                          </Group>
-=======
-                      <Group type="103" groupAlignment="0" attributes="0">
->>>>>>> 0ce9a0c084ebcea576ba9e3de21249ac04b1e934
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="lblShowDataBahanRacikan" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="1" attributes="0">
-                              <Component id="lblShowDataObatOTC" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
-                          </Group>
-                          <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="1" attributes="0">
-                                  <Component id="jScrollPane3" alignment="0" max="32767" attributes="0"/>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Group type="103" groupAlignment="1" attributes="0">
-                                          <Component id="lblTitleObatOTC" min="-2" max="-2" attributes="0"/>
-                                          <Component id="lblDescriptionObatOTC" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                      <EmptySpace max="32767" attributes="0"/>
-                                      <Component id="btnTambahObatOTC" min="-2" pref="182" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="lblShowDataBahanRacikan1" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="32767" attributes="0"/>
-                                  </Group>
-                                  <Component id="jScrollPane2" alignment="0" max="32767" attributes="0"/>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="lblTitleBahanRacikan" min="-2" max="-2" attributes="0"/>
-                                          <Component id="lblDescriptionBahanRacikan" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                      <EmptySpace pref="477" max="32767" attributes="0"/>
-                                      <Component id="btnTambahBahanRacikan" min="-2" pref="228" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="lblDescriptionNonObat" min="-2" max="-2" attributes="0"/>
-                                          <Component id="lblTitleNonObat" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                      <EmptySpace max="32767" attributes="0"/>
-                                      <Component id="btnTambahNonObat" min="-2" pref="228" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Component id="jScrollPane4" alignment="1" max="32767" attributes="0"/>
-                              </Group>
-<<<<<<< HEAD
-                              <EmptySpace max="32767" attributes="0"/>
-                              <Component id="editBahanRacikan" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="btnTambahBahanRacikan" min="-2" pref="228" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="lblDescriptionNonObat" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lblTitleNonObat" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace max="32767" attributes="0"/>
-                              <Component id="editNonObat" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="btnTambahNonObat" min="-2" pref="228" max="-2" attributes="0"/>
-                          </Group>
-                          <Component id="jScrollPane4" alignment="1" max="32767" attributes="0"/>
-=======
-                              <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
-                          </Group>
->>>>>>> 0ce9a0c084ebcea576ba9e3de21249ac04b1e934
-                      </Group>
-                  </Group>
-              </Group>
-            </DimensionLayout>
-            <DimensionLayout dim="1">
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="headerContainer" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <Component id="lblTitleObatOTC" min="-2" pref="26" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="lblDescriptionObatOTC" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" attributes="0">
-                              <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="btnTambahObatOTC" alignment="3" min="-2" pref="43" max="-2" attributes="0"/>
-                                  <Component id="editObatOTC" alignment="3" min="-2" pref="43" max="-2" attributes="0"/>
-                              </Group>
-                          </Group>
-                      </Group>
-                      <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
-                      <Component id="jScrollPane3" min="-2" pref="270" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="lblShowDataObatOTC" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Group type="102" attributes="0">
-                              <Component id="lblTitleBahanRacikan" min="-2" pref="26" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="lblDescriptionBahanRacikan" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="btnTambahBahanRacikan" alignment="3" min="-2" pref="42" max="-2" attributes="0"/>
-                              <Component id="editBahanRacikan" alignment="3" min="-2" pref="42" max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
-                      <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
-                      <Component id="jScrollPane2" min="-2" pref="270" max="-2" attributes="0"/>
-<<<<<<< HEAD
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="btnNextBahanRacikan" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblHalamanBahanRacikan" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="btnPreviousBahanRacikan" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblShowDataBahanRacikan" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
-=======
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="lblShowDataBahanRacikan" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
->>>>>>> 0ce9a0c084ebcea576ba9e3de21249ac04b1e934
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Group type="102" attributes="0">
-                              <Component id="lblTitleNonObat" min="-2" pref="26" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="lblDescriptionNonObat" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="btnTambahNonObat" alignment="3" min="-2" pref="42" max="-2" attributes="0"/>
-                              <Component id="editNonObat" alignment="3" min="-2" pref="42" max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="jScrollPane4" min="-2" pref="270" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="lblShowDataBahanRacikan1" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="211" max="32767" attributes="0"/>
-                  </Group>
-              </Group>
-            </DimensionLayout>
-          </Layout>
+          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout"/>
           <SubComponents>
             <Container class="javax.swing.JPanel" name="headerContainer">
               <Properties>
@@ -575,7 +400,6 @@
                 <Property name="text" type="java.lang.String" value="Menampilkan 0 dari 15 data"/>
               </Properties>
             </Component>
-<<<<<<< HEAD
             <Component class="javax.swing.JButton" name="btnNextNonObat">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
@@ -663,8 +487,6 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="editNonObatActionPerformed"/>
               </Events>
             </Component>
-=======
->>>>>>> 0ce9a0c084ebcea576ba9e3de21249ac04b1e934
           </SubComponents>
         </Container>
       </SubComponents>

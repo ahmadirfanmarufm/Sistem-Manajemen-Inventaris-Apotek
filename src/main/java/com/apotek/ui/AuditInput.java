@@ -1,4 +1,4 @@
-package com.apotek.ui;
+ package com.apotek.ui;
 
 import javax.swing.JTable;
 import javax.swing.JOptionPane;

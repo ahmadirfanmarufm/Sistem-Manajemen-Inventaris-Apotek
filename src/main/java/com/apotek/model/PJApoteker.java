@@ -11,12 +11,9 @@ import com.apotek.model.User;
  * @author Kelompok Kipli
  */
 public class PJApoteker extends User {
-<<<<<<< HEAD
     // Constructor
-=======
     private String shift;
     
->>>>>>> 0ce9a0c084ebcea576ba9e3de21249ac04b1e934
     public PJApoteker(String userId, String name, String password) {
         super(userId, name, password);
         this.shift = "Bebas";

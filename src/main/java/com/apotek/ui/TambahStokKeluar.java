@@ -3,7 +3,7 @@ package com.apotek.ui;
 import javax.swing.JTable;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import com.apotek.model.Item;
+import com.apotek.model.*;
 import java.time.LocalDate;
 import javax.swing.DefaultComboBoxModel;
 import java.util.ArrayList;
@@ -313,16 +313,15 @@ public class TambahStokKeluar extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
 
-<<<<<<< HEAD
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         if (jDatePicker1.getModel().getValue() == null) {
             JOptionPane.showMessageDialog(this, "Mohon pilih tanggal terlebih dahulu!");
             return;
         }
         
-=======
+    }
+    
     private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanActionPerformed
->>>>>>> 0ce9a0c084ebcea576ba9e3de21249ac04b1e934
         String tanggal = "";
         if (jDatePicker1.getModel().getValue() != null) {
             java.util.Calendar cal = (java.util.Calendar) jDatePicker1.getModel().getValue();
@@ -347,7 +346,7 @@ public class TambahStokKeluar extends javax.swing.JPanel {
     }
     
     //Validasi jumlah harus angka
-       int jumlahKeluar;
+    int jumlahKeluar;
     try {
         jumlahKeluar = Integer.parseInt(jumlahKeluarStr);
         if (jumlahKeluar <= 0) {
